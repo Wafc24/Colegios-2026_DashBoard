@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clasificación de Planteles Saber 11° | Grupo Edúcate Colombia</title>
+  <meta name="description" content="Tablero interactivo de la Clasificación de Planteles Saber 11° del ICFES — Grupo Edúcate Colombia.">
+  <link rel="icon" href="assets/logos/logo-plata.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css?v=2026.4">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===== BARRA LATERAL DE FILTROS ===== -->
+    <aside class="sidebar" id="filtros">
+      <div class="side-head">
+        <span>Filtros</span>
+        <button class="icon-btn" id="btnReset" title="Limpiar filtros">↺</button>
+        <button class="icon-btn only-mobile" id="btnCloseFilters" title="Cerrar">✕</button>
+      </div>
+
+      <div class="side-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h4 style="margin:0">Clasificación</h4>
+          <button type="button" class="btn-link" id="btnClasAll" style="font-size:0.75rem;background:none;border:none;color:var(--primary);cursor:pointer;font-weight:700;padding:2px 4px" title="Seleccionar todas las categorías">Ver todas</button>
+        </div>
+        <div class="clas-grid" id="fClas"></div>
+      </div>
+
+      <div class="side-card">
+        <h4>Sector</h4>
+        <div class="seg" data-for="fSector">
+          <button data-v="">Todos</button>
+          <button data-v="OFICIAL">Oficial</button>
+          <button data-v="NO OFICIAL">No oficial</button>
+        </div>
+        <select id="fSector" class="hidden">
+          <option value="">Todos</option>
+          <option value="OFICIAL">Oficial</option>
+          <option value="NO OFICIAL">No oficial</option>
+        </select>
+      </div>
+
+      <div class="side-card">
+        <h4>Tipo</h4>
+        <div class="seg" data-for="fTipo">
+          <button data-v="Establecimiento">Establec.</button>
+          <button data-v="Sede">Sedes</button>
+          <button data-v="">Todos</button>
+        </div>
+        <select id="fTipo" class="hidden">
+          <option value="Establecimiento">Establecimientos</option>
+          <option value="Sede">Sedes</option>
+          <option value="">Todos</option>
+        </select>
+      </div>
+
+      <div class="side-card">
+        <h4>Ubicación</h4>
+        <label for="fDepto" class="mini-label">Departamento</label>
+        <select id="fDepto"><option value="">Todos</option></select>
+        <label for="fMun" class="mini-label">Municipio</label>
+        <select id="fMun"><option value="">Todos</option></select>
+      </div>
+
+      <div class="side-card side-edu">
+        <label class="switch" title="Mostrar solo colegios aliados de Grupo Edúcate">
+          <input type="checkbox" id="fEducate">
+          <span class="slider"></span>
+          <span class="switch-label">Solo colegios Edúcate <small id="educateCount"></small></span>
+        </label>
+      </div>
+
+      <button class="btn btn-ghost side-datos" id="btnDatos">⚙ Administrar datos</button>
+    </aside>
+    <div class="backdrop" id="backdrop"></div>
+
+    <!-- ===== CONTENIDO ===== -->
+    <div class="content">
+      <div class="top-nav-sticky">
+        <header class="topbar">
+          <a class="brand" href="#" data-go="panorama" title="Inicio">
+            <img src="assets/logos/logo-blanco.png" alt="Grupo Edúcate Colombia" class="brand-logo">
+          </a>
+          <div class="brand-title">
+            <h1>Dashboard · Clasificación de Planteles <span class="hl">Saber 11°</span></h1>
+          </div>
+          <div class="periodo-switcher" id="periodoSwitcher">
+            <span class="switcher-label">Periodo:</span>
+            <div class="pill-group" id="periodoPills">
+              <button class="pill-btn" data-periodo="2024">2024</button>
+              <button class="pill-btn" data-periodo="2025">2025</button>
+              <button class="pill-btn active" data-periodo="2026">2026</button>
+            </div>
+          </div>
+          <div class="top-search-wrap autocomplete" id="topSearchWrap">
+            <form class="dane-form" id="daneForm" autocomplete="off" onsubmit="return false;">
+              <span class="top-search-icon">🔍</span>
+              <input id="daneInput" type="search" placeholder="Buscar colegio por nombre o DANE…" autocomplete="off" aria-label="Buscar colegio por nombre o código DANE">
+              <button type="submit" class="btn btn-primary" id="btnTopSearch">Ver colegio</button>
+            </form>
+            <div class="ac-list" id="topSearchAC"></div>
+          </div>
+        </header>
+
+        <div class="mode-banner hidden" id="modeBanner">
+          <span>🔒 Colegio seleccionado: <strong id="modeColegioNombre"></strong> <small id="modeDaneWrap">(DANE <strong id="modeDane"></strong>)</small></span>
+          <div class="mode-banner-btns">
+            <button class="btn btn-light btn-sm" id="btnBannerTrayectoria">📈 Analizar Trayectoria</button>
+            <button class="btn btn-ghost btn-sm" id="btnSalir" style="background:rgba(255,255,255,0.18);color:#fff;border-color:transparent">Salir / Ver todo</button>
+          </div>
+        </div>
+
+        <nav class="tabs" id="tabs">
+          <button class="tab active" data-tab="panorama">📊 Panorama</button>
+          <button class="tab" data-tab="explorador">🔎 Explorador</button>
+          <button class="tab" data-tab="ficha">🏫 Ficha del colegio</button>
+          <button class="tab" data-tab="comparador">⚖ Comparador</button>
+          <button class="tab" data-tab="trayectoria" id="tabTrayectoria">📈 Trayectoria 2021 – 2026 & Mejora</button>
+          <button class="tab tab-filter only-mobile" id="btnOpenFilters">⚲ Filtros</button>
+        </nav>
+      </div>
+
+      <main>
+        <!-- ===== PANORAMA ===== -->
+        <section class="view active" id="view-panorama">
+          <div class="kpis" id="kpis"></div>
+
+          <div class="grid grid-3">
+            <div class="card">
+              <div class="card-head"><h3>Distribución por clasificación</h3><p>Número de colegios por categoría</p></div>
+              <div class="chart-box"><canvas id="chClas"></canvas></div>
+            </div>
+            <div class="card span-2">
+              <div class="card-head"><h3>Clasificación por sector</h3><p>Porcentaje de colegios en cada categoría</p></div>
+              <div class="chart-box"><canvas id="chSector"></canvas></div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-head"><h3>Promedio por área</h3><p>Selección actual vs promedio nacional</p></div>
+              <div class="chart-box"><canvas id="chAreas"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Distribución del índice total</h3><p>Colegios por rango de índice, coloreados por categoría</p></div>
+              <div class="chart-box"><canvas id="chHist"></canvas></div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-head"><h3 id="rankGeoTitle">Índice total promedio por departamento</h3><p>Haz clic en una barra para filtrar</p></div>
+              <div class="chart-box tall"><canvas id="chGeo"></canvas></div>
+            </div>
+            <div class="card">
+              <div class="card-head"><h3>Top 10 · Índice total</h3><p>Mejores colegios de la selección</p></div>
+              <div class="top-list" id="top10"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== EXPLORADOR ===== -->
+        <section class="view" id="view-explorador">
+          <div class="card">
+            <div class="explorer-tools">
+              <div class="field grow">
+                <label for="qSearch">Buscar por nombre, municipio o DANE</label>
+                <input type="search" id="qSearch" placeholder="Ej: Gimnasio, Cali, 311001…">
+              </div>
+              <div class="field">
+                <label for="qArea">Área</label>
+                <select id="qArea"></select>
+              </div>
+              <div class="field small">
+                <label for="qMin">Índice mín.</label>
+                <input type="number" id="qMin" min="0" max="1" step="0.01" placeholder="0.00">
+              </div>
+              <div class="field small">
+                <label for="qMax">Índice máx.</label>
+                <input type="number" id="qMax" min="0" max="1" step="0.01" placeholder="1.00">
+              </div>
+              <div class="field">
+                <label for="qFuerte">Área más fuerte</label>
+                <select id="qFuerte"><option value="">Cualquiera</option></select>
+              </div>
+              <div class="field">
+                <label for="qDebil">Área más débil</label>
+                <select id="qDebil"><option value="">Cualquiera</option></select>
+              </div>
+              <div class="field field-btn">
+                <button class="btn btn-primary" id="btnCSV">⬇ Exportar CSV</button>
+              </div>
+            </div>
+            <p class="result-info" id="resultInfo"></p>
+            <div class="table-wrap">
+              <table class="data-table" id="tabla">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="pager" id="pager"></div>
+          </div>
+        </section>
+
+        <!-- ===== FICHA ===== -->
+        <section class="view" id="view-ficha">
+          <div class="card ficha-search" id="fichaSearchCard">
+            <div class="field grow autocomplete">
+              <label for="fichaSearch">Selecciona un colegio</label>
+              <input type="search" id="fichaSearch" placeholder="Escribe el nombre o código DANE…">
+              <div class="ac-list" id="fichaAC"></div>
+            </div>
+          </div>
+          <div id="fichaContent">
+            <div class="card empty">
+              <div class="empty-icon">🏫</div>
+              <p>Busca un colegio arriba, haz clic en una fila del Explorador o ingresa tu código DANE en la parte superior.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== COMPARADOR ===== -->
+        <section class="view" id="view-comparador">
+          <div class="card">
+            <div class="field grow autocomplete">
+              <label for="cmpSearch">Agrega hasta 4 colegios para comparar</label>
+              <input type="search" id="cmpSearch" placeholder="Escribe el nombre o código DANE…">
+              <div class="ac-list" id="cmpAC"></div>
+            </div>
+            <div class="cmp-chips" id="cmpChips"></div>
+          </div>
+          <div id="cmpContent">
+            <div class="card empty" style="margin-top:18px">
+              <div class="empty-icon">⚖</div>
+              <p>Agrega colegios para verlos lado a lado.</p>
+            </div>
+          </div>
+        </section>
+        <!-- ===== TRAYECTORIA 5 AÑOS & PLAN DE MEJORA ===== -->
+        <section class="view" id="view-trayectoria">
+          <div class="card trayectoria-search" id="trayectoriaSearchCard">
+            <div class="field grow autocomplete">
+              <label for="trayectoriaSearch">Selecciona una institución para analizar o proyectar su mejora</label>
+              <input type="search" id="trayectoriaSearch" placeholder="Escribe el nombre del colegio o código DANE…">
+              <div class="ac-list" id="trayectoriaAC"></div>
+            </div>
+          </div>
+          <div id="trayectoriaContent">
+            <div class="card empty">
+              <div class="empty-icon">📈</div>
+              <p>Busca un colegio arriba o ingresa su nombre/DANE para cargar su categoría y registrar sus promedios de los últimos 5 años con desviación estándar.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Este <b>Dashboard</b> se fundamenta en la <b>Clasificación de Planteles Saber 11°</b> publicada por el <b>ICFES</b>.
+          Elaborado por <b>Grupo Edúcate Colombia</b>. <span id="footInfo"></span></p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ===== MODAL DATOS ===== -->
+  <div class="modal hidden" id="modalDatos" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box card">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+      <h2 id="modalTitle">Administrar datos</h2>
+      <div class="modal-section">
+        <h4>1. Actualizar clasificación ICFES</h4>
+        <p>Carga el archivo <em>Clasificación de Planteles</em> (.xls / .xlsx) descargado del ICFES. Se usará en este navegador hasta que lo restablezcas.</p>
+        <input type="file" id="fileICFES" accept=".xls,.xlsx">
+      </div>
+      <div class="modal-section">
+        <h4>2. Colegios aliados Grupo Edúcate</h4>
+        <p>Carga un Excel o CSV que contenga los <strong>códigos DANE</strong> de los colegios aliados (en cualquier columna).</p>
+        <input type="file" id="fileEducate" accept=".xls,.xlsx,.csv,.txt">
+      </div>
+      <div class="modal-section">
+        <h4>3. Resultados por área (puntajes del año)</h4>
+        <p>Excel o CSV con columnas <strong>DANE, EVALUADOS, GLOBAL, LECTURA, MATEMATICAS, SOCIALES, NATURALES, INGLES</strong>. Una fila con DANE = <em>NACIONAL</em> sirve de referencia. Plantilla: <code>data/plantilla_resultados.csv</code>.</p>
+        <input type="file" id="fileResultados" accept=".xls,.xlsx,.csv,.txt">
+      </div>
+      <div class="modal-section">
+        <button class="btn btn-ghost" id="btnRestablecer">Restablecer datos originales</button>
+      </div>
+      <p class="modal-status" id="modalStatus"></p>
+    </div>
+  </div>
+
+  <div class="loader" id="loader"><div class="spinner"></div><p>Cargando datos…</p></div>
+
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/vendor/xlsx.full.min.js" defer></script>
+  <script src="js/parser.js"></script>
+  <script src="data/datos.js?v=2026.4"></script>
+  <script src="data/datos2024.js?v=2026.4"></script>
+  <script src="data/datos2025.js?v=2026.4"></script>
+  <script src="data/educate.js"></script>
+  <script src="data/resultados2026.js" onerror="window.RESULTADOS_2026=null"></script>
+  <script src="js/graficos.js?v=2026.4"></script>
+  <script src="js/app.js?v=2026.4"></script>
+</body>
+</html>

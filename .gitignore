@@ -1,0 +1,33 @@
+# Sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# Editores y entornos de desarrollo
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Archivos de registro y depuración
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Temporales y respaldos
+*.tmp
+*.temp
+*.bak
+*~
+
+# Node modules (si se llegara a usar en el futuro)
+node_modules/
