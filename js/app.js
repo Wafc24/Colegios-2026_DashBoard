@@ -59,26 +59,35 @@
     return hist;
   }
 
+  function getActiveTrayYears() {
+    const cur = parseInt(state.activeYear || '2026', 10);
+    return [2024, 2025, 2026].filter(y => y <= cur);
+  }
+
   function switchYear(yr) {
+    yr = String(yr);
     if (!DATA_BY_YEAR[yr]) {
       toast('No hay datos disponibles para el periodo ' + yr);
       return;
     }
-    state.activeYear = String(yr);
+    state.activeYear = yr;
     $$('#periodoPills .pill-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.periodo === String(yr));
+      btn.classList.toggle('active', btn.dataset.periodo === yr);
     });
 
-    const activeYears = getActiveTrayYears();
     const trayTabBtn = document.querySelector('[data-tab="trayectoria"]');
     if (trayTabBtn) {
-      trayTabBtn.innerHTML = `📈 Trayectoria 2021 – ${activeYears[activeYears.length - 1]} & Mejora`;
+      if (yr === '2024') trayTabBtn.innerHTML = `📈 Trayectoria 2024`;
+      else if (yr === '2025') trayTabBtn.innerHTML = `📈 Trayectoria 2024 – 2025`;
+      else trayTabBtn.innerHTML = `📈 Trayectoria 2024 – 2026 & Mejora`;
     }
 
     const curSchool = DATA[state.fichaId];
     const curDane = state.locked || (curSchool ? curSchool.d : null);
     const curTipo = curSchool ? curSchool.t : null;
+
     load(DATA_BY_YEAR[yr]);
+
     if (curDane) {
       const newIdx = DATA.findIndex(x => x.d === curDane && (!curTipo || x.t === curTipo));
       const fallbackIdx = DATA.findIndex(x => x.d === curDane);
@@ -95,7 +104,7 @@
     } else if (state.tab === 'trayectoria') {
       renderTrayectoria();
     }
-    toast(`Cargados datos ICFES Saber 11° · Periodo ${yr}`);
+    toast(`✔ Periodo ${yr} activado en todo el Dashboard.`);
   }
 
   // ---------- Preparación de datos ----------
@@ -605,7 +614,7 @@
           <div class="ficha-actions">
             <button class="btn btn-ghost btn-sm" id="btnPrint">🖨 Imprimir / PDF</button>
             <button class="btn btn-ghost btn-sm" id="btnShare">🔗 Copiar enlace</button>
-            <button class="btn btn-primary btn-sm" id="btnFichaTrayectoria">📈 Analizar Trayectoria 5 Años</button>
+            <button class="btn btn-primary btn-sm" id="btnFichaTrayectoria">📈 Analizar Trayectoria Institucional</button>
             ${state.locked ? '' : `<button class="btn btn-ghost btn-sm" id="btnToCmp">⚖ Agregar al comparador</button>`}
           </div>
         </div>
@@ -686,11 +695,19 @@
     };
 
     const activeTrienioYears = ['2024', '2025', '2026'].filter(y => y <= state.activeYear);
+    const isSingleYear = activeTrienioYears.length === 1;
+    const trienioTitle = isSingleYear
+      ? `📈 Evolución Oficial (Periodo ${state.activeYear})`
+      : `📈 Evolución Histórica Oficial (${activeTrienioYears.join(' – ')})`;
+    const trienioSubtitle = isSingleYear
+      ? `Índices por Área de Conocimiento (Periodo ${state.activeYear})`
+      : `Comparativo de Índices por Área de Conocimiento (${activeTrienioYears.join(' vs ')})`;
+
     const trienioHtml = `
       <div class="card trienio-card">
         <div class="card-head">
           <div>
-            <h3>📈 Evolución Histórica Oficial (${activeTrienioYears.join(' – ')})</h3>
+            <h3>${trienioTitle}</h3>
             <p>Comparación de categoría oficial, índice total y evaluados en los periodos de clasificación ICFES Saber 11°</p>
           </div>
         </div>
@@ -698,7 +715,7 @@
           ${activeTrienioYears.map((yr, idx) => trienioYearCard(yr, idx > 0 ? activeTrienioYears[idx - 1] : null)).join('')}
         </div>
         <div class="trienio-chart-wrap">
-          <div style="font-weight:700;font-size:.88rem;color:var(--navy);margin-bottom:8px">Comparativo de Índices por Área de Conocimiento (${activeTrienioYears.join(' vs ')})</div>
+          <div style="font-weight:700;font-size:.88rem;color:var(--navy);margin-bottom:8px">${trienioSubtitle}</div>
           <div class="chart-box" style="height:220px"><canvas id="chTrienio"></canvas></div>
         </div>
       </div>`;
@@ -796,11 +813,34 @@
     try { const s = localStorage.getItem('resultados_area'); if (s) r = JSON.parse(s); } catch (e) { /* sin datos */ }
     return r;
   }
-  function RES_PERIODO() { const r = RES(); return (r && r.periodo) || '2026'; }
+  function RES_PERIODO() {
+    return state.activeYear || '2026';
+  }
 
   function renderResultados(x, body) {
-    const R = RES();
-    const rec = R && R.colegios && R.colegios[x.d];
+    const yr = state.activeYear || '2026';
+    let R = RES();
+    let rec = null;
+
+    if (window.RESULTADOS_AGREGADOS && window.RESULTADOS_AGREGADOS[yr] && window.RESULTADOS_AGREGADOS[yr][x.d]) {
+      const agg = window.RESULTADOS_AGREGADOS[yr][x.d];
+      rec = {
+        ev: agg.ev,
+        g: Math.round(((agg.mat[0] + agg.nat[0] + agg.soc[0] + agg.lec[0] + agg.ing[0]) / 5) * 5),
+        m: agg.mat[0],
+        cn: agg.nat[0],
+        sc: agg.soc[0],
+        lc: agg.lec[0],
+        in: agg.ing[0]
+      };
+      R = {
+        periodo: yr,
+        fuente: `Resultados Agregados Oficiales ICFES Saber 11° (${yr})`,
+        nacional: { g: 260, lc: 53.0, m: 51.5, sc: 49.0, cn: 50.0, in: 52.0 }
+      };
+    } else if (R && R.colegios && R.colegios[x.d]) {
+      rec = R.colegios[x.d];
+    }
     if (!rec) {
       body.innerHTML = `
         <div class="card" style="margin-top:16px"><div class="pending">
@@ -893,12 +933,8 @@
     })), { min: Math.max(0, Math.floor(minV * 10) / 10 - 0.1) });
   }
 
-  // ---------- TRAYECTORIA HISTÓRICA & PLAN DE MEJORA ----------
-  function getActiveTrayYears() {
-    const endYr = parseInt(state.activeYear, 10) || 2026;
-    const all = [2021, 2022, 2023, 2024, 2025, 2026];
-    return all.filter(y => y <= endYr);
-  }
+  // ---------- TRAYECTORIA HISTÓRICA & PLAN DE MEJORA (TRIENIO 2024 - 2026) ----------
+  const TRAY_YEARS = [2024, 2025, 2026];
 
   const TRAY_AREAS = [
     { key: 'mat', name: 'Matemáticas', color: '#0284C7' },
@@ -909,7 +945,7 @@
   ];
 
   function getBenchmarkData(cat, years) {
-    years = years || getActiveTrayYears();
+    years = years || TRAY_YEARS;
     const baseMap = {
       'A+': { avg: 74, sd: 7.2 },
       'A':  { avg: 64, sd: 8.8 },
@@ -924,12 +960,42 @@
     TRAY_AREAS.forEach(a => {
       data[a.key] = {};
       years.forEach((yr, idx) => {
-        const prog = (idx * 0.7) - 1.8;
+        const prog = (idx * 0.7);
         const avg = Math.max(30, Math.min(99, Math.round((b.avg + (areaOffsets[a.key] || 0) + prog) * 10) / 10));
         const sd = Math.max(4, Math.min(25, Math.round((b.sd - (idx * 0.15)) * 10) / 10));
         data[a.key][yr] = { avg, sd };
       });
     });
+    return data;
+  }
+
+  function getOfficialTrayectoriaData(dane, cat) {
+    const agg24 = window.RESULTADOS_AGREGADOS && window.RESULTADOS_AGREGADOS['2024'] ? window.RESULTADOS_AGREGADOS['2024'][dane] : null;
+    const agg25 = window.RESULTADOS_AGREGADOS && window.RESULTADOS_AGREGADOS['2025'] ? window.RESULTADOS_AGREGADOS['2025'][dane] : null;
+    const benchmark = getBenchmarkData(cat, [2024, 2025]);
+
+    const data = {};
+    TRAY_AREAS.forEach(a => {
+      data[a.key] = {};
+
+      // 2024 Oficial
+      if (agg24 && agg24[a.key]) {
+        data[a.key][2024] = { avg: agg24[a.key][0], sd: agg24[a.key][1] };
+      } else {
+        data[a.key][2024] = benchmark[a.key] ? benchmark[a.key][2024] : { avg: 55.0, sd: 9.5 };
+      }
+
+      // 2025 Oficial
+      if (agg25 && agg25[a.key]) {
+        data[a.key][2025] = { avg: agg25[a.key][0], sd: agg25[a.key][1] };
+      } else {
+        data[a.key][2025] = benchmark[a.key] ? benchmark[a.key][2025] : { avg: 56.0, sd: 9.2 };
+      }
+
+      // 2026: En 0.0 para que el colegio introduzca su información
+      data[a.key][2026] = { avg: 0.0, sd: 0.0 };
+    });
+
     return data;
   }
 
@@ -949,39 +1015,54 @@
       return;
     }
 
-    const years = getActiveTrayYears();
-    const yrFirst = years[0];
-    const yrLast = years[years.length - 1];
+    // Años a mostrar según el periodo activo en la cabecera
+    const curYearNum = parseInt(state.activeYear || '2026', 10);
+    const years = [2024, 2025, 2026].filter(y => y <= curYearNum);
+    const has2026 = years.includes(2026);
 
     const trayTabBtn = document.querySelector('[data-tab="trayectoria"]');
     if (trayTabBtn) {
-      trayTabBtn.innerHTML = `📈 Trayectoria ${yrFirst} – ${yrLast} & Mejora`;
+      if (curYearNum === 2024) trayTabBtn.innerHTML = `📈 Trayectoria 2024`;
+      else if (curYearNum === 2025) trayTabBtn.innerHTML = `📈 Trayectoria 2024 – 2025`;
+      else trayTabBtn.innerHTML = `📈 Trayectoria 2024 – 2026 & Mejora`;
     }
 
-    const storageKey = 'trayectoria_data_' + x.d;
-    let trayData = null;
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) trayData = JSON.parse(saved);
-    } catch (e) { /* usar nuevo */ }
+    // Título y subtítulo dinámico según periodo activo
+    let trayTitle = 'Trayectoria Histórica y Autoevaluación Institucional (2024 – 2026)';
+    let trayDesc = 'Resultados oficiales ICFES (2024 y 2025) y proyección institucional (2026). Ingresa los promedios y desviaciones del año 2026 para proyectar el diagnóstico y plan de mejora.';
+    if (curYearNum === 2024) {
+      trayTitle = 'Trayectoria y Evaluación Institucional (Periodo 2024)';
+      trayDesc = 'Resultados oficiales agregados ICFES 2024 por área evaluada y análisis de dispersión estándar.';
+    } else if (curYearNum === 2025) {
+      trayTitle = 'Trayectoria Histórica y Comparativa Institucional (2024 – 2025)';
+      trayDesc = 'Resultados oficiales agregados ICFES (2024 y 2025) por área evaluada y análisis de dispersión estándar.';
+    }
 
-    if (!trayData || !trayData.data) {
-      trayData = {
-        years: [...years],
-        data: getBenchmarkData(x.c, years)
-      };
-    } else {
-      trayData.years = [...years];
-      const benchmark = getBenchmarkData(x.c, years);
-      TRAY_AREAS.forEach(a => {
-        if (!trayData.data[a.key]) trayData.data[a.key] = {};
-        years.forEach(yr => {
-          if (!trayData.data[a.key][yr] || trayData.data[a.key][yr].avg == null) {
-            trayData.data[a.key][yr] = benchmark[a.key][yr] || { avg: null, sd: null };
+    // Cargar datos oficiales (2024 y 2025 precargados de ICFES, 2026 en 0)
+    const baseOfficial = getOfficialTrayectoriaData(x.d, x.c);
+
+    // Recuperar datos personalizados de 2026 si el año 2026 está activo y el usuario ya los había ingresado
+    if (has2026) {
+      const storageKey = 'trayectoria_data_' + x.d;
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.data) {
+            TRAY_AREAS.forEach(a => {
+              if (parsed.data[a.key] && parsed.data[a.key][2026] && parsed.data[a.key][2026].avg != null) {
+                baseOfficial[a.key][2026] = parsed.data[a.key][2026];
+              }
+            });
           }
-        });
-      });
+        }
+      } catch (e) { /* usar base oficial */ }
     }
+
+    const trayData = {
+      years,
+      data: baseOfficial
+    };
     window._curTray = { school: x, data: trayData };
 
     // HTML del Hero Institucional
@@ -1009,42 +1090,47 @@
       </div>
     `;
 
-    // Barra de herramientas y acciones
-    const syncLabel = yrLast === 2024 ? '2024' : `2024 – ${yrLast}`;
+    // Barra de herramientas adaptada al periodo activo
     const toolbarHtml = `
       <div class="tray-toolbar">
         <div>
-          <h3 style="font-size:1.15rem;color:var(--navy);font-weight:800">Trayectoria Histórica y Autoevaluación Institucional (${yrFirst} – ${yrLast})</h3>
-          <p style="font-size:0.84rem;color:var(--muted);margin:2px 0 0">Ingresa o edita los promedios y desviaciones estándar anuales (${yrFirst} a ${yrLast}). Los análisis, gráficos e informe de mejora se calculan automáticamente en tiempo real.</p>
+          <h3 style="font-size:1.15rem;color:var(--navy);font-weight:800">${trayTitle}</h3>
+          <p style="font-size:0.84rem;color:var(--muted);margin:2px 0 0">${trayDesc}</p>
         </div>
         <div class="tray-actions">
-          <button class="btn btn-ghost btn-sm" id="btnTraySyncIcfes" title="Cargar índices oficiales ICFES de los periodos 2024 hasta ${yrLast} para este colegio">🔄 Sincronizar ICFES (${syncLabel})</button>
-          <button class="btn btn-ghost btn-sm" id="btnTrayDemo" title="Cargar valores de referencia según la categoría">🪄 Datos de ejemplo</button>
-          <button class="btn btn-ghost btn-sm" id="btnTraySave" title="Guardar cambios en el navegador">💾 Guardar datos</button>
-          <button class="btn btn-ghost btn-sm" id="btnTrayExportCSV" title="Descargar plantilla en CSV">📥 Exportar CSV</button>
-          <label class="btn btn-ghost btn-sm" style="margin:0;cursor:pointer" title="Cargar archivo CSV con datos">
-            📤 Importar CSV <input type="file" id="fileTrayCSV" accept=".csv,.txt" style="display:none">
-          </label>
-          <button class="btn btn-ghost btn-sm" id="btnTrayClear" title="Limpiar para ingresar desde cero">🗑️ Limpiar</button>
+          <button class="btn btn-ghost btn-sm" id="btnTrayExportCSV" title="Descargar datos en formato CSV">📥 Exportar CSV</button>
+          ${has2026 ? `<button class="btn btn-ghost btn-sm" id="btnTrayClear" title="Restablecer los datos de 2026 a 0 para nuevo ingreso">🗑️ Limpiar 2026</button>` : ''}
           <button class="btn btn-primary btn-sm" id="btnTrayPrint">🖨️ Imprimir / PDF</button>
         </div>
       </div>
     `;
 
-    // Tabla matriz interactiva con columnas perfectamente alineadas
-    const tableHeaderYears = years.map(yr => `<th colspan="2" class="col-yr">${yr}</th>`).join('');
-    const tableSubHeader = years.map(() => `<th class="col-sub">X̄ Prom.</th><th class="col-sub col-sd">σ Desv.</th>`).join('');
+    // Tabla matriz interactiva según los años visibles
+    const tableHeaderYears = years.map(yr => {
+      const is2026 = yr === 2026;
+      return `<th colspan="2" class="col-yr ${is2026 ? 'col-yr-2026' : ''}">
+        ${yr} ${is2026 ? '<span class="tag-input">✏️ Ingreso</span>' : '<span class="tag-official">Oficial</span>'}
+      </th>`;
+    }).join('');
+
+    const tableSubHeader = years.map(yr => {
+      const is2026 = yr === 2026;
+      return `<th class="col-sub ${is2026 ? 'col-sub-2026' : ''}">X̄ Prom.</th><th class="col-sub col-sd ${is2026 ? 'col-sub-2026' : ''}">σ Desv.</th>`;
+    }).join('');
 
     const tableRows = TRAY_AREAS.map(a => {
       const areaData = trayData.data[a.key] || {};
       const cells = years.map(yr => {
-        const item = areaData[yr] || { avg: '', sd: '' };
+        const item = areaData[yr] || { avg: 0, sd: 0 };
+        const is2026 = yr === 2026;
+        const valAvg = item.avg != null ? item.avg : (is2026 ? 0 : '');
+        const valSd = item.sd != null ? item.sd : (is2026 ? 0 : '');
         return `
-          <td class="cell-inp cell-avg">
-            <input type="number" min="0" max="100" step="0.1" class="inp-tray inp-avg" data-area="${a.key}" data-yr="${yr}" value="${item.avg != null ? item.avg : ''}" placeholder="0-100">
+          <td class="cell-inp cell-avg ${is2026 ? 'cell-2026' : ''}">
+            <input type="number" min="0" max="100" step="0.1" class="inp-tray inp-avg ${is2026 ? 'inp-2026' : ''}" data-area="${a.key}" data-yr="${yr}" value="${valAvg}" placeholder="0">
           </td>
-          <td class="cell-inp cell-sd">
-            <input type="number" min="0" max="35" step="0.1" class="inp-tray inp-sd" data-area="${a.key}" data-yr="${yr}" value="${item.sd != null ? item.sd : ''}" placeholder="σ">
+          <td class="cell-inp cell-sd ${is2026 ? 'cell-2026' : ''}">
+            <input type="number" min="0" max="35" step="0.1" class="inp-tray inp-sd ${is2026 ? 'inp-2026' : ''}" data-area="${a.key}" data-yr="${yr}" value="${valSd}" placeholder="0">
           </td>`;
       }).join('');
 
@@ -1080,20 +1166,20 @@
     // KPIs resumen
     const kpisHtml = `<div class="tray-kpi-grid" id="trayKpis"></div>`;
 
-    // Gráficos interactivos
+    // Gráficos interactivos: incluye diagrama de barras de promedios para comparar con años anteriores
     const chartsHtml = `
       <div class="tray-charts-grid">
         <div class="card">
           <div class="card-head">
-            <h3>Evolución de Promedios por Área (2021 - 2026)</h3>
-            <p>Trayectoria anual de puntaje medio por competencia evaluada</p>
+            <h3>Comparativo de Promedios por Área (Diagrama de Barras)</h3>
+            <p>Puntajes medios de las 5 competencias y Promedio Global (${years.join(' vs ')})</p>
           </div>
           <div class="chart-box"><canvas id="chTrayPromedios"></canvas></div>
         </div>
         <div class="card">
           <div class="card-head">
             <h3>Dispersión Estudiantil / Desviación Estándar (σ)</h3>
-            <p>Evolución de la equidad y homogeneidad del aprendizaje en el aula</p>
+            <p>Nivel de equidad y variabilidad interna del aprendizaje (${years.join(' vs ')})</p>
           </div>
           <div class="chart-box"><canvas id="chTrayDesviacion"></canvas></div>
         </div>
@@ -1102,7 +1188,7 @@
         <div class="card">
           <div class="card-head">
             <h3>Radar de Equilibrio Curricular</h3>
-            <p>Balance entre las 5 áreas: ${years[0]} vs ${years[years.length - 1]}</p>
+            <p>Comparativo de balance entre las 5 áreas (${years.join(' vs ')})</p>
           </div>
           <div class="chart-box radar"><canvas id="chTrayRadar"></canvas></div>
         </div>
@@ -1127,160 +1213,89 @@
       const inp = e.target;
       if (!inp.classList.contains('inp-tray')) return;
       const area = inp.dataset.area;
-      const yr = inp.dataset.yr;
+      const yr = parseInt(inp.dataset.yr, 10);
       const isAvg = inp.classList.contains('inp-avg');
-      const val = inp.value === '' ? null : parseFloat(inp.value);
+      const val = inp.value === '' ? 0.0 : parseFloat(inp.value);
 
       if (!window._curTray.data.data[area]) window._curTray.data.data[area] = {};
-      if (!window._curTray.data.data[area][yr]) window._curTray.data.data[area][yr] = { avg: null, sd: null };
+      if (!window._curTray.data.data[area][yr]) window._curTray.data.data[area][yr] = { avg: 0.0, sd: 0.0 };
 
-      if (isAvg) window._curTray.data.data[area][yr].avg = val;
-      else window._curTray.data.data[area][yr].sd = val;
+      if (isAvg) window._curTray.data.data[area][yr].avg = isNaN(val) ? 0.0 : val;
+      else window._curTray.data.data[area][yr].sd = isNaN(val) ? 0.0 : val;
+
+      // Auto-guardar 2026 en localStorage si corresponde
+      if (yr === 2026) {
+        try {
+          localStorage.setItem('trayectoria_data_' + x.d, JSON.stringify(window._curTray.data));
+        } catch (err) {}
+      }
 
       updateTrayCalculationsAndVisuals(x, true);
     });
 
-    const btnSync = $('#btnTraySyncIcfes');
-    if (btnSync) {
-      btnSync.onclick = () => {
-        const hist = getHistorico(x.d, x.t);
-        const keyMap = ['mat', 'nat', 'soc', 'lec', 'ing'];
-        let syncCount = 0;
-        const syncYears = ['2024', '2025', '2026'].filter(y => y <= String(yrLast));
-        syncYears.forEach(yr => {
-          const col = hist[yr];
-          if (col && col.i) {
-            keyMap.forEach((k, idx) => {
-              const val = col.i[idx];
-              if (val != null) {
-                // Estimación proporcional de puntaje medio de prueba (0-100) a partir del índice ICFES
-                const approxScore = +(Math.min(99.9, Math.max(25, val * 82.5))).toFixed(1);
-                if (!window._curTray.data.data[k]) window._curTray.data.data[k] = {};
-                if (!window._curTray.data.data[k][yr]) window._curTray.data.data[k][yr] = {};
-                window._curTray.data.data[k][yr].avg = approxScore;
-                if (!window._curTray.data.data[k][yr].sd) {
-                  const baseSd = { 'A+': 7.2, 'A': 8.5, 'B': 10.0, 'C': 11.8, 'D': 13.5, 'NC': 10.5 };
-                  window._curTray.data.data[k][yr].sd = baseSd[col.c] || 8.8;
-                }
-                syncCount++;
-              }
-            });
+    const btnClear = $('#btnTrayClear');
+    if (btnClear) {
+      btnClear.onclick = () => {
+        TRAY_AREAS.forEach(a => {
+          if (window._curTray.data.data[a.key]) {
+            window._curTray.data.data[a.key][2026] = { avg: 0.0, sd: 0.0 };
           }
         });
-        $$('#trayMatrixTable .inp-tray').forEach(inp => {
-          const area = inp.dataset.area;
-          const yr = inp.dataset.yr;
-          const isAvg = inp.classList.contains('inp-avg');
-          if (window._curTray.data.data[area] && window._curTray.data.data[area][yr]) {
-            inp.value = isAvg ? (window._curTray.data.data[area][yr].avg ?? '') : (window._curTray.data.data[area][yr].sd ?? '');
-          }
-        });
-        updateTrayCalculationsAndVisuals(x, true);
-        toast(`✔ Sincronizados ${syncCount} datos oficiales ICFES (${syncLabel}).`);
+        try {
+          localStorage.removeItem('trayectoria_data_' + x.d);
+        } catch (e) {}
+        renderTrayectoria();
+        toast('✔ Valores de 2026 restablecidos a 0 para nuevo ingreso.');
       };
     }
 
-    $('#btnTrayDemo').onclick = () => {
-      window._curTray.data.data = getBenchmarkData(x.c, years);
-      renderTrayectoria();
-      toast('✔ Datos de ejemplo cargados según la categoría del colegio.');
-    };
-
-    $('#btnTraySave').onclick = () => {
-      try {
-        localStorage.setItem('trayectoria_data_' + x.d, JSON.stringify(window._curTray.data));
-        toast('✔ Trayectoria guardada correctamente en el navegador.');
-      } catch (err) {
-        toast('✖ No se pudo guardar en localStorage: ' + err.message);
-      }
-    };
-
-    $('#btnTrayClear').onclick = () => {
-      TRAY_AREAS.forEach(a => {
-        window._curTray.data.data[a.key] = {};
-        window._curTray.data.years.forEach(yr => {
-          window._curTray.data.data[a.key][yr] = { avg: null, sd: null };
+    const btnExport = $('#btnTrayExportCSV');
+    if (btnExport) {
+      btnExport.onclick = () => {
+        const d = window._curTray.data;
+        const rows = ['AÑO,AREA,PROMEDIO,DESVIACION_ESTANDAR'];
+        d.years.forEach(yr => {
+          TRAY_AREAS.forEach(a => {
+            const it = (d.data[a.key] && d.data[a.key][yr]) || {};
+            rows.push(`${yr},${a.name},${it.avg ?? ''},${it.sd ?? ''}`);
+          });
         });
-      });
-      renderTrayectoria();
-      toast('Campos limpiados para ingreso manual.');
-    };
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Trayectoria_${x.d}_${d.years.join('-')}.csv`;
+        a.click();
+      };
+    }
 
-    $('#btnTrayExportCSV').onclick = () => {
-      const d = window._curTray.data;
-      const rows = ['AÑO,AREA,PROMEDIO,DESVIACION_ESTANDAR'];
-      d.years.forEach(yr => {
-        TRAY_AREAS.forEach(a => {
-          const it = (d.data[a.key] && d.data[a.key][yr]) || {};
-          rows.push(`${yr},${a.name},${it.avg ?? ''},${it.sd ?? ''}`);
-        });
-      });
-      const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `trayectoria_5anios_${x.d}.csv`;
-      a.click();
-    };
-
-    $('#fileTrayCSV').onchange = async e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      try {
-        const text = await file.text();
-        const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-        if (lines.length <= 1) throw new Error('El archivo CSV está vacío.');
-        const mapArea = {
-          'matematica': 'mat', 'matematicas': 'mat', 'matemática': 'mat', 'matemáticas': 'mat',
-          'ciencias naturales': 'nat', 'naturales': 'nat', 'c. naturales': 'nat',
-          'sociales y ciudadanas': 'soc', 'sociales': 'soc', 'ciencias sociales': 'soc',
-          'lectura critica': 'lec', 'lectura crítica': 'lec', 'lectura': 'lec',
-          'ingles': 'ing', 'inglés': 'ing'
-        };
-        for (let i = 1; i < lines.length; i++) {
-          const parts = lines[i].split(/[,;|\t]/);
-          if (parts.length >= 3) {
-            const yr = parseInt(parts[0], 10);
-            const aName = norm(parts[1]).trim();
-            const aKey = mapArea[aName];
-            const avg = parts[2] !== '' ? parseFloat(parts[2]) : null;
-            const sd = parts[3] !== '' ? parseFloat(parts[3]) : null;
-            if (yr && aKey && window._curTray.data.data[aKey]) {
-              window._curTray.data.data[aKey][yr] = { avg, sd };
-            }
-          }
-        }
-        renderTrayectoria();
-        toast('✔ Archivo CSV importado exitosamente.');
-      } catch (err) {
-        alert('Error al leer el archivo CSV: ' + err.message);
-      }
-      e.target.value = '';
-    };
-
-    $('#btnTrayPrint').onclick = () => {
-      document.body.classList.add('printing-report');
-      window.print();
-      setTimeout(() => document.body.classList.remove('printing-report'), 1000);
-    };
+    const btnPrint = $('#btnTrayPrint');
+    if (btnPrint) {
+      btnPrint.onclick = () => {
+        document.body.classList.add('printing-report');
+        window.print();
+        setTimeout(() => document.body.classList.remove('printing-report'), 1000);
+      };
+    }
   }
 
   function updateTrayCalculationsAndVisuals(x, liveInput) {
     const cur = window._curTray;
     if (!cur) return;
-    const years = cur.data.years;
+    const years = cur.data.years || [2024];
     const data = cur.data.data;
 
+    // Estadísticas globales y medias por año
     const yrStats = {};
     years.forEach(yr => {
       const avgs = [], sds = [];
       TRAY_AREAS.forEach(a => {
         const it = (data[a.key] && data[a.key][yr]) || {};
-        if (it.avg != null && !isNaN(it.avg)) avgs.push(it.avg);
-        if (it.sd != null && !isNaN(it.sd)) sds.push(it.sd);
+        if (it.avg != null && !isNaN(it.avg) && it.avg > 0) avgs.push(it.avg);
+        if (it.sd != null && !isNaN(it.sd) && it.sd > 0) sds.push(it.sd);
       });
       yrStats[yr] = {
-        avgGlobal: avgs.length ? avgs.reduce((m, n) => m + n, 0) / avgs.length : null,
-        sdMean: sds.length ? sds.reduce((m, n) => m + n, 0) / sds.length : null
+        avgGlobal: avgs.length ? avgs.reduce((m, n) => m + n, 0) / avgs.length : (yr === 2026 ? 0 : null),
+        sdMean: sds.length ? sds.reduce((m, n) => m + n, 0) / sds.length : (yr === 2026 ? 0 : null)
       };
     });
 
@@ -1290,48 +1305,67 @@
         <td class="area-cell" style="font-weight:800;color:var(--navy)">📊 Promedio Global & Dispersión</td>
         ${years.map(yr => {
           const st = yrStats[yr];
+          const is2026 = yr === 2026;
           return `
-            <td class="cell-inp cell-avg">
-              <span class="sum-v">${st.avgGlobal != null ? st.avgGlobal.toFixed(1) : '—'}</span>
+            <td class="cell-inp cell-avg ${is2026 ? 'cell-2026' : ''}">
+              <span class="sum-v">${st.avgGlobal != null && st.avgGlobal > 0 ? st.avgGlobal.toFixed(1) : (is2026 ? '0' : '—')}</span>
               <small>X̄ Global</small>
             </td>
-            <td class="cell-inp cell-sd">
-              <span class="sum-v">${st.sdMean != null ? st.sdMean.toFixed(1) : '—'}</span>
+            <td class="cell-inp cell-sd ${is2026 ? 'cell-2026' : ''}">
+              <span class="sum-v">${st.sdMean != null && st.sdMean > 0 ? st.sdMean.toFixed(1) : (is2026 ? '0' : '—')}</span>
               <small>σ Prom.</small>
             </td>`;
         }).join('')}`;
     }
 
-    const yrFirst = years[0];
-    const yrLast = years[years.length - 1];
-    const avgLast = yrStats[yrLast].avgGlobal;
-    const avgFirst = yrStats[yrFirst].avgGlobal;
-    const deltaGlobal = (avgLast != null && avgFirst != null) ? avgLast - avgFirst : 0;
-    const sdLast = yrStats[yrLast].sdMean;
+    const has2026 = years.includes(2026) && yrStats[2026] && yrStats[2026].avgGlobal != null && yrStats[2026].avgGlobal > 0;
+    const has2025 = years.includes(2025);
+
+    let yrActiveLast = 2024;
+    let yrActiveRef = null;
+    let badgeText = 'Oficial Periodo 2024';
+
+    if (has2026) {
+      yrActiveLast = 2026;
+      yrActiveRef = 2025;
+      badgeText = 'vs Oficial 2025';
+    } else if (has2025) {
+      yrActiveLast = 2025;
+      yrActiveRef = 2024;
+      badgeText = 'Oficial (2025 vs 2024)';
+    }
+
+    const avgLast = yrStats[yrActiveLast] ? yrStats[yrActiveLast].avgGlobal : null;
+    const avgRef = yrActiveRef && yrStats[yrActiveRef] ? yrStats[yrActiveRef].avgGlobal : null;
+    const delta = (avgLast != null && avgRef != null) ? avgLast - avgRef : 0;
 
     let bestArea = null, worstArea = null, maxDeltaArea = null;
     let maxAvg = -Infinity, minAvg = Infinity, maxDelta = -Infinity;
 
     TRAY_AREAS.forEach(a => {
-      const lastVal = (data[a.key] && data[a.key][yrLast]) ? data[a.key][yrLast].avg : null;
-      const firstVal = (data[a.key] && data[a.key][yrFirst]) ? data[a.key][yrFirst].avg : null;
-      if (lastVal != null) {
+      const lastVal = (data[a.key] && data[a.key][yrActiveLast]) ? data[a.key][yrActiveLast].avg : null;
+      const refVal = (yrActiveRef && data[a.key] && data[a.key][yrActiveRef]) ? data[a.key][yrActiveRef].avg : null;
+      if (lastVal != null && lastVal > 0) {
         if (lastVal > maxAvg) { maxAvg = lastVal; bestArea = a; }
         if (lastVal < minAvg) { minAvg = lastVal; worstArea = a; }
       }
-      if (lastVal != null && firstVal != null) {
-        const d = lastVal - firstVal;
+      if (lastVal != null && lastVal > 0 && refVal != null && refVal > 0) {
+        const d = lastVal - refVal;
         if (d > maxDelta) { maxDelta = d; maxDeltaArea = a; }
       }
     });
 
+    const sdActive = (yrStats[yrActiveLast] && yrStats[yrActiveLast].sdMean > 0)
+      ? yrStats[yrActiveLast].sdMean
+      : (yrStats[2025] && yrStats[2025].sdMean > 0 ? yrStats[2025].sdMean : (yrStats[2024] ? yrStats[2024].sdMean : null));
+
     let semClass = 'green', semLabel = 'Alta Homogeneidad', semDesc = 'Excelente equidad de aprendizaje entre los estudiantes';
-    if (sdLast != null) {
-      if (sdLast < 8.5) {
+    if (sdActive != null) {
+      if (sdActive < 8.5) {
         semClass = 'green';
         semLabel = 'Alta Homogeneidad (Equitativo)';
         semDesc = 'El aprendizaje es uniforme; la brecha entre los estudiantes es reducida.';
-      } else if (sdLast <= 11.5) {
+      } else if (sdActive <= 11.5) {
         semClass = 'yellow';
         semLabel = 'Dispersión Moderada (Estándar)';
         semDesc = 'Comportamiento típico nacional con variabilidad media entre los estudiantes.';
@@ -1346,110 +1380,135 @@
     if (kpiBox) {
       kpiBox.innerHTML = `
         <div class="tray-kpi" style="--kpi-c:#0284C7">
-          <div class="label">Promedio Global (${yrLast})</div>
+          <div class="label">Promedio Global (${yrActiveLast}${yrActiveLast === 2026 ? ' Proyección' : ' Oficial'})</div>
           <div class="value">${avgLast != null ? avgLast.toFixed(1) : '—'} <span style="font-size:0.9rem;font-weight:600;color:var(--muted)">pts</span></div>
           <div class="sub">
-            <b style="color:${deltaGlobal >= 0 ? '#047857' : '#BE123C'}">${deltaGlobal >= 0 ? '+' : ''}${deltaGlobal.toFixed(1)} pts</b> en ${years.length} años (${yrFirst} - ${yrLast})
+            <b style="color:${delta >= 0 ? '#047857' : '#BE123C'}">${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b> ${badgeText}
           </div>
         </div>
         <div class="tray-kpi" style="--kpi-c:${semClass === 'green' ? '#10B981' : semClass === 'yellow' ? '#F59E0B' : '#FF3B69'}">
-          <div class="label">Desviación Estándar (σ)</div>
-          <div class="value">${sdLast != null ? sdLast.toFixed(1) : '—'} <span style="font-size:0.9rem;font-weight:600;color:var(--muted)">pts</span></div>
+          <div class="label">Desviación Estándar (σ ${yrActiveLast})</div>
+          <div class="value">${sdActive != null ? sdActive.toFixed(1) : '—'} <span style="font-size:0.9rem;font-weight:600;color:var(--muted)">pts</span></div>
           <div class="sub">
             <span class="semaphore ${semClass}">${semLabel}</span>
           </div>
         </div>
         <div class="tray-kpi" style="--kpi-c:#10B981">
-          <div class="label">Área Fortaleza</div>
-          <div class="value" style="font-size:1.45rem">${bestArea ? bestArea.name : '—'}</div>
+          <div class="label">Área Fortaleza (${yrActiveLast})</div>
+          <div class="value" style="font-size:1.35rem">${bestArea ? bestArea.name : '—'}</div>
           <div class="sub">Puntaje líder: <b>${maxAvg > -Infinity ? maxAvg.toFixed(1) : '—'} pts</b></div>
         </div>
         <div class="tray-kpi" style="--kpi-c:#FF3B69">
-          <div class="label">Área de Oportunidad</div>
-          <div class="value" style="font-size:1.45rem">${worstArea ? worstArea.name : '—'}</div>
+          <div class="label">Área de Oportunidad (${yrActiveLast})</div>
+          <div class="value" style="font-size:1.35rem">${worstArea ? worstArea.name : '—'}</div>
           <div class="sub">Prioridad pedagógica: <b>${minAvg < Infinity ? minAvg.toFixed(1) : '—'} pts</b></div>
         </div>
       `;
     }
 
-    // Actualizar Gráfico 1: Promedios por Área + Línea Global
-    const datasetsProm = TRAY_AREAS.map(a => {
-      const pts = years.map(yr => (data[a.key] && data[a.key][yr]) ? data[a.key][yr].avg : null);
-      return {
-        label: a.name,
-        data: pts,
-        borderColor: a.color,
-        backgroundColor: G.alpha(a.color, 0.15),
-        tension: 0.35,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        borderWidth: 2.2
-      };
-    });
-    datasetsProm.push({
-      label: 'Promedio Global Institucional',
-      data: years.map(yr => yrStats[yr].avgGlobal),
-      borderColor: '#182334',
-      backgroundColor: 'transparent',
-      borderDash: [5, 4],
-      borderWidth: 3,
-      pointRadius: 5,
-      pointBackgroundColor: '#182334',
-      tension: 0.35
-    });
+    // Gráfico 1: DIAGRAMA DE BARRAS DE PROMEDIOS POR ÁREA (Comparativo entre años)
+    const areaLabels = [...TRAY_AREAS.map(a => a.name), 'Promedio Global'];
+    const barColors = {
+      2024: '#94A3B8',
+      2025: '#0284C7',
+      2026: '#FF3B69'
+    };
+    const barLabels = {
+      2024: '2024 (Oficial)',
+      2025: '2025 (Oficial)',
+      2026: '2026 (✏️ Proyección)'
+    };
 
-    G.line('chTrayPromedios', years, datasetsProm, {
-      min: 30, max: 95, stepSize: 10,
-      tooltipCallbacks: {
-        label: ctx => ` ${ctx.dataset.label}: ${ctx.raw != null ? Number(ctx.raw).toFixed(1) : '—'} pts`
-      }
-    });
-
-    // Actualizar Gráfico 2: Desviación Estándar por Área
-    const datasetsSd = TRAY_AREAS.map(a => {
-      const pts = years.map(yr => (data[a.key] && data[a.key][yr]) ? data[a.key][yr].sd : null);
+    const datasetsProm = years.map(yr => {
+      const vals = TRAY_AREAS.map(a => {
+        const item = data[a.key] && data[a.key][yr];
+        return item && item.avg != null ? item.avg : 0;
+      });
+      vals.push(yrStats[yr].avgGlobal != null ? +yrStats[yr].avgGlobal.toFixed(1) : 0);
       return {
-        label: a.name,
-        data: pts,
-        borderColor: a.color,
-        backgroundColor: 'transparent',
-        tension: 0.35,
-        pointRadius: 4,
-        borderWidth: 2
+        label: barLabels[yr] || String(yr),
+        data: vals,
+        backgroundColor: barColors[yr] || '#182334',
+        borderRadius: 5,
+        borderWidth: 0
       };
     });
 
-    G.line('chTrayDesviacion', years, datasetsSd, {
-      min: 0, max: 25, stepSize: 5,
-      tooltipCallbacks: {
-        label: ctx => ` ${ctx.dataset.label} (σ): ${ctx.raw != null ? Number(ctx.raw).toFixed(1) : '—'} pts`
+    G.bars('chTrayPromedios', areaLabels, datasetsProm, {
+      min: 0,
+      extra: {
+        scales: {
+          y: { min: 0, max: 100, ticks: { stepSize: 20 } }
+        }
       }
     });
 
-    // Actualizar Gráfico 3: Radar de balance curricular
+    // Gráfico 2: DIAGRAMA DE BARRAS DE DESVIACIÓN ESTÁNDAR (σ)
+    const sdAreaLabels = [...TRAY_AREAS.map(a => a.name), 'σ Promedio'];
+    const datasetsSd = years.map(yr => {
+      const vals = TRAY_AREAS.map(a => {
+        const item = data[a.key] && data[a.key][yr];
+        return item && item.sd != null ? item.sd : 0;
+      });
+      vals.push(yrStats[yr].sdMean != null ? +yrStats[yr].sdMean.toFixed(1) : 0);
+      return {
+        label: (barLabels[yr] || String(yr)) + ' (σ)',
+        data: vals,
+        backgroundColor: G.alpha(barColors[yr] || '#182334', 0.8),
+        borderRadius: 5,
+        borderWidth: 0
+      };
+    });
+
+    G.bars('chTrayDesviacion', sdAreaLabels, datasetsSd, {
+      min: 0,
+      extra: {
+        scales: {
+          y: { min: 0, max: 25, ticks: { stepSize: 5 } }
+        }
+      }
+    });
+
+    // Gráfico 3: RADAR DE EQUILIBRIO CURRICULAR
     const radarLabels = TRAY_AREAS.map(a => a.name);
-    const radarDataFirst = TRAY_AREAS.map(a => (data[a.key] && data[a.key][yrFirst]) ? data[a.key][yrFirst].avg : 50);
-    const radarDataLast = TRAY_AREAS.map(a => (data[a.key] && data[a.key][yrLast]) ? data[a.key][yrLast].avg : 50);
+    const radarDatasets = [];
 
-    const radarDatasets = [
-      {
-        label: `Línea Base (${yrFirst})`,
-        data: radarDataFirst,
+    if (years.includes(2024)) {
+      radarDatasets.push({
+        label: '2024 Oficial',
+        data: TRAY_AREAS.map(a => (data[a.key] && data[a.key][2024] && data[a.key][2024].avg > 0) ? data[a.key][2024].avg : 50),
         borderColor: '#94A3B8',
-        backgroundColor: G.alpha('#94A3B8', 0.15),
+        backgroundColor: G.alpha('#94A3B8', 0.12),
         borderDash: [4, 4],
         pointBackgroundColor: '#94A3B8',
         borderWidth: 2
-      },
-      {
-        label: `Cierre Actual (${yrLast})`,
-        data: radarDataLast,
-        borderColor: '#FF3B69',
-        backgroundColor: G.alpha('#FF3B69', 0.22),
-        pointBackgroundColor: '#FF3B69',
-        borderWidth: 2.5
+      });
+    }
+
+    if (years.includes(2025)) {
+      radarDatasets.push({
+        label: '2025 Oficial',
+        data: TRAY_AREAS.map(a => (data[a.key] && data[a.key][2025] && data[a.key][2025].avg > 0) ? data[a.key][2025].avg : 50),
+        borderColor: '#0284C7',
+        backgroundColor: G.alpha('#0284C7', 0.18),
+        pointBackgroundColor: '#0284C7',
+        borderWidth: 2.2
+      });
+    }
+
+    if (years.includes(2026)) {
+      const hasVal2026 = TRAY_AREAS.some(a => data[a.key] && data[a.key][2026] && data[a.key][2026].avg > 0);
+      if (hasVal2026) {
+        radarDatasets.push({
+          label: '2026 Proyección',
+          data: TRAY_AREAS.map(a => (data[a.key] && data[a.key][2026] && data[a.key][2026].avg > 0) ? data[a.key][2026].avg : 50),
+          borderColor: '#FF3B69',
+          backgroundColor: G.alpha('#FF3B69', 0.22),
+          pointBackgroundColor: '#FF3B69',
+          borderWidth: 2.5
+        });
       }
-    ];
+    }
 
     G.draw('chTrayRadar', {
       type: 'radar',
@@ -1472,30 +1531,47 @@
 
     const quickDiag = $('#trayQuickDiagnosis');
     if (quickDiag) {
+      let diagProgText = '';
+      if (years.length === 1) {
+        diagProgText = `La institución registra una media global oficial de <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} puntos</b> en el periodo 2024.`;
+      } else if (years.length === 2) {
+        diagProgText = `La institución transitó de <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2024 a <b>${(yrStats[2025]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2025 (variación neta de <b>${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b>).`;
+      } else {
+        diagProgText = `La institución registró <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2024 y <b>${(yrStats[2025]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2025${has2026 ? `, con una proyección para 2026 de <b>${(yrStats[2026]?.avgGlobal ?? 0).toFixed(1)} pts</b> (variación de <b>${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b> vs 2025)` : '. Ingresa tus notas de 2026 en la tabla superior para proyectar el diagnóstico en tiempo real'}.`;
+      }
+
       quickDiag.innerHTML = `
         <div class="card-head">
           <h3>Lectura Dinámica de Balance</h3>
-          <p>Síntesis del comportamiento institucional (${yrFirst} - ${yrLast})</p>
+          <p>Síntesis del comportamiento institucional (${years.join(' – ')}${has2026 ? ' Proyección' : ''})</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;margin-top:6px">
           <div class="diagnostic-box highlight">
             <h5>📈 Progresión Global</h5>
-            <p>La institución transitó de <b>${avgFirst != null ? avgFirst.toFixed(1) : '—'} puntos</b> en ${yrFirst} a <b>${avgLast != null ? avgLast.toFixed(1) : '—'} puntos</b> en ${yrLast}, reflejando una variación neta de <b>${deltaGlobal >= 0 ? '+' : ''}${deltaGlobal.toFixed(1)} puntos</b>.</p>
+            <p>${diagProgText}</p>
           </div>
           <div class="diagnostic-box ${semClass === 'red' ? 'warning' : ''}">
             <h5>⚖️ Diagnóstico de Equidad Formativa</h5>
             <p>${semDesc}</p>
           </div>
           <div class="diagnostic-box">
-            <h5>🎯 Área de Mayor Expansión</h5>
-            <p>${maxDeltaArea ? `El área con mejor evolución fue <b>${maxDeltaArea.name}</b> con un repunte acumulado de <b>+${maxDelta.toFixed(1)} puntos</b>.` : 'Datos insuficientes para determinar evolución.'}</p>
+            <h5>🎯 Área de Mayor Crecimiento</h5>
+            <p>${maxDeltaArea ? `El área con mejor evolución relativa fue <b>${maxDeltaArea.name}</b> con una variación de <b>${maxDelta >= 0 ? '+' : ''}${maxDelta.toFixed(1)} puntos</b>.` : 'Registra datos para calcular la evolución de las áreas.'}</p>
           </div>
         </div>
       `;
     }
 
     renderTrayReport(x, {
-      years, yrFirst, yrLast, avgFirst, avgLast, deltaGlobal, sdLast, semClass, semLabel, semDesc,
+      years,
+      yrFirst: years[0],
+      yrLast: yrActiveLast,
+      has2026,
+      avgFirst: yrStats[years[0]] ? yrStats[years[0]].avgGlobal : null,
+      avgLast,
+      deltaGlobal: delta,
+      sdLast: sdActive,
+      semClass, semLabel, semDesc,
       bestArea, worstArea, maxDeltaArea, maxDelta, yrStats, data
     });
   }
@@ -1517,8 +1593,8 @@
     reportBox.innerHTML = `
       <div class="report-header">
         <div>
-          <h3>Informe Analítico de Diagnóstico & Plan de Mejora Institucional (${info.yrFirst} - ${info.yrLast})</h3>
-          <p>Institución: <b>${esc(x.n)}</b> · Código DANE: <b>${x.d}</b> · Categoría Actual: <b style="color:${CLAS_COLOR[x.c]}">${x.c}</b></p>
+          <h3>Informe Analítico de Diagnóstico & Plan de Mejora Institucional (${info.yrFirst} – ${info.yrLast})</h3>
+          <p>Institución: <b>${esc(x.n)}</b> · Código DANE: <b>${x.d}</b> · Categoría Actual: <b style="color:${CLAS_COLOR[x.c]}">${x.c}</b> · Base: <b>${info.has2026 ? 'Oficial 2024–2025 + Proyección 2026' : 'Oficial ICFES 2024–2025'}</b></p>
         </div>
         <button class="btn btn-primary btn-sm" onclick="document.body.classList.add('printing-report');window.print();setTimeout(()=>document.body.classList.remove('printing-report'),1000);">
           🖨️ Imprimir / Guardar Informe PDF
@@ -1527,14 +1603,14 @@
 
       <!-- SECCIÓN 1: LECTURA DE TENDENCIAS -->
       <div class="report-section">
-        <h4>1. Diagnóstico Cuantitativo y Tendencias Históricas (${info.yrFirst} - ${info.yrLast})</h4>
+        <h4>1. Diagnóstico Cuantitativo y Tendencias Trienales (${info.yrFirst} – ${info.yrLast})</h4>
         <div class="report-grid-2">
           <div class="diagnostic-box">
             <h5>📊 Balance de Rendimiento Académico</h5>
             <ul>
-              <li><b>Rendimiento Inicial vs Cierre:</b> En ${info.yrFirst}, la institución registró una media global de <b>${info.avgFirst != null ? info.avgFirst.toFixed(1) : '—'} pts</b>, situándose en ${info.yrLast} en <b>${info.avgLast != null ? info.avgLast.toFixed(1) : '—'} pts</b> (variación de <b>${info.deltaGlobal >= 0 ? '+' : ''}${info.deltaGlobal.toFixed(1)} pts</b>).</li>
-              <li><b>Fortaleza Institucional:</b> La competencia con puntaje más alto es <b>${info.bestArea ? info.bestArea.name : '—'}</b> (${(info.data[info.bestArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), sirviendo como motor pedagógico para transferir buenas prácticas a otras áreas.</li>
-              <li><b>Área Prioritaria de Refuerzo:</b> La competencia con menor desempeño relativo corresponde a <b>${info.worstArea ? info.worstArea.name : '—'}</b> (${(info.data[info.worstArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), la cual representa la mayor palanca de crecimiento para elevar el índice global.</li>
+              <li><b>Rendimiento Inicial vs ${info.has2026 ? 'Proyección' : 'Cierre'}:</b> En ${info.yrFirst}, la institución registró una media de <b>${info.avgFirst != null ? info.avgFirst.toFixed(1) : '—'} pts</b>, situándose en ${info.yrLast} en <b>${info.avgLast != null ? info.avgLast.toFixed(1) : '—'} pts</b> (variación neta de <b>${info.deltaGlobal >= 0 ? '+' : ''}${info.deltaGlobal.toFixed(1)} pts</b>).</li>
+              <li><b>Fortaleza Institucional (${info.yrLast}):</b> La competencia con puntaje más alto es <b>${info.bestArea ? info.bestArea.name : '—'}</b> (${(info.data[info.bestArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), sirviendo como motor pedagógico para transferir buenas prácticas a otras áreas.</li>
+              <li><b>Área Prioritaria de Refuerzo (${info.yrLast}):</b> La competencia con menor desempeño relativo corresponde a <b>${info.worstArea ? info.worstArea.name : '—'}</b> (${(info.data[info.worstArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), la cual representa la mayor palanca de crecimiento para elevar el índice global.</li>
             </ul>
           </div>
           <div class="diagnostic-box">
@@ -1543,8 +1619,8 @@
               ${TRAY_AREAS.map(a => {
                 const f = info.data[a.key]?.[info.yrFirst]?.avg;
                 const l = info.data[a.key]?.[info.yrLast]?.avg;
-                const d = (f != null && l != null) ? l - f : 0;
-                return `<li><b>${a.name}:</b> Cierre en <b>${l != null ? l.toFixed(1) : '—'}</b> (${d >= 0 ? '+' : ''}${d.toFixed(1)} pts en el periodo analizado).</li>`;
+                const d = (f != null && l != null && f > 0 && l > 0) ? l - f : null;
+                return `<li><b>${a.name}:</b> ${l != null && l > 0 ? l.toFixed(1) + ' pts' : '—'}${d != null ? ` (${d >= 0 ? '+' : ''}${d.toFixed(1)} pts vs ${info.yrFirst})` : ''}.</li>`;
               }).join('')}
             </ul>
           </div>
@@ -1560,7 +1636,7 @@
             En la metodología oficial del ICFES para clasificar colegios (A+, A, B, C, D), <b>el promedio por sí solo no garantiza la categoría</b>. El algoritmo penaliza fuertemente a los planteles con alta dispersión interna:
           </p>
           <ul style="margin-top:8px">
-            <li><b>Estado actual de la institución:</b> La desviación estándar promedio de la institución se sitúa en <b>${info.sdLast != null ? info.sdLast.toFixed(1) : '—'} puntos</b> (<span class="semaphore ${info.semClass}">${info.semLabel}</span>).</li>
+            <li><b>Estado actual de la institución (${info.yrLast}):</b> La desviación estándar promedio se sitúa en <b>${info.sdLast != null ? info.sdLast.toFixed(1) : '—'} puntos</b> (<span class="semaphore ${info.semClass}">${info.semLabel}</span>).</li>
             <li><b>Implicación formativa:</b> ${info.semClass === 'green' ? 'Existe una excelente consistencia curricular: el grueso del estudiantado asimila las competencias de manera articulada, lo que eleva el percentil institucional en el cálculo del ICFES.' : info.semClass === 'yellow' ? 'Se evidencia una variabilidad normal en el grupo, pero reducir la desviación por debajo de 9 puntos otorgaría un impulso matemático directo para ascender de clasificación.' : 'Existe una brecha crítica: mientras un grupo selecto de estudiantes logra puntajes altos, otro grupo significativo queda rezagado en niveles 1 y 2 de desempeño. Esta disparidad impide a la institución alcanzar categorías superiores independientemente del puntaje de los mejores alumnos.'}</li>
           </ul>
         </div>
