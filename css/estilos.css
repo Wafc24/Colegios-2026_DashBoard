@@ -448,29 +448,36 @@ main { padding: 14px 22px 22px; flex: 1; }
 .tray-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .tray-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* Tabla matriz de años (2021 - 2026) */
+/* Tabla matriz de años (2024 - 2026) */
 .matrix-card { margin-bottom: 18px; overflow: hidden; }
 .matrix-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; margin-top: 10px; background: #fff; scrollbar-width: thin; }
-.matrix-table { width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 1040px; }
+.matrix-table { width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 680px; }
 .matrix-table th { background: #182334; color: #fff; padding: 10px 6px; text-align: center; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; border-right: 1px solid rgba(255,255,255,0.08); }
 .matrix-table th.col-yr { border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid rgba(255,255,255,0.2); font-size: .88rem; font-weight: 800; background: #141c2b; }
+.matrix-table th.col-yr-2026 { background: linear-gradient(135deg, #0f172a, #0369a1); border-left: 2px solid #38BDF8; border-right: 2px solid #38BDF8; }
 .matrix-table th.col-area { text-align: left; min-width: 175px; padding-left: 14px; }
 .matrix-table th.col-sub { font-size: .68rem; padding: 6px 4px; background: #202d42; color: #94A3B8; }
 .matrix-table th.col-sub.col-sd { border-right: 1px solid rgba(255,255,255,0.2); color: #38BDF8; }
 .matrix-table td { padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: middle; text-align: center; }
-.matrix-table td.cell-inp { width: 62px; }
+.matrix-table td.cell-inp { width: 72px; }
 .matrix-table td.cell-sd { border-right: 1px solid var(--line); background: #FAFBFD; }
+.matrix-table td.cell-2026 { background: #F0F9FF; }
+.matrix-table td.cell-2026.cell-sd { border-right: 2px solid #38BDF8; }
 .matrix-table tr:hover td { background-color: #F8FAFC; }
 .matrix-table tr:hover td.cell-sd { background-color: #F0F7FD; }
+.matrix-table tr:hover td.cell-2026 { background-color: #E0F2FE; }
 .matrix-table .area-cell { font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; padding-left: 14px; white-space: nowrap; border-right: 1px solid var(--line); text-align: left; }
 .matrix-table .area-dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; flex: none; }
 .matrix-table input.inp-tray {
-  width: 100%; max-width: 60px; text-align: center; font-weight: 700; padding: 6px 2px; font-size: .88rem;
+  width: 100%; max-width: 68px; text-align: center; font-weight: 700; padding: 6px 2px; font-size: .88rem;
   border: 1px solid #CBD5E1; border-radius: 8px; outline: none; transition: all .15s;
 }
 .matrix-table input.inp-avg { color: var(--navy); background: #fff; }
 .matrix-table input.inp-sd { color: #0284C7; background: #F0F9FF; border-color: #BAE6FD; }
+.matrix-table input.inp-2026 { border-color: #0284C7; background: #FFFFFF; color: #0369A1; font-weight: 800; box-shadow: 0 1px 4px rgba(2, 132, 199, 0.15); }
 .matrix-table input.inp-tray:focus { border-color: var(--accent-rose); box-shadow: 0 0 0 3px rgba(255, 59, 105, 0.2); }
+.tag-official { display: inline-block; font-size: .62rem; background: rgba(16, 185, 129, 0.25); color: #34D399; padding: 1px 5px; border-radius: 4px; margin-left: 4px; font-weight: 700; text-transform: none; }
+.tag-input { display: inline-block; font-size: .62rem; background: rgba(56, 189, 248, 0.25); color: #38BDF8; padding: 1px 6px; border-radius: 4px; margin-left: 4px; font-weight: 800; text-transform: none; letter-spacing: 0; }
 .matrix-row-summary { background: #F8FAFC; font-weight: 800; border-top: 2px solid var(--line); }
 .matrix-row-summary td { padding: 10px 4px; text-align: center; }
 .matrix-row-summary td.cell-sd { border-right: 1px solid var(--line); }
