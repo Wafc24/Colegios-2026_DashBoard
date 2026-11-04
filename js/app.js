@@ -727,13 +727,27 @@
         ${pct ? `<span class="pct">Top ${pct}%</span>` : ''}</div>`;
     };
 
+    const prevYearMap = { '2026': '2025', '2025': '2024' };
+    const prevYr = prevYearMap[state.activeYear];
+    const prevCol = prevYr ? hist[prevYr] : null;
+
     const areaRows = [0, 1, 2, 3, 4].map(k => {
-      const d = x.i[k] - nat[k];
+      const dNat = x.i[k] - nat[k];
+      const dInter = (prevCol && prevCol.i && prevCol.i[k] != null) ? x.i[k] - prevCol.i[k] : null;
       return `<div class="area-row">
         <div class="area-name" style="--c:${AREA_COLOR[k]}"><i></i>${AREA_FULL[k]}</div>
         <div class="area-track"><div class="fill" style="width:${x.i[k] * 100}%;background:${AREA_COLOR[k]}"></div><div class="mark" style="left:${nat[k] * 100}%" title="Promedio nacional ${f3(nat[k])}"></div></div>
         <div class="area-val">${f3(x.i[k])}</div>
-        <div class="diff ${d >= 0 ? 'up' : 'down'}">${d >= 0 ? '▲ +' : '▼ '}${d.toFixed(3)}</div>
+        <div class="area-deltas">
+          <span class="diff-tag ${dNat >= 0 ? 'up' : 'down'}" title="Brecha del colegio frente al promedio nacional del país (${f3(nat[k])})">
+            ${dNat >= 0 ? '▲ +' : '▼ '}${dNat.toFixed(3)} <small style="font-size:0.65rem;opacity:0.85">vs país</small>
+          </span>
+          ${dInter != null ? `
+            <span class="diff-tag ${dInter >= 0 ? 'up' : 'down'}" title="Variación interanual frente al periodo anterior (${prevYr})">
+              ${dInter >= 0 ? '▲ +' : '▼ '}${dInter.toFixed(3)} <small style="font-size:0.65rem;opacity:0.85">vs ${prevYr}</small>
+            </span>
+          ` : ''}
+        </div>
       </div>`;
     }).join('');
 
@@ -760,9 +774,15 @@
       </div>
       ${trienioHtml}
       <div class="grid grid-2">
-        <div class="card"><div class="card-head"><h3>Perfil de competencias</h3><p>Índices por área frente a los promedios de referencia</p></div><div class="chart-box radar"><canvas id="chRadar"></canvas></div></div>
-        <div class="card"><div class="card-head"><h3>Índice por área vs promedio nacional</h3><p>Índices de la clasificación (resultados de los últimos 3 años)</p></div>${areaRows}
-          <p class="note">La línea oscura marca el promedio nacional de ${tipoPl}.</p></div>
+        <div class="card"><div class="card-head"><h3>Perfil por áreas</h3><p>Índices por área frente a los promedios de referencia</p></div><div class="chart-box radar"><canvas id="chRadar"></canvas></div></div>
+        <div class="card">
+          <div class="card-head">
+            <h3>Índice por área vs promedio nacional y evolución interanual</h3>
+            <p>Comparación con la media nacional (${f3(nat[5])}) y variación frente al periodo anterior ${prevYr ? `(${prevYr})` : ''}</p>
+          </div>
+          ${areaRows}
+          <p class="note">La marca oscura en la barra indica el promedio nacional de ${tipoPl}. Los indicadores muestran la brecha frente al país y la variación interanual vs ${prevYr || 'anterior'}.</p>
+        </div>
       </div>
       <div class="grid grid-2">
         <div class="card"><div class="card-head"><h3>Comparación con su entorno</h3><p>Colegio vs municipio, departamento, nación y colegios A+</p></div><div class="chart-box"><canvas id="chEntorno"></canvas></div></div>
@@ -913,7 +933,7 @@
     ];
     box.innerHTML = `
       <div class="grid grid-2">
-        <div class="card"><h3>Perfil de competencias</h3><div class="chart-box radar"><canvas id="chCmpRadar"></canvas></div></div>
+        <div class="card"><h3>Perfil por áreas</h3><div class="chart-box radar"><canvas id="chCmpRadar"></canvas></div></div>
         <div class="card"><h3>Índices por área</h3><div class="chart-box radar"><canvas id="chCmpBar"></canvas></div></div>
       </div>
       <div class="card" style="margin-top:18px"><h3>Tabla comparativa</h3>
@@ -997,6 +1017,248 @@
     });
 
     return data;
+  }
+
+  // ---------- RUTAS METODOLÓGICAS OFICIALES GRUPO EDÚCATE COLOMBIA ----------
+  const RUTAS_METODOLOGICAS = {
+    mat: {
+      nombre: 'Matemáticas',
+      icono: '📐',
+      color: '#0284C7',
+      lema: 'Las 4 Fases del Razonamiento Matemático (Grupo Edúcate Colombia)',
+      enfoque: 'Modelación, formulación, ejecución y argumentación según estándares ICFES Saber 11°.',
+      fases: [
+        {
+          num: 'Fase 1',
+          nombre: 'Deconstrucción del Enunciado',
+          sub: 'Comprensión y Extracción de Datos',
+          acciones: 'Identificar datos explícitos, variables dependientes/independientes, condiciones y la incógnita real de la pregunta.',
+          docente: 'Evitar que el estudiante intente calcular sin haber formulado con claridad qué le están pidiendo.',
+          po: 'PO-01: Subrayar datos numéricos, unidades de medida y descartar información contextual decorativa.'
+        },
+        {
+          num: 'Fase 2',
+          nombre: 'Estrategia y Modelación',
+          sub: 'Traducción Matemática',
+          acciones: 'Traducir el problema al lenguaje matemático formal: diagramas, ecuaciones, proporciones o relaciones geométricas.',
+          docente: 'Guiar al alumno a seleccionar la ley, teorema o propiedad matemática pertinente antes de operar.',
+          po: 'PO-02: Plantear el modelo operativo adecuado (regla de tres, probabilidad, áreas, función lineal/cuadrática).'
+        },
+        {
+          num: 'Fase 3',
+          nombre: 'Ejecución y Cálculo',
+          sub: 'Resolución Operatoria Rigurosa',
+          acciones: 'Desarrollar operaciones aritméticas y algebraicas paso a paso, cuidando signos, exponentes y equivalencias.',
+          docente: 'Monitorear la agilidad de cálculo manual sin calculadora, enfatizando simplificación previa.',
+          po: 'PO-03: Simplificar fracciones y expresiones antes de multiplicar para evitar errores aritméticos bajo presión de tiempo.'
+        },
+        {
+          num: 'Fase 4',
+          nombre: 'Validación y Selección',
+          sub: 'Contraste y Descarte Crítico',
+          acciones: 'Verificar la coherencia física y dimensional de la respuesta. Identificar y descartar distractores típicos del ICFES.',
+          docente: 'El error como oportunidad didáctica: analizar los 3 distractores y por qué son trampas matemáticas.',
+          po: 'PO-04: Contrastar el resultado con el orden de magnitud del contexto real antes de rellenar la opción definitiva.'
+        }
+      ]
+    },
+    lec: {
+      nombre: 'Lectura Crítica',
+      icono: '📖',
+      color: '#10B981',
+      lema: 'Las 4 Fases del Lector Crítico (Grupo Edúcate Colombia)',
+      enfoque: 'Lectura literal, inferencial y crítica de textos continuos (filosóficos, informativos) y discontinuos (infografías, cómics).',
+      fases: [
+        {
+          num: 'Fase 1',
+          nombre: 'Inmersión y Tipología',
+          sub: 'Reconocimiento Textual',
+          acciones: 'Determinar el tipo de texto (argumentativo, expositivo, narrativo, caricatura), tema central y tono del autor.',
+          docente: 'Entrenar el escaneo preliminar: título, fuente, fecha y estructura antes de la lectura detallada.',
+          po: 'PO-01: Identificar tipología textual y propósito comunicativo global en los primeros 30 segundos.'
+        },
+        {
+          num: 'Fase 2',
+          nombre: 'Conexión y Mapeo de Tesis',
+          sub: 'Articulación de Argumentos',
+          acciones: 'Localizar la tesis principal, premisas de soporte, contraargumentos y la relación lógica entre párrafos.',
+          docente: 'Diferenciar hechos comprobables de opiniones y juicios de valor emitidos por las distintas voces.',
+          po: 'PO-02: Señalar conectores lógicos clave (adversativos, causales, concesivos) que marcan giros argumentativos.'
+        },
+        {
+          num: 'Fase 3',
+          nombre: 'Evaluación de Distractores',
+          sub: 'Filtro Sistemático',
+          acciones: 'Detectar distractores típicos: extrapolación excesiva, contradicción directa, verdad textual pero irrelevante a la pregunta.',
+          docente: 'Enseñar la técnica de refutación de opciones falsas antes de enamorarse de una respuesta.',
+          po: 'PO-03: Descartar las 2 opciones visiblemente inválidas mediante confrontación directa con las líneas del texto.'
+        },
+        {
+          num: 'Fase 4',
+          nombre: 'Justificación y Selección',
+          sub: 'Conclusión y Selección Definitiva',
+          acciones: 'Sustentar la opción elegida con evidencia explícita o inferencia justificada del texto, garantizando concordancia con la pregunta.',
+          docente: 'Validar que la respuesta conteste exactamente lo formulado y no una interpretación subjetiva.',
+          po: 'PO-04: Releer la pregunta formulada y certificar que la opción elegida responde al nivel evaluado (literal/inferencial/crítico).'
+        }
+      ]
+    },
+    nat: {
+      nombre: 'Ciencias Naturales',
+      icono: '🔬',
+      color: '#06B6D4',
+      lema: 'Las 4 Fases del Explorador Científico (Grupo Edúcate Colombia)',
+      enfoque: 'Uso comprensivo del conocimiento, explicación de fenómenos e indagación en Biología, Química y Física.',
+      fases: [
+        {
+          num: 'Fase 1',
+          nombre: 'Decodificación Experimental',
+          sub: 'Análisis de Montaje y Datos',
+          acciones: 'Identificar el problema de investigación, hipótesis planteada, variables controladas, variable independiente y dependiente.',
+          docente: 'Instruir la lectura rigurosa de tablas, ejes coordenados, unidades y esquemas de laboratorio.',
+          po: 'PO-01: Etiquetar en la gráfica o tabla: qué se modificó (causa) y qué se midió (efecto).'
+        },
+        {
+          num: 'Fase 2',
+          nombre: 'Conexión Científica',
+          sub: 'Fundamento Teórico',
+          acciones: 'Vincular la evidencia experimental con principios teóricos (leyes de Newton, conservación de masa/energía, genética, etc.).',
+          docente: 'Evitar la memorización aislada; propiciar la aplicación conceptual a situaciones novedosas.',
+          po: 'PO-02: Formular mentalmente la ley científica o relación proporcional que rige el fenómeno.'
+        },
+        {
+          num: 'Fase 3',
+          nombre: 'Análisis y Evaluación',
+          sub: 'Interpretación de Evidencia',
+          acciones: 'Analizar tendencias en los datos (directa o inversamente proporcional, mesetas, puntos de saturación) y validar conclusiones.',
+          docente: 'Fomentar la distinción entre correlación y causalidad en los resultados experimentales.',
+          po: 'PO-03: Comparar grupos experimentales con el grupo control para aislar el factor determinante.'
+        },
+        {
+          num: 'Fase 4',
+          nombre: 'Validación y Selección',
+          sub: 'Elección de la Explicación Científica',
+          acciones: 'Seleccionar la respuesta que guarde total consistencia con las leyes naturales y la evidencia mostrada, descartando pseudociencia.',
+          docente: 'Revisar distractores que contienen afirmaciones biológicamente o físicamente imposibles.',
+          po: 'PO-04: Confirmar que la conclusión elegida no contradiga ningún punto de la gráfica ni generalice sin datos suficientes.'
+        }
+      ]
+    },
+    soc: {
+      nombre: 'Sociales y Ciudadanas',
+      icono: '🏛️',
+      color: '#F59E0B',
+      lema: 'Ruta Maestra Saber 11 en Sociales y Ciudadanas (Grupo Edúcate Colombia)',
+      enfoque: 'Pensamiento social, interpretación de perspectivas divergentes y pensamiento reflexivo y sistémico.',
+      fases: [
+        {
+          num: 'Fase 1',
+          nombre: 'Decodificación del Contexto',
+          sub: 'Mapeo de Actores y Conflicto',
+          acciones: 'Identificar los actores sociales involucrados, sus intereses económicos/políticos/culturales y la dimensión del problema.',
+          docente: 'Neutralizar sesgos ideológicos personales; situar al estudiante como analista imparcial de la realidad social.',
+          po: 'PO-01: Listar actores, recursos en disputa e identificar si el escenario es local, nacional o global.'
+        },
+        {
+          num: 'Fase 2',
+          nombre: 'Conexión y Marco Normativo',
+          sub: 'Constitución y Derechos',
+          acciones: 'Vincular el caso con los principios de la Constitución Política de 1991: Estado Social de Derecho, derechos fundamentales, mecanismos de protección.',
+          docente: 'Recordar que las soluciones ICFES siempre se enmarcan en la legalidad constitucional y la convivencia pacífica.',
+          po: 'PO-02: Identificar el mecanismo aplicable (Tutela, Acción Popular, Derecho de Petición, plebiscito, etc.).'
+        },
+        {
+          num: 'Fase 3',
+          nombre: 'Multiposicionismo y Evaluación',
+          sub: 'Perspectivas Divergentes',
+          acciones: 'Analizar los argumentos de cada actor desde su propia cosmovisión y evaluar el impacto de distintas decisiones.',
+          docente: 'Ejercitar la empatía cognitiva: comprender posturas contrarias sin emitir juicios de valor inmediatos.',
+          po: 'PO-03: Evaluar las consecuencias sociales, económicas y ambientales que genera cada alternativa planteada.'
+        },
+        {
+          num: 'Fase 4',
+          nombre: 'Validación y Selección',
+          sub: 'Salida Democrática y Legal',
+          acciones: 'Descartar respuestas autoritarias, discriminatorias o que vulneren derechos. Elegir la opción que responda a la perspectiva requerida.',
+          docente: 'Atención especial al enunciado: verificar desde cuál de los actores se solicita formular la respuesta.',
+          po: 'PO-04: Verificar si la pregunta pide la perspectiva de la comunidad, del Estado o la salida concertada más viable.'
+        }
+      ]
+    },
+    ing: {
+      nombre: 'Inglés',
+      icono: '🇬🇧',
+      color: '#8B5CF6',
+      lema: 'Enfoque por Tareas - 7 Partes Saber 11 (Grupo Edúcate Colombia)',
+      enfoque: 'Alineado al Marco Común Europeo (A1, A2, B1, B+): Avisos, definiciones, diálogos, textos con gaps y lectura inferencial.',
+      fases: [
+        {
+          num: 'Fase 1',
+          nombre: 'Understand the Task',
+          sub: 'Reconocimiento de Parte 1 a 7',
+          acciones: 'Reconocer inmediatamente el formato evaluado: Parte 1 (avisos), Parte 2 (definiciones), Parte 3 (conversaciones), Partes 4-6 (gaps y lectura) o Parte 7 (gramática avanzada).',
+          docente: 'Optimizar la gestión de tiempo según la complejidad específica de cada parte de la prueba.',
+          po: 'PO-01: Activar el banco léxico pertinente según el contexto comunicativo (aeropuerto, escuela, tienda, etc.).'
+        },
+        {
+          num: 'Fase 2',
+          nombre: 'Analyze the Input',
+          sub: 'Pistas Contextuales y Palabras Clave',
+          acciones: 'Detectar palabras clave (keywords), categoría gramatical requerida (sustantivo, verbo, adjetivo, preposición) y tiempo verbal.',
+          docente: 'Enfatizar la lectura de frases completas y no de palabras aisladas para comprender el sentido.',
+          po: 'PO-02: Analizar las palabras previas y posteriores a los espacios en blanco (collocations y régimen preposicional).'
+        },
+        {
+          num: 'Fase 3',
+          nombre: 'Evaluate Options',
+          sub: 'Descarte Gramatical y Semántico',
+          acciones: 'Descartar opciones que rompan la concordancia de tiempo, persona o significado semántico en la oración.',
+          docente: 'Trabajar en falsos cognados y trampas de traducción literal español-inglés.',
+          po: 'PO-03: Eliminar opciones gramaticalmente incompatibles antes de decidir por criterio de significado.'
+        },
+        {
+          num: 'Fase 4',
+          nombre: 'Select and Confirm',
+          sub: 'Lectura Fluida y Verificación Final',
+          acciones: 'Leer el fragmento completo con la opción seleccionada insertada para confirmar fluidez, coherencia global y naturalidad.',
+          docente: 'Garantizar que la opción elegida comunique el mensaje con la precisión idiomática esperada.',
+          po: 'PO-04: Verificación de coherencia comunicativa y marcado seguro en la hoja de respuestas.'
+        }
+      ]
+    }
+  };
+
+  function renderRutaAreaHtml(areaKey) {
+    const ruta = RUTAS_METODOLOGICAS[areaKey] || RUTAS_METODOLOGICAS['mat'];
+    return `
+      <div style="background:#FAFBFD;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-top:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <div>
+            <span style="font-size:0.75rem;font-weight:800;color:${ruta.color};text-transform:uppercase;letter-spacing:0.05em">Metodología Pedagógica Oficial Grupo Edúcate Colombia</span>
+            <h5 style="margin:2px 0 0;font-size:1.05rem;font-weight:800;color:var(--navy)">${ruta.icono} ${ruta.nombre} · ${ruta.lema}</h5>
+          </div>
+          <span style="background:${G.alpha(ruta.color, 0.12)};color:${ruta.color};font-weight:800;font-size:0.78rem;padding:4px 10px;border-radius:8px">4 Fases Saber 11°</span>
+        </div>
+        <p style="font-size:0.84rem;color:#475569;margin:0 0 14px;line-height:1.5">${ruta.enfoque}</p>
+        
+        <div class="ruta-fases-grid">
+          ${ruta.fases.map(f => `
+            <div class="ruta-fase-card" style="--ruta-c:${ruta.color}">
+              <div class="fase-header">
+                <h6>${f.num}: ${f.nombre}</h6>
+                <div class="sub-fase">${f.sub}</div>
+              </div>
+              <div class="acciones-box"><b>Acción del estudiante:</b> ${f.acciones}</div>
+              <div class="docente-box"><b>Orientación docente:</b> ${f.docente}</div>
+              <div class="ruta-po-box" style="--ruta-c:${ruta.color}">
+                <b>Protocolo Operativo:</b>
+                ${f.po}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
   }
 
   function renderTrayectoria() {
@@ -1098,9 +1360,10 @@
           <p style="font-size:0.84rem;color:var(--muted);margin:2px 0 0">${trayDesc}</p>
         </div>
         <div class="tray-actions">
+          ${has2026 ? `<button class="btn btn-primary btn-sm" id="btnTrayCalc" style="background:linear-gradient(135deg, #FF3B69, #E11D48);box-shadow:0 2px 10px rgba(255,59,105,0.35);border:none;font-weight:700" title="Recalcular promedios, dispersión y plan de mejora con las notas 2026">⚡ Actualizar y Simular Diagnóstico</button>` : ''}
           <button class="btn btn-ghost btn-sm" id="btnTrayExportCSV" title="Descargar datos en formato CSV">📥 Exportar CSV</button>
           ${has2026 ? `<button class="btn btn-ghost btn-sm" id="btnTrayClear" title="Restablecer los datos de 2026 a 0 para nuevo ingreso">🗑️ Limpiar 2026</button>` : ''}
-          <button class="btn btn-primary btn-sm" id="btnTrayPrint">🖨️ Imprimir / PDF</button>
+          <button class="btn btn-ghost btn-sm" id="btnTrayPrint">🖨️ Imprimir / PDF</button>
         </div>
       </div>
     `;
@@ -1172,7 +1435,7 @@
         <div class="card">
           <div class="card-head">
             <h3>Comparativo de Promedios por Área (Diagrama de Barras)</h3>
-            <p>Puntajes medios de las 5 competencias y Promedio Global (${years.join(' vs ')})</p>
+            <p>Puntajes medios de las 5 áreas evaluadas y Promedio Global (${years.join(' vs ')})</p>
           </div>
           <div class="chart-box"><canvas id="chTrayPromedios"></canvas></div>
         </div>
@@ -1232,6 +1495,27 @@
 
       updateTrayCalculationsAndVisuals(x, true);
     });
+
+    const btnCalc = $('#btnTrayCalc');
+    if (btnCalc) {
+      btnCalc.onclick = () => {
+        table.querySelectorAll('.inp-tray').forEach(inp => {
+          const area = inp.dataset.area;
+          const yr = parseInt(inp.dataset.yr, 10);
+          const isAvg = inp.classList.contains('inp-avg');
+          const val = inp.value === '' ? 0.0 : parseFloat(inp.value);
+          if (!window._curTray.data.data[area]) window._curTray.data.data[area] = {};
+          if (!window._curTray.data.data[area][yr]) window._curTray.data.data[area][yr] = { avg: 0.0, sd: 0.0 };
+          if (isAvg) window._curTray.data.data[area][yr].avg = isNaN(val) ? 0.0 : val;
+          else window._curTray.data.data[area][yr].sd = isNaN(val) ? 0.0 : val;
+        });
+        try {
+          localStorage.setItem('trayectoria_data_' + x.d, JSON.stringify(window._curTray.data));
+        } catch (e) {}
+        updateTrayCalculationsAndVisuals(x, false);
+        toast('⚡ Diagnóstico institucional y simulación recalculados.');
+      };
+    }
 
     const btnClear = $('#btnTrayClear');
     if (btnClear) {
@@ -1380,7 +1664,7 @@
     if (kpiBox) {
       kpiBox.innerHTML = `
         <div class="tray-kpi" style="--kpi-c:#0284C7">
-          <div class="label">Promedio Global (${yrActiveLast}${yrActiveLast === 2026 ? ' Proyección' : ' Oficial'})</div>
+          <div class="label">Promedio Global (${yrActiveLast}${yrActiveLast === 2026 ? ' Registrado' : ' Oficial'})</div>
           <div class="value">${avgLast != null ? avgLast.toFixed(1) : '—'} <span style="font-size:0.9rem;font-weight:600;color:var(--muted)">pts</span></div>
           <div class="sub">
             <b style="color:${delta >= 0 ? '#047857' : '#BE123C'}">${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b> ${badgeText}
@@ -1416,7 +1700,7 @@
     const barLabels = {
       2024: '2024 (Oficial)',
       2025: '2025 (Oficial)',
-      2026: '2026 (✏️ Proyección)'
+      2026: '2026 (✏️ Notas Registradas)'
     };
 
     const datasetsProm = years.map(yr => {
@@ -1500,7 +1784,7 @@
       const hasVal2026 = TRAY_AREAS.some(a => data[a.key] && data[a.key][2026] && data[a.key][2026].avg > 0);
       if (hasVal2026) {
         radarDatasets.push({
-          label: '2026 Proyección',
+          label: '2026 Registrado',
           data: TRAY_AREAS.map(a => (data[a.key] && data[a.key][2026] && data[a.key][2026].avg > 0) ? data[a.key][2026].avg : 50),
           borderColor: '#FF3B69',
           backgroundColor: G.alpha('#FF3B69', 0.22),
@@ -1537,13 +1821,13 @@
       } else if (years.length === 2) {
         diagProgText = `La institución transitó de <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2024 a <b>${(yrStats[2025]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2025 (variación neta de <b>${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b>).`;
       } else {
-        diagProgText = `La institución registró <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2024 y <b>${(yrStats[2025]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2025${has2026 ? `, con una proyección para 2026 de <b>${(yrStats[2026]?.avgGlobal ?? 0).toFixed(1)} pts</b> (variación de <b>${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b> vs 2025)` : '. Ingresa tus notas de 2026 en la tabla superior para proyectar el diagnóstico en tiempo real'}.`;
+        diagProgText = `La institución registró <b>${(yrStats[2024]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2024 y <b>${(yrStats[2025]?.avgGlobal ?? 0).toFixed(1)} pts</b> en 2025${has2026 ? `, alcanzando en 2026 una media registrada de <b>${(yrStats[2026]?.avgGlobal ?? 0).toFixed(1)} pts</b> (variación de <b>${delta >= 0 ? '+' : ''}${delta.toFixed(1)} pts</b> vs 2025)` : '. Ingresa tus notas de 2026 en la tabla superior y pulsa "⚡ Actualizar y Simular Diagnóstico" para calcular el diagnóstico en tiempo real'}.`;
       }
 
       quickDiag.innerHTML = `
         <div class="card-head">
           <h3>Lectura Dinámica de Balance</h3>
-          <p>Síntesis del comportamiento institucional (${years.join(' – ')}${has2026 ? ' Proyección' : ''})</p>
+          <p>Síntesis del comportamiento institucional (${years.join(' – ')}${has2026 ? ' (Evaluación Actual)' : ''})</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;margin-top:6px">
           <div class="diagnostic-box highlight">
@@ -1590,11 +1874,14 @@
     };
     const nextGoal = targetMap[x.c] || targetMap['B'];
 
+    const prevYr = info.yrLast === 2026 ? 2025 : (info.yrLast === 2025 ? 2024 : null);
+    const baseYr = info.yrFirst;
+
     reportBox.innerHTML = `
       <div class="report-header">
         <div>
           <h3>Informe Analítico de Diagnóstico & Plan de Mejora Institucional (${info.yrFirst} – ${info.yrLast})</h3>
-          <p>Institución: <b>${esc(x.n)}</b> · Código DANE: <b>${x.d}</b> · Categoría Actual: <b style="color:${CLAS_COLOR[x.c]}">${x.c}</b> · Base: <b>${info.has2026 ? 'Oficial 2024–2025 + Proyección 2026' : 'Oficial ICFES 2024–2025'}</b></p>
+          <p>Institución: <b>${esc(x.n)}</b> · Código DANE: <b>${x.d}</b> · Categoría Actual: <b style="color:${CLAS_COLOR[x.c]}">${x.c}</b> · Base: <b>${info.has2026 ? 'Oficial ICFES (2024–2025) + Notas Registradas 2026' : 'Oficial ICFES 2024–2025'}</b></p>
         </div>
         <button class="btn btn-primary btn-sm" onclick="document.body.classList.add('printing-report');window.print();setTimeout(()=>document.body.classList.remove('printing-report'),1000);">
           🖨️ Imprimir / Guardar Informe PDF
@@ -1603,24 +1890,37 @@
 
       <!-- SECCIÓN 1: LECTURA DE TENDENCIAS -->
       <div class="report-section">
-        <h4>1. Diagnóstico Cuantitativo y Tendencias Trienales (${info.yrFirst} – ${info.yrLast})</h4>
+        <h4>1. Diagnóstico Cuantitativo y Tendencias (${info.yrFirst} – ${info.yrLast})</h4>
         <div class="report-grid-2">
           <div class="diagnostic-box">
             <h5>📊 Balance de Rendimiento Académico</h5>
             <ul>
-              <li><b>Rendimiento Inicial vs ${info.has2026 ? 'Proyección' : 'Cierre'}:</b> En ${info.yrFirst}, la institución registró una media de <b>${info.avgFirst != null ? info.avgFirst.toFixed(1) : '—'} pts</b>, situándose en ${info.yrLast} en <b>${info.avgLast != null ? info.avgLast.toFixed(1) : '—'} pts</b> (variación neta de <b>${info.deltaGlobal >= 0 ? '+' : ''}${info.deltaGlobal.toFixed(1)} pts</b>).</li>
-              <li><b>Fortaleza Institucional (${info.yrLast}):</b> La competencia con puntaje más alto es <b>${info.bestArea ? info.bestArea.name : '—'}</b> (${(info.data[info.bestArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), sirviendo como motor pedagógico para transferir buenas prácticas a otras áreas.</li>
-              <li><b>Área Prioritaria de Refuerzo (${info.yrLast}):</b> La competencia con menor desempeño relativo corresponde a <b>${info.worstArea ? info.worstArea.name : '—'}</b> (${(info.data[info.worstArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), la cual representa la mayor palanca de crecimiento para elevar el índice global.</li>
+              <li><b>Rendimiento Inicial vs ${info.has2026 ? 'Notas Actuales' : 'Cierre'}:</b> En ${info.yrFirst}, la institución registró una media de <b>${info.avgFirst != null ? info.avgFirst.toFixed(1) : '—'} pts</b>, situándose en ${info.yrLast} en <b>${info.avgLast != null ? info.avgLast.toFixed(1) : '—'} pts</b> (variación neta de <b>${info.deltaGlobal >= 0 ? '+' : ''}${info.deltaGlobal.toFixed(1)} pts</b>).</li>
+              <li><b>Fortaleza Institucional (${info.yrLast}):</b> El área con puntaje más alto es <b>${info.bestArea ? info.bestArea.name : '—'}</b> (${(info.data[info.bestArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), sirviendo como motor pedagógico para transferir buenas prácticas a otras áreas.</li>
+              <li><b>Área Prioritaria de Refuerzo (${info.yrLast}):</b> El área con menor desempeño relativo corresponde a <b>${info.worstArea ? info.worstArea.name : '—'}</b> (${(info.data[info.worstArea?.key]?.[info.yrLast]?.avg ?? 0).toFixed(1)} pts), la cual representa la mayor palanca de crecimiento para elevar el índice global.</li>
             </ul>
           </div>
           <div class="diagnostic-box">
-            <h5>🎯 Dinámica Interanual por Competencia</h5>
+            <h5>🎯 Dinámica Interanual por Área</h5>
             <ul>
               ${TRAY_AREAS.map(a => {
-                const f = info.data[a.key]?.[info.yrFirst]?.avg;
                 const l = info.data[a.key]?.[info.yrLast]?.avg;
-                const d = (f != null && l != null && f > 0 && l > 0) ? l - f : null;
-                return `<li><b>${a.name}:</b> ${l != null && l > 0 ? l.toFixed(1) + ' pts' : '—'}${d != null ? ` (${d >= 0 ? '+' : ''}${d.toFixed(1)} pts vs ${info.yrFirst})` : ''}.</li>`;
+                const pVal = prevYr ? info.data[a.key]?.[prevYr]?.avg : null;
+                const dPrev = (pVal != null && l != null && pVal > 0 && l > 0) ? l - pVal : null;
+                const bVal = (baseYr && baseYr !== prevYr) ? info.data[a.key]?.[baseYr]?.avg : null;
+                const dBase = (bVal != null && l != null && bVal > 0 && l > 0) ? l - bVal : null;
+
+                let cmpText = '';
+                if (dPrev != null) {
+                  cmpText = ` (${dPrev >= 0 ? '+' : ''}${dPrev.toFixed(1)} pts vs ${prevYr}`;
+                  if (dBase != null && prevYr !== baseYr) {
+                    cmpText += ` · ${dBase >= 0 ? '+' : ''}${dBase.toFixed(1)} pts acumulado vs ${baseYr}`;
+                  }
+                  cmpText += ')';
+                } else if (info.yrLast === 2024) {
+                  cmpText = ` (Línea base oficial 2024)`;
+                }
+                return `<li><b>${a.name}:</b> ${l != null && l > 0 ? l.toFixed(1) + ' pts' : '—'}${cmpText}.</li>`;
               }).join('')}
             </ul>
           </div>
@@ -1637,42 +1937,40 @@
           </p>
           <ul style="margin-top:8px">
             <li><b>Estado actual de la institución (${info.yrLast}):</b> La desviación estándar promedio se sitúa en <b>${info.sdLast != null ? info.sdLast.toFixed(1) : '—'} puntos</b> (<span class="semaphore ${info.semClass}">${info.semLabel}</span>).</li>
-            <li><b>Implicación formativa:</b> ${info.semClass === 'green' ? 'Existe una excelente consistencia curricular: el grueso del estudiantado asimila las competencias de manera articulada, lo que eleva el percentil institucional en el cálculo del ICFES.' : info.semClass === 'yellow' ? 'Se evidencia una variabilidad normal en el grupo, pero reducir la desviación por debajo de 9 puntos otorgaría un impulso matemático directo para ascender de clasificación.' : 'Existe una brecha crítica: mientras un grupo selecto de estudiantes logra puntajes altos, otro grupo significativo queda rezagado en niveles 1 y 2 de desempeño. Esta disparidad impide a la institución alcanzar categorías superiores independientemente del puntaje de los mejores alumnos.'}</li>
+            <li><b>Implicación formativa:</b> ${info.semClass === 'green' ? 'Existe una excelente consistencia curricular: el grueso del estudiantado asimila los aprendizajes de manera articulada, lo que eleva el percentil institucional en el cálculo del ICFES.' : info.semClass === 'yellow' ? 'Se evidencia una variabilidad normal en el grupo, pero reducir la desviación por debajo de 9 puntos otorgaría un impulso matemático directo para ascender de clasificación.' : 'Existe una brecha crítica: mientras un grupo selecto de estudiantes logra puntajes altos, otro grupo significativo queda rezagado en niveles 1 y 2 de desempeño. Esta disparidad impide a la institución alcanzar categorías superiores independientemente del puntaje de los mejores alumnos.'}</li>
           </ul>
         </div>
       </div>
 
-      <!-- SECCIÓN 3: PLAN DE ACCIÓN Y PROYECCIÓN DE MEJORA -->
+      <!-- SECCIÓN 3: PLAN DE ACCIÓN Y METODOLOGÍAS PEDAGÓGICAS OFICIALES -->
       <div class="report-section">
-        <h4>3. Plan Estratégico de Acción y Recomendaciones para la Mejora Institucional</h4>
+        <h4>3. Plan Estratégico de Acción & Plan de Mejora Institucional (Grupo Edúcate Colombia)</h4>
         <div style="background:#F1F5F9;border-radius:12px;padding:14px 18px;margin-bottom:14px;border-left:4px solid var(--primary)">
           <div style="font-size:0.88rem;color:var(--navy);font-weight:700">🎯 Meta Estratégica Proyectada: Subir a Categoría <span style="color:var(--accent-rose)">${nextGoal.next}</span> (Puntaje Objetivo: ${nextGoal.targetScore} puntos)</div>
           <div style="font-size:0.83rem;color:var(--muted);margin-top:3px">${nextGoal.priority}</div>
         </div>
 
-        <div class="action-cards">
-          <div class="action-card">
-            <span class="badge-mini" style="background:#0284C7">Lectura y Ciudadanas</span>
-            <h5>Comprensión Crítica Transversal</h5>
-            <ul>
-              <li>Implementar talleres semanales de lectura crítica de niveles 3 y 4 (identificación de posturas implícitas y contraste de fuentes).</li>
-              <li>Articular con Sociales el análisis de dilemas morales y constitucionales contemporáneos.</li>
-            </ul>
+        <!-- RUTA METODOLÓGICA EXCLUSIVA PARA EL ÁREA MÁS BAJA -->
+        <div class="rutas-container">
+          <div class="rutas-header">
+            <h5>🎯 Plan de Refuerzo en el Área con Menor Desempeño: <span style="color:var(--accent-rose)">${info.worstArea ? info.worstArea.name : 'Matemáticas'}</span></h5>
+            <span style="font-size:0.80rem;color:var(--muted)">Ruta metodológica en 4 fases establecida por Grupo Edúcate Colombia</span>
           </div>
-          <div class="action-card">
-            <span class="badge-mini" style="background:#10B981">Ciencias y Matemáticas</span>
-            <h5>Modelación y Resolución de Problemas</h5>
+          ${renderRutaAreaHtml(info.worstArea?.key || 'mat')}
+        </div>
+
+        <!-- PLAN DE EQUIDAD Y CIERRE DE DISPERSIÓN -->
+        <div class="action-cards" style="margin-top:16px">
+          <div class="action-card" style="grid-column: 1 / -1; background:#FFF1F2; border-color:#FECDD3">
+            <span class="badge-mini" style="background:#FF3B69">Plan de Equidad Institucional (Reducir Desviación Estándar σ)</span>
+            <h5>Focalización en Estudiantes de Niveles 1 y 2</h5>
+            <p>
+              El algoritmo del ICFES penaliza a colegios con alta dispersión interna aunque tengan estudiantes destacados. La clave para escalar de categoría (B ➔ A ➔ A+) consiste en reducir σ por debajo de 8.5 puntos mediante:
+            </p>
             <ul>
-              <li>Desplazar el aprendizaje de fórmulas memorísticas hacia la interpretación de gráficas y diseño de experimentos.</li>
-              <li>Entrenamiento en razonamiento cuantitativo aplicado a finanzas y fenómenos cotidianos.</li>
-            </ul>
-          </div>
-          <div class="action-card">
-            <span class="badge-mini" style="background:#FF3B69">Plan de Equidad (Reducir σ)</span>
-            <h5>Acompañamiento Focalizado</h5>
-            <ul>
-              <li>Detección temprana en grados 9° y 10° de estudiantes ubicados en niveles inferiores para tutorías personalizadas.</li>
-              <li>Uso de simulacros con retroalimentación inmediata centrada en el error conceptual.</li>
+              <li><b>Tutorías de Nivelación Temprana:</b> Identificar a los estudiantes con desempeños inferiores en simulacros diagnósticos para nivelar los Procesos Operativos (PO-01 y PO-02).</li>
+              <li><b>Análisis Sistemático del Error:</b> Utilizar las preguntas erradas no como sanción cuantitativa sino como objeto de modelación reflexiva en el aula.</li>
+              <li><b>Evaluación Formativa por Fases:</b> Calificar la aplicación del método (deconstrucción, modelación, cálculo y validación) y no únicamente la respuesta final marcada.</li>
             </ul>
           </div>
         </div>
@@ -1801,8 +2099,8 @@
   function load(raw) {
     prepare(raw);
     state.cmp = []; state.fichaId = null;
-    const pl = $('#periodoLabel');
-    if (pl) pl.textContent = `Periodo ${PERIODO} · Grado 11 · ${nf(DATA.length)} registros`;
+    const pl = $('#headerSub') || $('#periodoLabel');
+    if (pl) pl.textContent = `Grado 11 · ${nf(DATA.length)} planteles clasificados`;
     $('#footInfo').textContent = `Periodo ${PERIODO}. Datos procesados el ${raw.generado || ''}. "S/C": sin clasificación por resolución ICFES.`;
     initFilters();
     render();
