@@ -91,11 +91,11 @@ h1, h2, h3, h4 { margin: 0; font-family: var(--font-title); }
 
 /* ===== Topbar & Navegación Fija (Sticky) ===== */
 .top-nav-sticky {
-  position: sticky; top: 0; z-index: 500;
-  background: var(--bg); padding: 14px 0 10px;
-  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
-  backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--bg); padding: 12px 0 8px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+  backdrop-filter: blur(12px);
 }
 .topbar {
   margin: 0 22px; padding: 14px 22px; border-radius: var(--radius);
@@ -281,7 +281,7 @@ main { padding: 14px 22px 22px; flex: 1; }
 .rank-card .of { color: var(--muted); font-size: .8rem; }
 .rank-card .pct { margin-left: auto; padding: 4px 10px; border-radius: 999px; font-size: .8rem; font-weight: 800; background: #E7FAF0; color: #12804A; white-space: nowrap; }
 
-.area-row { display: grid; grid-template-columns: 160px 1fr 64px 78px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.area-row { display: grid; grid-template-columns: 160px 1fr 64px 125px; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .area-row:last-of-type { border-bottom: 0; }
 .area-name { font-weight: 700; display: flex; align-items: center; gap: 8px; }
 .area-name i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); flex: none; }
@@ -292,6 +292,11 @@ main { padding: 14px 22px 22px; flex: 1; }
 .diff { font-weight: 800; text-align: right; font-size: .88rem; }
 .diff.up { color: #12804A; }
 .diff.down { color: var(--red); }
+.area-deltas { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.diff-tag { font-weight: 800; font-size: .74rem; text-align: right; border-radius: 4px; padding: 1px 6px; white-space: nowrap; line-height: 1.35; display: inline-flex; align-items: center; gap: 3px; }
+.diff-tag.up { color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; }
+.diff-tag.down { color: #BE123C; background: #FFF1F2; border: 1px solid #FECDD3; }
+.diff-tag.neutral { color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; }
 .note { color: var(--muted); font-size: .82rem; margin: 10px 0 0; }
 
 .insights { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -526,6 +531,24 @@ main { padding: 14px 22px 22px; flex: 1; }
 .action-card h5 { font-size: .92rem; font-weight: 800; color: var(--navy); margin: 0 0 6px; }
 .action-card p { font-size: .82rem; color: #475569; line-height: 1.5; margin: 0; }
 .action-card ul { margin: 6px 0 0; padding-left: 16px; font-size: .82rem; color: #475569; line-height: 1.45; }
+
+/* Rutas Metodológicas Saber 11 - Grupo Edúcate */
+.rutas-container { margin-top: 14px; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); }
+.rutas-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.rutas-header h5 { font-size: 1rem; font-weight: 800; color: var(--navy); margin: 0; display: flex; align-items: center; gap: 8px; }
+.rutas-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.btn-ruta-tab { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: #F8FAFC; font-size: 0.84rem; font-weight: 700; color: var(--navy); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-heading); }
+.btn-ruta-tab:hover { background: #EEF2F6; border-color: #CBD5E1; }
+.btn-ruta-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.28); }
+.ruta-fases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 12px; }
+.ruta-fase-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03); position: relative; border-top: 4px solid var(--ruta-c, #0284C7); display: flex; flex-direction: column; justify-content: space-between; }
+.ruta-fase-card .fase-header { margin-bottom: 8px; }
+.ruta-fase-card h6 { font-size: 0.92rem; font-weight: 800; color: var(--navy); margin: 0 0 2px; display: flex; align-items: center; gap: 6px; }
+.ruta-fase-card .sub-fase { font-size: 0.74rem; font-weight: 700; color: var(--ruta-c, #0284C7); text-transform: uppercase; letter-spacing: 0.04em; }
+.ruta-fase-card .acciones-box { font-size: 0.82rem; color: #334155; line-height: 1.5; margin: 6px 0; }
+.ruta-fase-card .docente-box { font-size: 0.80rem; color: #475569; background: #F8FAFC; border-radius: 8px; padding: 8px 10px; margin-top: 6px; border: 1px dashed #CBD5E1; }
+.ruta-po-box { background: #EFF6FF; border-radius: 8px; padding: 8px 10px; border-left: 3px solid var(--ruta-c, #0284C7); font-size: 0.80rem; color: #1E293B; margin-top: 8px; line-height: 1.45; }
+.ruta-po-box b { color: #0369A1; font-weight: 800; display: block; margin-bottom: 2px; }
 
 /* ===== Impresión ficha y reporte ===== */
 @media print {
