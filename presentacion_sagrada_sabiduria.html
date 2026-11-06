@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evolución Histórica Saber 11° (2024-2026) · Colegio Sagrada Sabiduría | Grupo Edúcate Colombia</title>
+  <meta name="description" content="Presentación interactiva de resultados ICFES Saber 11° (2024 a 2026) para el Colegio Sagrada Sabiduría de Soledad, Atlántico. Preparado por Grupo Edúcate Colombia.">
+  <link rel="icon" href="assets/logos/logo-plata.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="data/evidenciasDCE.js?v=2026.10"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"><\/script>');
+    }
+  </script>
+  <style>
+    /* =========================================================
+       DISEÑO EJECUTIVO, AMENO E INTERACTIVO (GRUPO EDÚCATE)
+       ========================================================= */
+    :root {
+      --bg: #F4F6FA;
+      --card: #FFFFFF;
+      --navy: #182334;
+      --navy-2: #101826;
+      --navy-surface: #1E2B3E;
+      --primary: #0284C7;
+      --primary-light: #E0F2FE;
+      --accent-rose: #FF3B69;
+      --accent-rose-light: #FFE4E6;
+      --sky: #0EA5E9;
+      --cyan: #06B6D4;
+      --emerald: #10B981;
+      --emerald-light: #D1FAE5;
+      --yellow: #F59E0B;
+      --yellow-light: #FEF3C7;
+      --purple: #8B5CF6;
+      --purple-light: #EDE9FE;
+      --text: #1E293B;
+      --muted: #64748B;
+      --muted-light: #94A3B8;
+      --line: #E2E8F0;
+      --line-light: #F1F5F9;
+      --radius: 14px;
+      --radius-sm: 9px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 18px rgba(15, 23, 42, .05), 0 1px 3px rgba(15, 23, 42, .03);
+      --shadow-hover: 0 12px 28px -4px rgba(15, 23, 42, .12), 0 4px 12px -2px rgba(15, 23, 42, .06);
+      --font-title: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-text: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-text);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: clip;
+    }
+
+    h1, h2, h3, h4 { margin: 0; font-family: var(--font-title); }
+
+    /* ===== TOPBAR HEADER FIJO ===== */
+    .top-nav-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg);
+      padding: 12px 0 8px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar {
+      margin: 0 24px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(115deg, #101826 0%, #182334 50%, #1e2b3e 100%);
+      color: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      height: 44px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      border-left: 1px solid rgba(255, 255, 255, 0.18);
+      padding-left: 16px;
+      min-width: 0;
+    }
+
+    .brand-title h1 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge-record {
+      background: var(--accent-rose);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 7px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 8px rgba(255, 59, 105, 0.4);
+    }
+
+    .brand-title p {
+      margin: 2px 0 0;
+      color: #94A3B8;
+      font-size: 0.82rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      font-family: var(--font-text);
+      font-weight: 700;
+      font-size: 0.84rem;
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+      text-decoration: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+    }
+    .btn-primary:hover { background: #0369A1; }
+
+    .btn-rose {
+      background: var(--accent-rose);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(255, 59, 105, 0.35);
+    }
+    .btn-rose:hover { background: #e02854; }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.2); }
+
+    /* ===== TABS DE NAVEGACIÓN ===== */
+    .tabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 24px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .tab {
+      font-family: var(--font-text);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #64748B;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 16px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .tab:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .tab.active {
+      color: #fff;
+      background: var(--navy);
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(24, 35, 52, 0.25);
+    }
+
+    .slide-arrows {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* ===== CONTENEDOR PRINCIPAL ===== */
+    main {
+      padding: 16px 24px 32px;
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .slide-page {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .slide-page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================
+       SISTEMA DE GRIDS MULTI-COLUMNA (CORREGIDO Y RESPONSIVE)
+       ========================================================= */
+    .grid, .grid-2, .grid-3, .grid-4 {
+      display: grid !important;
+      gap: 18px;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
+    .grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
+
+    @media (max-width: 1100px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 900px) {
+      .grid-3 { grid-template-columns: 1fr !important; }
+      .grid-2 { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 600px) {
+      .grid-4 { grid-template-columns: 1fr !important; }
+      .topbar { flex-direction: column; align-items: stretch; margin: 0 12px; }
+      .tabs-bar { padding: 10px 12px 0; }
+      main { padding: 14px 12px; }
+    }
+
+    /* ===== TARJETAS Y CONTENEDORES ===== */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-head {
+      margin-bottom: 14px;
+      padding-left: 12px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-head h2, .card-head h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .card-head p {
+      margin: 3px 0 0;
+      font-size: 0.83rem;
+      color: var(--muted);
+    }
+
+    /* Banner de Encabezado Amigable */
+    .hero-banner {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .hero-text p {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.55;
+      max-width: 920px;
+    }
+
+    /* ===== KPIS ESTILO TARJETA VERTICAL AMENA ===== */
+    .kpi-card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--accent, var(--primary));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: all 0.2s ease;
+      cursor: default;
+    }
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .kpi-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-accent, var(--primary-light));
+      color: var(--accent, var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .kpi-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+
+    .kpi-body {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .kpi-number {
+      font-family: var(--font-title);
+      font-size: 2.35rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .kpi-unit {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .kpi-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.45;
+      padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+
+    /* Badges de variación */
+    .delta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .delta-green { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+    .delta-blue { background: #EFF6FF; color: #0284C7; border: 1px solid #BFDBFE; }
+    .delta-rose { background: #FFF1F2; color: #E11D48; border: 1px solid #FECDD3; }
+
+    /* Tarjetas Interactivas de Territorio */
+    .benchmark-card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      border-left: 4px solid var(--accent, var(--primary));
+      transition: all 0.2s ease;
+    }
+    .benchmark-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .benchmark-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .benchmark-diff {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--accent, var(--primary));
+      line-height: 1;
+    }
+
+    .benchmark-details {
+      font-size: 0.83rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+      border-top: 1px dashed var(--line);
+    }
+
+    /* ===== CHARTS ===== */
+    .chart-box {
+      position: relative;
+      height: 310px;
+      width: 100%;
+    }
+    .chart-box.tall { height: 380px; }
+
+    /* ===== INTERACTIVIDAD EN SLIDE 2: HISTORIA AÑO A AÑO ===== */
+    .year-story-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .year-story-card {
+      background: #F8FAFC;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .year-story-card:hover {
+      border-color: var(--primary);
+      background: #FFFFFF;
+      transform: translateX(4px);
+    }
+    .year-story-card.active {
+      background: #FFFFFF;
+      border-color: var(--accent-year, var(--primary));
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+    }
+    .year-story-card.active::before {
+      content: '';
+      position: absolute;
+      left: -1px; top: -1px; bottom: -1px;
+      width: 5px;
+      border-radius: 12px 0 0 12px;
+      background: var(--accent-year, var(--primary));
+    }
+
+    .year-story-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .year-story-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .year-story-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ===== INTERACTIVIDAD EN SLIDE 3: SELECTOR DE ÁREAS ===== */
+    .area-pills-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .area-pill-btn {
+      font-family: var(--font-text);
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 7px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+    .area-pill-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .area-pill-btn.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(24, 35, 52, 0.25);
+    }
+
+    /* Tarjetas de Áreas en Slide 3 */
+    .area-mini-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      border-top: 4px solid var(--area-color, var(--primary));
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .area-mini-card:hover, .area-mini-card.active {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--area-color, var(--primary));
+      background: #FFFFFF;
+    }
+    .area-mini-card.active {
+      box-shadow: 0 0 0 2px var(--area-color, var(--primary)), var(--shadow-hover);
+    }
+
+    .area-mini-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .area-mini-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .area-mini-val {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .area-mini-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* Panel de detalle de área dinámico */
+    .area-detail-panel {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 16px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary);
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    /* ===== TABLAS Y BARRAS APILADAS ===== */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      margin-top: 14px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .data-table th {
+      background: var(--navy);
+      color: #fff;
+      text-align: left;
+      padding: 11px 14px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      color: var(--text);
+    }
+
+    .data-table tbody tr:nth-child(even) { background: #FAFBFD; }
+    .data-table tbody tr:hover { background: #EEF3FF; }
+    .data-table tbody tr.row-highlight { background: #EFF6FF; font-weight: 700; }
+
+    /* Barras de Niveles */
+    .level-bar-group { margin-top: 14px; }
+    .level-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+
+    .bar-stacked {
+      display: flex;
+      height: 28px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #E2E8F0;
+      border: 1px solid var(--line);
+    }
+
+    .bar-seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: #fff;
+      position: relative;
+      transition: width 0.5s ease;
+    }
+
+    .bg-n1 { background: #EF4444; }
+    .bg-n2 { background: #F59E0B; }
+    .bg-n3 { background: #0284C7; }
+    .bg-n4 { background: #10B981; }
+
+    .bg-aminus { background: #EF4444; }
+    .bg-a1 { background: #F59E0B; }
+    .bg-a2 { background: #6366F1; }
+    .bg-b1 { background: #0284C7; }
+    .bg-aplus { background: #10B981; }
+
+    /* ===== AFIRMACIONES ICFES CON BARRAS COMPARATIVAS (5 ÁREAS) ===== */
+    .grid-afirmaciones {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)) !important;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .afirmacion-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    .afirmacion-card:hover {
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary);
+    }
+
+    .afirmacion-card h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .afirmacion-card p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .afirmacion-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .afirmacion-bar-wrap {
+      flex: 1;
+      height: 10px;
+      background: #E2E8F0;
+      border-radius: 5px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .afirmacion-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    /* ===== SLIDE 6: SIMULADOR INTERACTIVO & 4 FASES ===== */
+    .simulator-box {
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0F9FF 100%);
+      border: 1px solid #BAE6FD;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .sim-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .sim-slider-row input[type=range] {
+      flex: 1;
+      min-width: 220px;
+      accent-color: var(--primary);
+      height: 8px;
+      cursor: pointer;
+    }
+
+    .sim-stat-box {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 18px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      min-width: 140px;
+    }
+
+    .sim-stat-val {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .sim-stat-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* 4 Fases Interactivas */
+    .phase-tab-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .phase-tab-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-hover);
+    }
+    .phase-tab-card.active {
+      border-color: var(--primary);
+      background: #F0F9FF;
+    }
+    .phase-tab-card.active::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      background: var(--primary);
+    }
+
+    .phase-step {
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .phase-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .phase-text {
+      font-size: 0.81rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .phase-tag {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Callout de Compromiso Institucional */
+    .closing-callout {
+      background: linear-gradient(135deg, #FFF1F2 0%, #FFFFFF 100%);
+      border: 1.5px solid #FECDD3;
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .closing-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+
+    .closing-content h4 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #9F1239;
+      margin-bottom: 6px;
+    }
+
+    .closing-content p {
+      font-size: 0.9rem;
+      color: #881337;
+      line-height: 1.55;
+    }
+
+    /* Impresión */
+    @media print {
+      body { background: #fff !important; }
+      .top-nav-sticky, .tabs-bar, .top-actions, .slide-arrows, .area-pills-bar { display: none !important; }
+      .slide-page { display: block !important; page-break-after: always; margin-bottom: 40px; }
+      .card, .hero-banner, .kpi-card, .benchmark-card { box-shadow: none !important; border: 1px solid #CBD5E1 !important; }
+      .chart-box { height: 260px !important; }
+    }
+
+    /* Botones de Áreas con Colores Temáticos cuando están Activos */
+    .area-pill-btn[data-area-code="all"].active { background: var(--navy) !important; border-color: var(--navy) !important; color: #fff !important; }
+    .area-pill-btn[data-area-code="mat"].active { background: #0284C7 !important; border-color: #0284C7 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35) !important; }
+    .area-pill-btn[data-area-code="lec"].active { background: #E11D48 !important; border-color: #E11D48 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35) !important; }
+    .area-pill-btn[data-area-code="nat"].active { background: #10B981 !important; border-color: #10B981 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35) !important; }
+    .area-pill-btn[data-area-code="soc"].active { background: #D97706 !important; border-color: #D97706 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35) !important; }
+    .area-pill-btn[data-area-code="ing"].active { background: #7C3AED !important; border-color: #7C3AED !important; color: #fff !important; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35) !important; }
+
+    /* Banner Pedagógico de Clarificación MCER vs Niveles (Slide 4) */
+    .mcer-clarification-banner {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-left: 5px solid #7C3AED;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mcer-clarification-banner .clarification-badge {
+      align-self: flex-start;
+      background: #EDE9FE;
+      color: #6D28D9;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .mcer-clarification-banner h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+    }
+    .mcer-clarification-banner p {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Estilos Fase 2 DCE (Slide 5) */
+    .dce-pills-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .dce-area-btn {
+      font-family: var(--font-text);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .dce-area-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .dce-area-btn.active {
+      color: #fff !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+    }
+    .dce-area-btn[data-dce="mat"].active { background: #0284C7; border-color: #0284C7; }
+    .dce-area-btn[data-dce="lec"].active { background: #E11D48; border-color: #E11D48; }
+    .dce-area-btn[data-dce="nat"].active { background: #10B981; border-color: #10B981; }
+    .dce-area-btn[data-dce="soc"].active { background: #D97706; border-color: #D97706; }
+    .dce-area-btn[data-dce="ing"].active { background: #7C3AED; border-color: #7C3AED; }
+
+    .dce-btn-score {
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 7px;
+      border-radius: 8px;
+    }
+    .dce-area-btn:not(.active) .dce-btn-score {
+      background: #F1F5F9;
+      color: var(--navy);
+    }
+
+    .dce-summary-box {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .dce-summary-left {
+      flex: 1;
+      min-width: 280px;
+    }
+    .dce-summary-left h3 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .dce-summary-left p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .dce-summary-metrics {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .dce-stat-card {
+      background: #F8FAFC;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 95px;
+    }
+    .dce-stat-card .lbl {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .dce-stat-card .val {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-top: 2px;
+    }
+
+    .dce-legend-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .dce-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .dce-item-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .dce-item-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .dce-item-card.verde { border-left: 5px solid #10B981; }
+    .dce-item-card.amarillo { border-left: 5px solid #F59E0B; }
+    .dce-item-card.naranja { border-left: 5px solid #F97316; }
+
+    .dce-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .dce-badge-pill {
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dce-badge-pill.verde { background: #D1FAE5; color: #047857; }
+    .dce-badge-pill.amarillo { background: #FEF3C7; color: #B45309; }
+    .dce-badge-pill.naranja { background: #FFEDD5; color: #C2410C; }
+
+    .dce-err-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+    .dce-err-tag {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .dce-err-tag.ee { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 800; }
+    .dce-err-tag.comp { background: #F1F5F9; color: #64748B; }
+
+    .dce-afirmacion-row {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .dce-afirmacion-row b { color: var(--navy); }
+
+    .dce-evidencia-row {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.45;
+      background: #F8FAFC;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 12px;
+    }
+
+    .dce-task-box {
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.84rem;
+      color: #14532D;
+      line-height: 1.45;
+    }
+    .dce-task-box b { color: #166534; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOPBAR HEADER FIJO (IDÉNTICO AL DASHBOARD) ===== -->
+  <div class="top-nav-sticky">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <a href="index.html" title="Volver al Dashboard" style="display:flex;align-items:center;text-decoration:none;">
+          <img src="assets/logos/logo-blanco.png" alt="Grupo Edúcate Colombia" class="brand-logo" onerror="this.style.display='none'">
+        </a>
+        <div class="brand-title">
+          <h1>
+            COLEGIO SAGRADA SABIDURIA
+            <span class="badge-record">Récord 2026 · 309 pts</span>
+          </h1>
+          <p>Informe Trienal Oficial Saber 11° (2024 – 2026) · DANE: 308758002793 · Soledad, Atlántico</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <a href="index.html" class="btn btn-ghost" title="Volver al Dashboard General">
+          📊 Ir al Dashboard
+        </a>
+        <button class="btn btn-rose" onclick="window.print()" title="Imprimir informe o guardar como PDF">
+          🖨️ Imprimir / Guardar PDF
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== TABS DE NAVEGACIÓN ===== -->
+    <div class="tabs-bar">
+      <div class="tabs" id="slideTabs">
+        <button class="tab active" data-slide="1">🏆 1. Récord Histórico 2026</button>
+        <button class="tab" data-slide="2">📈 2. Evolución Trienal Global</button>
+        <button class="tab" data-slide="3">📚 3. Desempeño por Áreas</button>
+        <button class="tab" data-slide="4">🎯 4. Niveles y Erradicación N1</button>
+        <button class="tab" data-slide="5">🔬 5. Afirmaciones ICFES</button>
+        <button class="tab" data-slide="6">🚀 6. Estrategia & Reto 2027</button>
+      </div>
+      <div class="slide-arrows">
+        <button class="icon-btn" id="btnPrev" title="Anterior (Flecha Izquierda)">◀</button>
+        <button class="icon-btn" id="btnNext" title="Siguiente (Flecha Derecha)">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENIDO PRINCIPAL ===== -->
+  <main>
+
+    <!-- ==========================================
+         DIAPOSITIVA 1: HITOS Y RÉCORD 2026
+    =========================================== -->
+    <section class="slide-page active" id="slide-1">
+      <div class="hero-banner">
+        <div class="hero-text">
+          <h2>2026: El Año Más Exitoso en la Historia del Colegio Sagrada Sabiduría</h2>
+          <p>
+            En las pruebas oficiales ICFES Saber 11° (Periodo 2026-3), la institución conquistó su <strong>máximo récord histórico de 309 puntos</strong>, superando por <strong>+51 puntos</strong> a Colombia y por <strong>+55 puntos</strong> al municipio de Soledad, con un logro pedagógico sin precedentes: <strong>0% de rezago (Cero estudiantes en Nivel 1)</strong> en las 4 áreas académicas nucleares.
+          </p>
+        </div>
+        <span class="delta-pill delta-blue" style="font-size:0.85rem; padding: 6px 14px;">
+          Alianza Estratégica Grupo Edúcate
+        </span>
+      </div>
+
+      <!-- 4 Hero KPI Cards Dispuestas en 4 Columnas Lado a Lado -->
+      <div class="grid-4">
+        <!-- KPI 1 -->
+        <div class="kpi-card" style="--accent: var(--primary); --bg-accent: var(--primary-light);">
+          <div class="kpi-top">
+            <span class="kpi-tag">Puntaje Global 2026</span>
+            <div class="kpi-icon-badge">🏆</div>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-number">309</span>
+            <span class="kpi-unit">pts</span>
+            <span class="delta-pill delta-green">▲ +6 vs 2025</span>
+          </div>
+          <div class="kpi-desc">
+            Máximo récord histórico del plantel. Supera a Soledad (254 pts) y a la media nacional (258 pts).
+          </div>
+        </div>
+
+        <!-- KPI 2 -->
+        <div class="kpi-card" style="--accent: var(--emerald); --bg-accent: var(--emerald-light);">
+          <div class="kpi-top">
+            <span class="kpi-tag">Rezago Escolar (Nivel 1)</span>
+            <div class="kpi-icon-badge">🛡️</div>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-number" style="color: var(--emerald);">0.0%</span>
+            <span class="delta-pill delta-green">100% Superado</span>
+          </div>
+          <div class="kpi-desc">
+            Cero alumnos en nivel insuficiente en Matemáticas, Lectura, Naturales y Sociales (Colombia llega a 19%).
+          </div>
+        </div>
+
+        <!-- KPI 3 -->
+        <div class="kpi-card" style="--accent: var(--accent-rose); --bg-accent: var(--accent-rose-light);">
+          <div class="kpi-top">
+            <span class="kpi-tag">Lectura Crítica Superior</span>
+            <div class="kpi-icon-badge">📖</div>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-number" style="color: var(--accent-rose);">96%</span>
+            <span class="kpi-unit">N3 + N4</span>
+            <span class="delta-pill delta-rose">39% Nivel 4</span>
+          </div>
+          <div class="kpi-desc">
+            Prácticamente toda la promoción interpreta y evalúa críticamente textos complejos y filosóficos.
+          </div>
+        </div>
+
+        <!-- KPI 4 -->
+        <div class="kpi-card" style="--accent: var(--purple); --bg-accent: var(--purple-light);">
+          <div class="kpi-top">
+            <span class="kpi-tag">Equidad Formativa (&sigma;)</span>
+            <div class="kpi-icon-badge">⚖️</div>
+          </div>
+          <div class="kpi-body">
+            <span class="kpi-number" style="color: var(--purple);">41</span>
+            <span class="kpi-unit">pts desv.</span>
+            <span class="delta-pill delta-blue">▼ -8 vs 2024</span>
+          </div>
+          <div class="kpi-desc">
+            Se redujo la dispersión de 49 a 41 pts. El aprendizaje es homogéneo: la institución avanza unida.
+          </div>
+        </div>
+      </div>
+
+      <!-- Diferencial Territorial en 3 Columnas Lado a Lado -->
+      <div class="grid-3" style="margin-top: 18px;">
+        <div class="benchmark-card" style="--accent: var(--emerald);">
+          <div class="benchmark-label">Frente al Promedio Colombia</div>
+          <div class="benchmark-diff">+51 PUNTOS</div>
+          <div class="benchmark-details">
+            <span>Sagrada Sabiduría: <strong>309 pts</strong></span>
+            <span>Colombia: <strong>258 pts</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-card" style="--accent: var(--primary);">
+          <div class="benchmark-label">Frente a ETC Soledad</div>
+          <div class="benchmark-diff">+55 PUNTOS</div>
+          <div class="benchmark-details">
+            <span>Sagrada Sabiduría: <strong>309 pts</strong></span>
+            <span>Soledad: <strong>254 pts</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-card" style="--accent: var(--yellow);">
+          <div class="benchmark-label">Frente a Colegios Similares (GC-3)</div>
+          <div class="benchmark-diff">+30 PUNTOS</div>
+          <div class="benchmark-details">
+            <span>Sagrada Sabiduría: <strong>309 pts</strong></span>
+            <span>Grupo GC-3: <strong>279 pts</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         DIAPOSITIVA 2: EVOLUCIÓN TRIENAL GLOBAL
+    =========================================== -->
+    <section class="slide-page" id="slide-2">
+      <!-- 2 Columnas Lado a Lado: Gráfica a la Izquierda y Tarjetas Interactivas a la Derecha -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Evolución del Puntaje Global (2024 – 2026)</h3>
+              <p>Trayectoria frente a Colombia, ETC Soledad y Grupo de Comparación</p>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartEvolucionGlobal"></canvas>
+          </div>
+          <div style="display:flex; justify-content:center; gap:8px; margin-top:12px; flex-wrap:wrap;">
+            <button class="area-pill-btn active" id="btnFilterAllLines">Mostrar Todos</button>
+            <button class="area-pill-btn" id="btnFilterSagradaSoledad">Sagrada vs Soledad</button>
+            <button class="area-pill-btn" id="btnFilterSagradaColombia">Sagrada vs Colombia</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Lectura Estratégica Trienal (Haz Clic en Cada Periodo)</h3>
+              <p>Interpretación del comportamiento institucional en los reportes ICFES</p>
+            </div>
+          </div>
+
+          <div class="year-story-group">
+            <div class="year-story-card" data-year="2024" style="--accent-year: var(--primary);">
+              <div class="year-story-head">
+                <span class="year-story-title">📍 2024 · Punto de Partida Fuerte (307 pts)</span>
+                <span class="delta-pill delta-blue">43 Evaluados</span>
+              </div>
+              <p class="year-story-desc">
+                Puntaje inicial sobresaliente pero con alta dispersión interna (&sigma; = 49 pts). Existían brechas notables entre los mejores puntajes y los rezagados.
+              </p>
+            </div>
+
+            <div class="year-story-card" data-year="2025" style="--accent-year: var(--yellow);">
+              <div class="year-story-head">
+                <span class="year-story-title">⚡ 2025 · Cierre de Brechas (&sigma; bajó a 41 pts)</span>
+                <span class="delta-pill delta-blue">47 Evaluados</span>
+              </div>
+              <p class="year-story-desc">
+                Aumentó la matrícula evaluada a 47 alumnos. Aunque el promedio varió levemente (-4 pts, alineado a la caída nacional), se logró unificar el aprendizaje del grupo.
+              </p>
+            </div>
+
+            <div class="year-story-card active" data-year="2026" style="--accent-year: var(--emerald);">
+              <div class="year-story-head">
+                <span class="year-story-title">🚀 2026 · Despegue al Récord Histórico (309 pts)</span>
+                <span class="delta-pill delta-green">23 Evaluados</span>
+              </div>
+              <p class="year-story-desc">
+                Cosecha de la preparación sistemática: mientras Colombia (258) y Soledad (254) retrocedieron, Sagrada Sabiduría <strong>repuntó a 309 pts</strong> erradicando el Nivel 1.
+              </p>
+            </div>
+          </div>
+
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:12px 14px; margin-top:12px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.4rem;">💡</span>
+            <div style="font-size:0.83rem; color:#1E3A8A; line-height:1.4;">
+              <strong>La ventaja competitiva se amplió:</strong> En 2024 la distancia frente a Soledad era de +50 pts; hoy en 2026 creció a <strong>+55 pts</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla Comparativa Trienal Oficial -->
+      
+      <!-- Tabla Comparativa Trienal Oficial (Fase 1: Benchmark Institucional) -->
+      <div class="card" style="margin-top: 18px;">
+        <div class="card-head">
+          <div>
+            <h3>Tabla Oficial de Resultados Trienales ICFES Saber 11° (Fase 1: Benchmark Institucional)</h3>
+            <p>Evolución frente al Grupo de Comparación (GC 3), ETC Soledad y Promedio Colombia</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Periodo ICFES</th>
+                <th style="text-align:center">Evaluados</th>
+                <th style="text-align:center">Global Colegio</th>
+                <th style="text-align:center">Dispersión (&sigma;)</th>
+                <th style="text-align:center">Grupo Comp. (GC 3)</th>
+                <th style="text-align:center">ETC Soledad</th>
+                <th style="text-align:center">Colombia</th>
+                <th style="text-align:center">Brecha vs GC 3</th>
+                <th style="text-align:center">Brecha vs Soledad</th>
+                <th style="text-align:center">Brecha vs Colombia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>2024-3</strong></td>
+                <td style="text-align:center">43 alumnos</td>
+                <td style="text-align:center"><strong style="color: var(--primary);">307 pts</strong></td>
+                <td style="text-align:center">&sigma; = 49 pts</td>
+                <td style="text-align:center">268 pts</td>
+                <td style="text-align:center">257 pts</td>
+                <td style="text-align:center">260 pts</td>
+                <td style="text-align:center;font-weight:800;color:#0284C7">+39 pts</td>
+                <td style="text-align:center;font-weight:800;color:#10B981">+50 pts</td>
+                <td style="text-align:center;font-weight:800;color:#059669">+47 pts</td>
+              </tr>
+              <tr>
+                <td><strong>2025-3</strong></td>
+                <td style="text-align:center">41 alumnos</td>
+                <td style="text-align:center"><strong style="color: var(--yellow);">303 pts</strong></td>
+                <td style="text-align:center">&sigma; = 43 pts</td>
+                <td style="text-align:center">265 pts</td>
+                <td style="text-align:center">257 pts</td>
+                <td style="text-align:center">261 pts</td>
+                <td style="text-align:center;font-weight:800;color:#0284C7">+38 pts</td>
+                <td style="text-align:center;font-weight:800;color:#10B981">+46 pts</td>
+                <td style="text-align:center;font-weight:800;color:#059669">+42 pts</td>
+              </tr>
+              <tr class="row-highlight">
+                <td><strong>2026-3 (Actual)</strong> <span style="background:var(--accent-rose);color:#fff;font-size:0.68rem;padding:2px 6px;border-radius:4px;font-weight:800;margin-left:4px">RÉCORD</span></td>
+                <td style="text-align:center;font-weight:700">23 alumnos</td>
+                <td style="text-align:center"><strong style="color: var(--emerald); font-size: 1.05rem;">309 pts</strong></td>
+                <td style="text-align:center"><span style="background:#D1FAE5;color:#047857;padding:3px 8px;border-radius:6px;font-weight:800">&sigma; = 41 pts</span></td>
+                <td style="text-align:center;font-weight:700">266 pts</td>
+                <td style="text-align:center">254 pts</td>
+                <td style="text-align:center">258 pts</td>
+                <td style="text-align:center;font-weight:800;color:#0284C7;font-size:0.95rem">+43 pts</td>
+                <td style="text-align:center;font-weight:800;color:#10B981;font-size:0.95rem">+55 pts</td>
+                <td style="text-align:center;font-weight:800;color:#059669;font-size:0.95rem">+51 pts</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tarjetas de Diagnóstico Macro Fase 1 -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px; margin-top:16px;">
+          <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:14px 16px; display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-size:1.6rem;">🛡️</span>
+            <div>
+              <strong style="color:#1E3A8A; font-size:0.9rem;">Ventaja Competitiva Territorial en Expansión</strong>
+              <p style="font-size:0.83rem; color:#1E3A8A; line-height:1.45; margin-top:3px;">
+                La brecha frente a Soledad creció de <strong>+50 pts en 2024</strong> a <strong>+55 pts en 2026</strong>. Frente a su grupo de comparación socioeconómico (GC 3), el colegio saca una ventaja de <strong>+43 pts</strong>, confirmando su liderazgo académico en la región.
+              </p>
+            </div>
+          </div>
+          <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:12px; padding:14px 16px; display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-size:1.6rem;">📈</span>
+            <div>
+              <strong style="color:#065F46; font-size:0.9rem;">Consolidación de la Cohesión Escolar (&sigma;)</strong>
+              <p style="font-size:0.83rem; color:#065F46; line-height:1.45; margin-top:3px;">
+                La desviación estándar se redujo en 8 puntos (<strong>&sigma; = 49 &rarr; 43 &rarr; 41 pts</strong>). Esto certifica que la cohorte avanzó en bloque compacto, reduciendo al mínimo la desigualdad interna de aprendizajes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         DIAPOSITIVA 3: DESEMPEÑO POR ÁREAS (INTERACTIVA)
+    =========================================== -->
+    <section class="slide-page" id="slide-3">
+      <!-- Selector de Áreas Interactivo que FILTRA las gráficas -->
+      <div class="area-pills-bar">
+        <span style="font-size:0.83rem; font-weight:800; color:var(--navy); margin-right:4px;">🎯 Filtrar Gráficas:</span>
+        <button class="area-pill-btn active" data-area-code="all">🌐 Todas las Áreas</button>
+        <button class="area-pill-btn" data-area-code="mat">📐 Matemáticas (59 pts)</button>
+        <button class="area-pill-btn" data-area-code="lec">📖 Lectura Crítica (64 pts)</button>
+        <button class="area-pill-btn" data-area-code="nat">🔬 Ciencias Naturales (62 pts)</button>
+        <button class="area-pill-btn" data-area-code="soc">🏛️ Sociales y Ciudadanas (60 pts)</button>
+        <button class="area-pill-btn" data-area-code="ing">🇬🇧 Inglés (69 pts)</button>
+      </div>
+
+      <!-- 2 Columnas Lado a Lado: Barras por Año y Radar de Equilibrio -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 id="areaChartTitle">Comportamiento Trienal por Área (2024 – 2026)</h3>
+              <p id="areaChartSubtitle">Comparación de promedios anuales en las pruebas oficiales</p>
+            </div>
+            <button class="btn btn-ghost" id="btnResetAreaFilter" style="display:none; color:var(--primary); font-size:0.78rem; padding:4px 8px; border-color:var(--line);">↺ Ver todas</button>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartAreasTrienal"></canvas>
+          </div>
+        </div>
+
+        <div class="card" id="cardRadarWrap">
+          <div class="card-head">
+            <div>
+              <h3 id="radarTitle">Radar de Simetría Curricular (2026)</h3>
+              <p id="radarSubtitle">Equilibrio formativo de Sagrada Sabiduría frente a la media nacional</p>
+            </div>
+          </div>
+          <div class="chart-box" id="radarBox">
+            <canvas id="chartRadarAreas"></canvas>
+          </div>
+          <!-- Ficha de Diagnóstico que se muestra al filtrar un área -->
+          <div id="areaDetailBox" style="display:none; padding:10px 0;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;">
+              <span id="detailAreaName" style="font-size:1.15rem; font-weight:900; color:var(--navy);">Matemáticas</span>
+              <span id="detailAreaBadge" class="delta-pill delta-blue">+7 vs Colombia</span>
+            </div>
+            <p id="detailAreaDiag" style="font-size:0.86rem; color:var(--text); line-height:1.5; margin-bottom:12px;">
+              Diagnóstico del área...
+            </p>
+            <div style="background:#F8FAFC; border:1px solid var(--line); border-radius:10px; padding:10px 14px; font-size:0.8rem; color:var(--muted); margin-bottom:14px;">
+              <strong>Distribución 2026:</strong> <span id="detailAreaLevels">0% Nivel 1 · 26% Nivel 2 · 57% Nivel 3 · 17% Nivel 4</span>
+            </div>
+            <button class="btn btn-primary" id="btnGoDCEArea" style="width:100%; justify-content:center; font-size:0.84rem; font-weight:700;">
+              🔬 Auditar Evidencias y Tareas de Aula en Diapositiva 5 ➔
+            </button>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Tarjetas Interactivas de las 5 Áreas en 5 Columnas (También filtran al hacer clic) -->
+      <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:12px; margin-top:18px;" id="areaCardsGrid">
+        <!-- Inglés -->
+        <div class="area-mini-card" data-area-code="ing" style="--area-color: var(--purple);">
+          <div class="area-mini-head">
+            <span class="area-mini-title">🇬🇧 Inglés</span>
+            <span class="delta-pill delta-green">+17 vs COL</span>
+          </div>
+          <div class="area-mini-val" style="color: var(--purple);">69 <span style="font-size:0.85rem; color:var(--muted);">pts</span></div>
+          <div class="area-mini-desc"><strong>Puntaje más alto.</strong> 61% en niveles B1 y B+. Referente del colegio.</div>
+        </div>
+
+        <!-- Lectura Crítica -->
+        <div class="area-mini-card" data-area-code="lec" style="--area-color: var(--accent-rose);">
+          <div class="area-mini-head">
+            <span class="area-mini-title">📖 Lectura</span>
+            <span class="delta-pill delta-green">+10 vs COL</span>
+          </div>
+          <div class="area-mini-val" style="color: var(--accent-rose);">64 <span style="font-size:0.85rem; color:var(--muted);">pts</span></div>
+          <div class="area-mini-desc"><strong>Madurez lectora.</strong> 96% en Niveles 3 y 4. Base para todas las áreas.</div>
+        </div>
+
+        <!-- Ciencias Naturales -->
+        <div class="area-mini-card" data-area-code="nat" style="--area-color: var(--emerald);">
+          <div class="area-mini-head">
+            <span class="area-mini-title">🔬 Ciencias</span>
+            <span class="delta-pill delta-green">+12 vs COL</span>
+          </div>
+          <div class="area-mini-val" style="color: var(--emerald);">62 <span style="font-size:0.85rem; color:var(--muted);">pts</span></div>
+          <div class="area-mini-desc"><strong>Crecimiento continuo</strong> durante 3 años seguidos (59 ➔ 60 ➔ 62 pts).</div>
+        </div>
+
+        <!-- Sociales y Ciudadanas -->
+        <div class="area-mini-card" data-area-code="soc" style="--area-color: var(--yellow);">
+          <div class="area-mini-head">
+            <span class="area-mini-title">🏛️ Sociales</span>
+            <span class="delta-pill delta-green">+11 vs COL</span>
+          </div>
+          <div class="area-mini-val" style="color: var(--yellow);">60 <span style="font-size:0.85rem; color:var(--muted);">pts</span></div>
+          <div class="area-mini-desc"><strong>Ascenso sólido</strong> (57 ➔ 59 ➔ 60 pts). 65% en niveles 3 y 4.</div>
+        </div>
+
+        <!-- Matemáticas (Palanca de Crecimiento) -->
+        <div class="area-mini-card" data-area-code="mat" style="--area-color: var(--primary); background: #F0F9FF; border-color:#BAE6FD;">
+          <div class="area-mini-head">
+            <span class="area-mini-title">📐 Matemáticas</span>
+            <span class="delta-pill delta-blue">Oportunidad</span>
+          </div>
+          <div class="area-mini-val" style="color: var(--primary);">59 <span style="font-size:0.85rem; color:var(--muted);">pts</span></div>
+          <div class="area-mini-desc"><strong>La palanca 2027:</strong> 0% en N1 y 26% en N2 listo para subir a N3.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         DIAPOSITIVA 4: NIVELES Y ERRADICACIÓN N1
+    =========================================== -->
+    <section class="slide-page" id="slide-4">
+      <div class="hero-banner" style="border-top-color: var(--emerald);">
+        <div class="hero-text">
+          <h2>Erradicación del Rezago Escolar: 0.0% en Nivel 1 (Áreas Académicas)</h2>
+          <p>
+            En las cuatro áreas académicas fundamentales (<strong>Matemáticas, Lectura Crítica, Ciencias Naturales y Sociales y Ciudadanas</strong>), 
+            <strong>el 100% de los estudiantes superó el Nivel 1</strong> (mientras que en Colombia hasta el 19% queda en insuficiencia). 
+            En Inglés, evaluado bajo el Marco Común Europeo (MCER), únicamente 1 estudiante (4%) se ubicó en A-, y el <strong>61% alcanzó niveles avanzados B1 y B+</strong>.
+          </p>
+        </div>
+        <span class="delta-pill delta-green" style="font-size:0.85rem; padding: 6px 14px;">
+          Logro Excepcional
+        </span>
+      </div>
+
+      <!-- 2 Columnas Lado a Lado: Barras Apiladas y Gráfico de Rezago vs Colombia -->
+      <div class="grid-2">
+        <!-- Niveles en Sagrada Sabiduría 2026 -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Distribución de Niveles · Sagrada Sabiduría 2026</h3>
+              <p>Porcentaje de estudiantes en Nivel 1, Nivel 2, Nivel 3 y Nivel 4</p>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:4px;">
+            <!-- Lectura Crítica -->
+            <div class="level-bar-group">
+              <div class="level-label-row">
+                <span>Lectura Crítica (96% en N3 y N4)</span>
+                <span style="color: var(--emerald);">0% N1 · 4% N2 · 57% N3 · 39% N4</span>
+              </div>
+              <div class="bar-stacked">
+                <div class="bar-seg bg-n2" style="width: 4%;">4%</div>
+                <div class="bar-seg bg-n3" style="width: 57%;">57% N3</div>
+                <div class="bar-seg bg-n4" style="width: 39%;">39% N4</div>
+              </div>
+            </div>
+
+            <!-- Ciencias Naturales -->
+            <div class="level-bar-group">
+              <div class="level-label-row">
+                <span>Ciencias Naturales (78% en N3 y N4)</span>
+                <span style="color: var(--emerald);">0% N1 · 22% N2 · 61% N3 · 17% N4</span>
+              </div>
+              <div class="bar-stacked">
+                <div class="bar-seg bg-n2" style="width: 22%;">22% N2</div>
+                <div class="bar-seg bg-n3" style="width: 61%;">61% N3</div>
+                <div class="bar-seg bg-n4" style="width: 17%;">17% N4</div>
+              </div>
+            </div>
+
+            <!-- Matemáticas -->
+            <div class="level-bar-group">
+              <div class="level-label-row">
+                <span>Matemáticas (74% en N3 y N4)</span>
+                <span style="color: var(--primary);">0% N1 · 26% N2 · 57% N3 · 17% N4</span>
+              </div>
+              <div class="bar-stacked">
+                <div class="bar-seg bg-n2" style="width: 26%;">26% N2</div>
+                <div class="bar-seg bg-n3" style="width: 57%;">57% N3</div>
+                <div class="bar-seg bg-n4" style="width: 17%;">17% N4</div>
+              </div>
+            </div>
+
+            <!-- Sociales y Ciudadanas -->
+            <div class="level-bar-group">
+              <div class="level-label-row">
+                <span>Sociales y Ciudadanas (65% en N3 y N4)</span>
+                <span style="color: var(--emerald);">0% N1 · 35% N2 · 48% N3 · 17% N4</span>
+              </div>
+              <div class="bar-stacked">
+                <div class="bar-seg bg-n2" style="width: 35%;">35% N2</div>
+                <div class="bar-seg bg-n3" style="width: 48%;">48% N3</div>
+                <div class="bar-seg bg-n4" style="width: 17%;">17% N4</div>
+              </div>
+            </div>
+
+            <!-- Inglés (MCER) -->
+            <div class="level-bar-group" style="padding-top:4px; border-top: 1px dashed var(--line);">
+              <div class="level-label-row">
+                <span>Inglés · Escala Marco Común Europeo (61% B1 y B+)</span>
+                <span style="color: var(--purple);">Solo 1 alumno en A- (4%) · 61% Avanzado</span>
+              </div>
+              <div class="bar-stacked">
+                <div class="bar-seg" style="width: 4%; background:#94A3B8;" title="A- (Principiante): Solo 1 estudiante de 23">4% A-</div>
+                <div class="bar-seg bg-a1" style="width: 9%;">9% A1</div>
+                <div class="bar-seg bg-a2" style="width: 26%;">26% A2</div>
+                <div class="bar-seg bg-b1" style="width: 48%;">48% B1</div>
+                <div class="bar-seg bg-aplus" style="width: 13%;">13% B+</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leyenda de colores -->
+          <div style="display:flex; justify-content:center; gap:16px; margin-top:14px; font-size:0.78rem; color:var(--muted); flex-wrap:wrap;">
+            <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#EF4444;"></span> N1 / A- (Inicial)</span>
+            <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#F59E0B;"></span> N2 / A1 (Básico)</span>
+            <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#0284C7;"></span> N3 / B1 (Medio)</span>
+            <span><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10B981;"></span> N4 / B+ (Avanzado)</span>
+          </div>
+
+          <!-- Aclaración Técnica para el Rector -->
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:10px; padding:12px 14px; margin-top:14px; display:flex; align-items:flex-start; gap:10px;">
+            <span style="font-size:1.4rem; line-height:1;">💡</span>
+            <div style="font-size:0.81rem; color:#14532D; line-height:1.45;">
+              <strong>¿Por qué Inglés muestra 4% en A-?</strong><br>
+              A diferencia de las 4 áreas académicas (escala 1 a 4 con 0% en N1), Inglés usa la escala internacional MCER (A-, A1, A2, B1, B+). 
+              De los 23 alumnos, <strong>únicamente 1 estudiante</strong> obtuvo A-, mientras que el <strong>61% alcanzó el nivel profesional B1 y B+</strong>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparativa del Rezago: Sagrada vs Colombia -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Comparativa de Rezago: % en Nivel 1 (Insuficiencia)</h3>
+              <p>Porcentaje de alumnos en Nivel 1 en Colombia vs Sagrada Sabiduría (2026)</p>
+            </div>
+          </div>
+          <div class="chart-box">
+            <canvas id="chartComparativaRezago"></canvas>
+          </div>
+          <div style="background:#ECFDF5; border:1px solid #A7F3D0; border-radius:10px; padding:12px 14px; margin-top:14px; display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.5rem;">🛡️</span>
+            <div style="font-size:0.83rem; color:#065F46; line-height:1.45;">
+              <strong>Garantía de Ingreso a la Universidad:</strong> El 100% de los estudiantes evaluados adquirió las competencias cognitivas requeridas para ingresar con éxito a la educación superior sin requerir nivelación básica.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         DIAPOSITIVA 5: AFIRMACIONES ICFES (5 ÁREAS)
+    =========================================== -->
+        <section class="slide-page" id="slide-5">
+      <div class="card" style="margin-bottom:18px;">
+        <div class="card-head">
+          <div>
+            <h2>🔬 FASE 2: Radiografía por Áreas DCE y Tareas de Aula para Grado 10°</h2>
+            <p>Diseño Centrado en Evidencias oficial del ICFES: Afirmaciones, Evidencias evaluadas, Semáforo de Error y Tareas Concretas para 10° (Meta 2027)</p>
+          </div>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 4px;">
+          Selecciona una de las <strong>5 áreas evaluadas</strong> para auditar sus Afirmaciones oficiales, el porcentaje de respuestas incorrectas frente a Soledad y Colombia, y la <strong>Tarea Pedagógica de Aula inmediata para Grado 10°</strong> (clave para consolidar la meta institucional hacia 2027 sin sobrecargar a los docentes).
+        </p>
+      </div>
+
+      <!-- Pestañas de Selección de Área DCE (Las 5 Áreas Oficiales) -->
+      <div class="dce-pills-bar" id="dcePillsBar">
+        <button class="dce-area-btn active" data-dce="mat">📐 Matemáticas <span class="dce-btn-score">59 pts</span></button>
+        <button class="dce-area-btn" data-dce="lec">📖 Lectura Crítica <span class="dce-btn-score">64 pts</span></button>
+        <button class="dce-area-btn" data-dce="nat">🔬 Ciencias Naturales <span class="dce-btn-score">62 pts</span></button>
+        <button class="dce-area-btn" data-dce="soc">🏛️ Sociales y Ciudadanas <span class="dce-btn-score">60 pts</span></button>
+        <button class="dce-area-btn" data-dce="ing">🇬🇧 Inglés (MCER) <span class="dce-btn-score">69 pts</span></button>
+      </div>
+
+      <!-- Ficha Resumen Dinámica del Área DCE -->
+      <div class="dce-summary-box" id="dceSummaryBox">
+        <div class="dce-summary-left">
+          <h3 id="dceSummaryTitle">📐 Matemáticas · Desempeño y Oportunidad 2027</h3>
+          <p id="dceSummaryDiag">
+            Área de máxima oportunidad de crecimiento institucional hacia 2027. Aunque supera al promedio nacional (52) y a la ETC Soledad (51), la concentración de respuestas en alerta naranja ofrece la palanca perfecta para ganar entre 8 y 12 puntos globales adicionales.
+          </p>
+        </div>
+        <div class="dce-summary-metrics">
+          <div class="dce-stat-card">
+            <div class="lbl">Promedio 2026</div>
+            <div class="val" id="dceStatScore" style="color:#0284C7;">59 pts</div>
+          </div>
+          <div class="dce-stat-card">
+            <div class="lbl">Dispersión</div>
+            <div class="val" id="dceStatSigma">&sigma; = 11</div>
+          </div>
+          <div class="dce-stat-card">
+            <div class="lbl">vs Colombia</div>
+            <div class="val" id="dceStatCol" style="color:#10B981;">+7 pts</div>
+          </div>
+          <div class="dce-stat-card">
+            <div class="lbl">vs Soledad</div>
+            <div class="val" id="dceStatSol" style="color:#10B981;">+8 pts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Convenciones del Semáforo -->
+      <div class="dce-legend-bar">
+        <span style="color:var(--navy); font-weight:800;">Semáforo Oficial de Error ICFES:</span>
+        <span>🟢 Fortaleza (&le; 25% error)</span>
+        <span>🟡 En Consolidación (26% – 40% error)</span>
+        <span>🟠 Alerta Prioritaria (&gt; 40% error)</span>
+      </div>
+
+      <!-- Contenedor Dinámico de Evidencias y Tareas de Aula -->
+      <div class="dce-cards-grid" id="dceCardsGrid">
+        <!-- Renderizado por JavaScript -->
+      </div>
+    </section>
+
+
+    <!-- ==========================================
+         DIAPOSITIVA 6: ESTRATEGIA Y RETO 2027
+    =========================================== -->
+    <section class="slide-page" id="slide-6">
+      <!-- Simulador Interactivo de Crecimiento -->
+      <div class="simulator-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h2 style="font-size:1.3rem; font-weight:900; color:var(--navy);">Simulador de Crecimiento 2027: Rompiendo la Barrera de los 320 Puntos</h2>
+            <p style="font-size:0.88rem; color:var(--muted); margin-top:2px;">
+              Mueve el control para simular la migración de estudiantes de Nivel 2 a Nivel 3 en Matemáticas con el método Edúcate:
+            </p>
+          </div>
+          <span class="delta-pill delta-blue" style="font-size:0.82rem; padding:5px 12px;">Objetivo 2027</span>
+        </div>
+
+        <div class="sim-slider-row">
+          <div style="font-size:0.88rem; font-weight:800; color:var(--navy); min-width:180px;">
+            Alumnos migrados a N3/N4: <span id="simAlumnosLabel" style="color:var(--primary); font-size:1.1rem;">6</span>
+          </div>
+          <input type="range" id="simSlider" min="0" max="6" value="6" step="1">
+          <div style="display:flex; gap:12px;">
+            <div class="sim-stat-box">
+              <div class="sim-stat-val" id="simMatVal">68 pts</div>
+              <div class="sim-stat-label">Prom. Matemáticas</div>
+            </div>
+            <div class="sim-stat-box" style="border-color:#A7F3D0; background:#F0FDF4;">
+              <div class="sim-stat-val" id="simGlobalVal" style="color:var(--emerald);">322 pts</div>
+              <div class="sim-stat-label">Puntaje Global Proyectado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Las 4 Fases Metodológicas de Edúcate Dispuestas en 4 Columnas Lado a Lado -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>La Metodología Oficial de Grupo Edúcate Colombia: 4 Fases del Razonamiento</h3>
+            <p>El estándar pedagógico que aplicamos para convertir alumnos de Nivel 2 en Nivel 3 y 4</p>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-top:8px;">
+          <!-- Fase 1 -->
+          <div class="phase-tab-card active" data-phase="1">
+            <div class="phase-step">Fase 1</div>
+            <div class="phase-name">Deconstrucción del Enunciado</div>
+            <div class="phase-text">
+              Extracción rigurosa de datos numéricos y aislamiento de la incógnita real, descartando distractores contextuales.
+            </div>
+            <div class="phase-tag">Protocolo PO-01: Subrayado técnico</div>
+          </div>
+
+          <!-- Fase 2 -->
+          <div class="phase-tab-card" data-phase="2">
+            <div class="phase-step">Fase 2</div>
+            <div class="phase-name">Modelación y Traducción</div>
+            <div class="phase-text">
+              Traducción del problema al lenguaje matemático formal: ecuaciones, proporciones directas/inversas y funciones.
+            </div>
+            <div class="phase-tag">Protocolo PO-02: Planteamiento visual</div>
+          </div>
+
+          <!-- Fase 3 -->
+          <div class="phase-tab-card" data-phase="3">
+            <div class="phase-step">Fase 3</div>
+            <div class="phase-name">Ejecución y Cálculo Ágil</div>
+            <div class="phase-text">
+              Entrenamiento de cálculo manual sin calculadora, simplificando fracciones previas a multiplicar para evitar errores.
+            </div>
+            <div class="phase-tag">Protocolo PO-03: Optimización de tiempo</div>
+          </div>
+
+          <!-- Fase 4 -->
+          <div class="phase-tab-card" data-phase="4">
+            <div class="phase-step">Fase 4</div>
+            <div class="phase-name">Descarte Crítico de Opciones</div>
+            <div class="phase-text">
+              Análisis y descarte de las 3 opciones distractoras típicas del ICFES y validación dimensional de la respuesta.
+            </div>
+            <div class="phase-tag">Protocolo PO-04: Contraste de magnitud</div>
+          </div>
+        </div>
+
+        <!-- Cierre de Compromiso Institucional -->
+        <div class="closing-callout">
+          <div class="closing-icon">🤝</div>
+          <div class="closing-content">
+            <h4>¿Por Qué Continuar con Grupo Edúcate Colombia en 2027?</h4>
+            <p>
+              Los resultados oficiales del ICFES lo ratifican: <strong>la alianza entre el Colegio Sagrada Sabiduría y Grupo Edúcate Colombia funciona con precisión milimétrica</strong>.
+              Interrumpir el proceso significaría arriesgar la disciplina metodológica y la curva ascendente que hoy pone al colegio como referente de Soledad.
+              Continuar juntos garantiza proteger los logros alcanzados y conquistar con seguridad matemática la meta de los <strong>320 puntos</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== SCRIPT DE LÓGICA Y GRÁFICOS ===== -->
+  <script>
+    // Navegación de Diapositivas
+    let currentSlide = 1;
+    const totalSlides = 6;
+    const tabButtons = document.querySelectorAll('#slideTabs .tab');
+    const slidePages = document.querySelectorAll('.slide-page');
+
+    function goToSlide(num) {
+      if (num < 1) num = 1;
+      if (num > totalSlides) num = totalSlides;
+      currentSlide = num;
+
+      tabButtons.forEach(btn => {
+        const s = parseInt(btn.dataset.slide, 10);
+        btn.classList.toggle('active', s === currentSlide);
+      });
+
+      slidePages.forEach((page, idx) => {
+        page.classList.toggle('active', (idx + 1) === currentSlide);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        goToSlide(parseInt(btn.dataset.slide, 10));
+      });
+    });
+
+    document.getElementById('btnPrev').addEventListener('click', () => goToSlide(currentSlide - 1));
+    document.getElementById('btnNext').addEventListener('click', () => goToSlide(currentSlide + 1));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        goToSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        goToSlide(currentSlide - 1);
+      }
+    });
+
+    // ===== DATOS DETALLADOS DE LAS 5 ÁREAS PARA FILTRADO INTERACTIVO =====
+    const AREA_DATA = {
+      all: {
+        title: 'Comportamiento Trienal por Área (2024 – 2026)',
+        subtitle: 'Comparación de promedios anuales en las pruebas oficiales',
+        labels: ['Matemáticas', 'Lectura Crítica', 'C. Naturales', 'Sociales', 'Inglés'],
+        datasets: [
+          { label: '2024', data: [63, 64, 59, 57, 68], backgroundColor: '#94A3B8', borderRadius: 5 },
+          { label: '2025', data: [60, 62, 60, 59, 66], backgroundColor: '#F59E0B', borderRadius: 5 },
+          { label: '2026', data: [59, 64, 62, 60, 69], backgroundColor: '#0284C7', borderRadius: 5 }
+        ]
+      },
+      mat: {
+        name: 'Matemáticas',
+        icon: '📐',
+        score2026: 59,
+        diffCol: '+7 vs COL',
+        color: '#0284C7',
+        diag: 'La gran palanca de crecimiento para 2027. Erradicado el Nivel 1 (0%), el 26% de alumnos en Nivel 2 concentra la oportunidad para ganar de 8 a 12 puntos globales mediante las tareas de aula de formulación y ejecución.',
+        levels: '0% Nivel 1 · 26% Nivel 2 · 57% Nivel 3 · 17% Nivel 4',
+        labels: ['2024', '2025', '2026 (Récord)', 'Colombia', 'Soledad', 'GC-3'],
+        data: [63, 60, 59, 52, 51, 53],
+        colors: ['#94A3B8', '#F59E0B', '#0284C7', '#64748B', '#FF3B69', '#F97316']
+      },
+      lec: {
+        name: 'Lectura Crítica',
+        icon: '📖',
+        score2026: 64,
+        diffCol: '+10 vs COL',
+        color: '#E11D48',
+        diag: 'Extraordinaria madurez lectora y argumentativa. El 96% de la promoción se concentra en los Niveles 3 y 4 (con 39% en Nivel 4 Superior). Representa la columna vertebral cognitiva que impulsa el rendimiento en las demás pruebas.',
+        levels: '0% Nivel 1 · 4% Nivel 2 · 57% Nivel 3 · 39% Nivel 4',
+        labels: ['2024', '2025', '2026 (Récord)', 'Colombia', 'Soledad', 'GC-3'],
+        data: [64, 62, 64, 54, 52, 55],
+        colors: ['#94A3B8', '#F59E0B', '#E11D48', '#64748B', '#FF3B69', '#F97316']
+      },
+      nat: {
+        name: 'Ciencias Naturales',
+        icon: '🔬',
+        score2026: 62,
+        diffCol: '+12 vs COL',
+        color: '#10B981',
+        diag: 'Crecimiento sostenido durante los tres años consecutivos (59 ➔ 60 ➔ 62 pts). El 78% de los estudiantes se ubica en niveles 3 y 4. Fuerte dominio biológico y oportunidad de consolidación en indagación física.',
+        levels: '0% Nivel 1 · 22% Nivel 2 · 61% Nivel 3 · 17% Nivel 4',
+        labels: ['2024', '2025', '2026 (Récord)', 'Colombia', 'Soledad', 'GC-3'],
+        data: [59, 60, 62, 50, 48, 53],
+        colors: ['#94A3B8', '#F59E0B', '#10B981', '#64748B', '#FF3B69', '#F97316']
+      },
+      soc: {
+        name: 'Sociales y Ciudadanas',
+        icon: '🏛️',
+        score2026: 60,
+        diffCol: '+11 vs COL',
+        color: '#D97706',
+        diag: 'Ascenso constante durante el trienio (57 ➔ 59 ➔ 60 pts). Erradicación total del Nivel 1 y 65% en niveles 3 y 4. Fortalezas notables en multiperspectivismo y pensamiento reflexivo sistémico.',
+        levels: '0% Nivel 1 · 35% Nivel 2 · 48% Nivel 3 · 17% Nivel 4',
+        labels: ['2024', '2025', '2026 (Récord)', 'Colombia', 'Soledad', 'GC-3'],
+        data: [57, 59, 60, 49, 47, 51],
+        colors: ['#94A3B8', '#F59E0B', '#D97706', '#64748B', '#FF3B69', '#F97316']
+      },
+      ing: {
+        name: 'Inglés',
+        icon: '🇬🇧',
+        score2026: 69,
+        diffCol: '+17 vs COL',
+        color: '#7C3AED',
+        diag: 'Puntaje insignia del colegio (69 pts). El 61% de la promoción egresó en niveles independientes B1 y B+ del Marco Común Europeo, superando por +17 puntos el promedio nacional. Solo 1 alumno en A-.',
+        levels: 'Solo 1 alumno (4%) en A- · 35% en A1/A2 · 61% en B1/B+',
+        labels: ['2024', '2025', '2026 (Récord)', 'Colombia', 'Soledad', 'GC-3'],
+        data: [68, 66, 69, 52, 49, 56],
+        colors: ['#94A3B8', '#F59E0B', '#7C3AED', '#64748B', '#FF3B69', '#F97316']
+      }
+    };
+
+    
+    // ===== BASE DE DATOS DCE Y TAREAS DE AULA GRADO 10° =====
+    const DCE_SAGRADA = {
+  "mat": {
+    "nombre": "Matemáticas",
+    "icono": "📐",
+    "color": "#0284C7",
+    "promedio2026": 59,
+    "desv2026": 11,
+    "comparativo": {
+      "col": 52,
+      "etc": 51,
+      "gc": 53
+    },
+    "niveles": {
+      "n1": 0,
+      "n2": 26,
+      "n3": 57,
+      "n4": 17
+    },
+    "diagnosticoArea": "Área de máxima oportunidad de crecimiento institucional hacia 2027. Aunque supera al promedio nacional (52) y a la ETC Soledad (51), la concentración de respuestas en alerta naranja ofrece la palanca perfecta para ganar entre 8 y 12 puntos globales adicionales.",
+    "evidencias": [
+      {
+        "aprendizaje": "Frente a un problema que involucre información cuantitativa, plantea e implementa estrategias que lleven a soluciones adecuadas.",
+        "competencia": "Formulación y Ejecución",
+        "ee_error": 54,
+        "col_error": 65,
+        "etc_error": 66,
+        "color": "naranja",
+        "estado": "Oportunidad Prioritaria (Naranja)",
+        "tareaCognitiva": "Traducir problemas del lenguaje verbal al lenguaje matemático formal: modelar restricciones simultáneas, plantear ecuaciones, proporcionalidad y optimización.",
+        "accionAula10": "Descomponer el enunciado en variables explícitas e incógnitas antes de operar mecánicamente. Ejercitar el modelado de ecuaciones y razones de cambio sin calculadora."
+      },
+      {
+        "aprendizaje": "Comprende y transforma la información cuantitativa y esquemática presentada en distintos formatos.",
+        "competencia": "Interpretación y Representación",
+        "ee_error": 43,
+        "col_error": 57,
+        "etc_error": 59,
+        "color": "naranja",
+        "estado": "Atención Focalizada (Naranja)",
+        "tareaCognitiva": "Extraer e interrelacionar datos desde tablas bidimensionales, diagramas de dispersión, histogramas y polígonos de frecuencia hacia modelos analíticos.",
+        "accionAula10": "Talleres continuos de lectura gráfica y conversión entre representaciones tabulares, gráficas y algebraicas."
+      },
+      {
+        "aprendizaje": "Valida procedimientos y estrategias matemáticas utilizadas para dar solución a problemas.",
+        "competencia": "Argumentación",
+        "ee_error": 44,
+        "col_error": 56,
+        "etc_error": 58,
+        "color": "naranja",
+        "estado": "Atención Focalizada (Naranja)",
+        "tareaCognitiva": "Juzgar la validez de un procedimiento algorítmico, detectar inconsistencias dimensionales y formular contraejemplos matemáticos.",
+        "accionAula10": "Pedagogía del error: exponer a los estudiantes a procedimientos resueltos con fallas típicas para que identifiquen y justifiquen por qué los distractores de la prueba son trampas."
+      }
+    ]
+  },
+  "lec": {
+    "nombre": "Lectura Crítica",
+    "icono": "📖",
+    "color": "#E11D48",
+    "promedio2026": 64,
+    "desv2026": 7,
+    "comparativo": {
+      "col": 53,
+      "etc": 53,
+      "gc": 55
+    },
+    "niveles": {
+      "n1": 0,
+      "n2": 4,
+      "n3": 57,
+      "n4": 39
+    },
+    "diagnosticoArea": "Desempeño sobresaliente y pilar formativo del colegio. El 96% de los alumnos se ubica en los niveles 3 y 4 de dominio lector, con una desviación extremadamente baja (σ = 7 pts), demostrando madurez analítica generalizada.",
+    "evidencias": [
+      {
+        "aprendizaje": "Identifica y entiende los contenidos locales que conforman un texto.",
+        "competencia": "Identificar y entender contenidos locales",
+        "ee_error": 16,
+        "col_error": 29,
+        "etc_error": 30,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Localizar información explícita, identificar el significado de palabras en contexto pragmático y reconocer relaciones semánticas locales.",
+        "accionAula10": "Mantener la práctica de lectura comprensiva y enriquecimiento de vocabulario académico interdisciplinar."
+      },
+      {
+        "aprendizaje": "Comprende cómo se articulan las partes de un texto para darle un sentido global.",
+        "competencia": "Comprender la articulación global",
+        "ee_error": 27,
+        "col_error": 47,
+        "etc_error": 47,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Identificar la estructura de un texto, la tesis principal, los argumentos de soporte y la progresión temática entre párrafos.",
+        "accionAula10": "Mapas de estructura argumentativa y deconstrucción de ensayos y artículos de divulgación científica."
+      },
+      {
+        "aprendizaje": "Reflexiona a partir de un texto y evalúa su contenido.",
+        "competencia": "Reflexión y Evaluación",
+        "ee_error": 32,
+        "col_error": 49,
+        "etc_error": 49,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Juzgar la validez y solidez de los argumentos, reconocer supuestos ideológicos, intenciones ocultas, tono y sesgos del autor.",
+        "accionAula10": "Debates intertextuales sobre textos filosóficos y columnas de opinión de alta complejidad contrastando posturas opuestas."
+      }
+    ]
+  },
+  "soc": {
+    "nombre": "Sociales y Ciudadanas",
+    "icono": "🏛️",
+    "color": "#D97706",
+    "promedio2026": 60,
+    "desv2026": 9,
+    "comparativo": {
+      "col": 50,
+      "etc": 49,
+      "gc": 51
+    },
+    "niveles": {
+      "n1": 0,
+      "n2": 35,
+      "n3": 48,
+      "n4": 17
+    },
+    "diagnosticoArea": "Rendimiento consolidado con ascenso constante (57 → 59 → 60 pts). Supera por 10 puntos a Colombia (50) y a Soledad (49). Destaca un 0% de alumnos en Nivel 1 y un 65% en Niveles 3 y 4.",
+    "evidencias": [
+      {
+        "aprendizaje": "Comprende que los problemas y sus soluciones involucran distintas dimensiones y reconoce relaciones entre estas.",
+        "competencia": "Pensamiento Reflexivo y Sistémico",
+        "ee_error": 14,
+        "col_error": 43,
+        "etc_error": 46,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Analizar problemáticas sociales articulando simultáneamente dimensiones económicas, políticas, culturales y ambientales.",
+        "accionAula10": "Continuar el abordaje interdisciplinar de coyunturas sociopolíticas nacionales y globales."
+      },
+      {
+        "aprendizaje": "Comprende perspectivas de distintos actores y grupos sociales.",
+        "competencia": "Multiperspectivismo",
+        "ee_error": 18,
+        "col_error": 43,
+        "etc_error": 46,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Identificar y contrastar intereses, motivaciones y posturas de diferentes actores en conflictos históricos o constitucionales.",
+        "accionAula10": "Juegos de roles y análisis de dilemas morales y constitucionales desde múltiples orillas ideológicas."
+      },
+      {
+        "aprendizaje": "Evalúa usos sociales de las ciencias sociales.",
+        "competencia": "Pensamiento Reflexivo y Sistémico",
+        "ee_error": 20,
+        "col_error": 45,
+        "etc_error": 46,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Evaluar el impacto de normas, políticas públicas y modelos económicos sobre el bienestar y la cohesión ciudadana.",
+        "accionAula10": "Estudios de caso sobre mecanismos de participación ciudadana y tutela de derechos fundamentales en Colombia."
+      },
+      {
+        "aprendizaje": "Comprende modelos conceptuales, sus características y contextos de aplicación.",
+        "competencia": "Interpretación y Análisis",
+        "ee_error": 33,
+        "col_error": 49,
+        "etc_error": 50,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Reconocer y aplicar conceptos clave de la ciencia política y la economía (Estado social de derecho, inflación, soberanía, división de poderes).",
+        "accionAula10": "Glosario analítico y aplicación de conceptos teóricos a hechos históricos contemporáneos."
+      },
+      {
+        "aprendizaje": "Contextualiza y evalúa usos de fuentes y argumentos.",
+        "competencia": "Pensamiento Social",
+        "ee_error": 35,
+        "col_error": 53,
+        "etc_error": 55,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Valorar la credibilidad de testimonios, discursos y fuentes históricas identificando intencionalidad y contexto temporal.",
+        "accionAula10": "Cotejo crítico de fuentes primarias vs. secundarias sobre el conflicto colombiano y la historia del siglo XX."
+      },
+      {
+        "aprendizaje": "Comprende dimensiones espaciales y temporales de eventos, problemáticas y prácticas sociales.",
+        "competencia": "Pensamiento Social y Geográfico",
+        "ee_error": 40,
+        "col_error": 55,
+        "etc_error": 57,
+        "color": "naranja",
+        "estado": "Oportunidad de Refuerzo (Naranja)",
+        "tareaCognitiva": "Ubicar transformaciones territoriales, fronteras históricas y procesos geopolíticos de larga duración.",
+        "accionAula10": "Trabajo intensivo con cartografía histórica, mapas temáticos y líneas de tiempo analíticas de procesos sociodemográficos."
+      }
+    ]
+  },
+  "nat": {
+    "nombre": "Ciencias Naturales",
+    "icono": "🔬",
+    "color": "#059669",
+    "promedio2026": 62,
+    "desv2026": 9,
+    "comparativo": {
+      "col": 51,
+      "etc": 51,
+      "gc": 53
+    },
+    "niveles": {
+      "n1": 0,
+      "n2": 22,
+      "n3": 61,
+      "n4": 17
+    },
+    "diagnosticoArea": "Rendimiento sobresaliente (62 puntos), superando con amplitud a Colombia (51) y a Soledad (51). El 78% del grupo alcanza los niveles 3 y 4. Las oportunidades prioritarias radican en la explicación de fenómenos y deducción de conclusiones experimentales en física y biología.",
+    "evidencias": [
+      {
+        "aprendizaje": "Utilizar algunas habilidades de pensamiento y de procedimiento para evaluar predicciones - Procesos químicos",
+        "competencia": "Indagación",
+        "ee_error": 10,
+        "col_error": 45,
+        "etc_error": 48,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Evaluar hipótesis y predecir variaciones en reacciones químicas y disoluciones con rigor metodológico.",
+        "accionAula10": "Mantener el trabajo práctico de diseño experimental y balance estequiométrico."
+      },
+      {
+        "aprendizaje": "Analizar el potencial del uso de recursos naturales o artefactos y sus efectos sobre el entorno y la salud - CTS",
+        "competencia": "Ciencia, Tecnología y Sociedad",
+        "ee_error": 11,
+        "col_error": 38,
+        "etc_error": 39,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Valorar impactos bioéticos, energéticos y ambientales de tecnologías e industrias en las comunidades.",
+        "accionAula10": "Continuar el enfoque crítico sobre sostenibilidad y transición energética."
+      },
+      {
+        "aprendizaje": "Asociar fenómenos naturales con conceptos propios del conocimiento científico - Procesos vivos",
+        "competencia": "Uso Comprensivo del Conocimiento",
+        "ee_error": 11,
+        "col_error": 29,
+        "etc_error": 31,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Identificar principios biológicos fundamentales en ciclos vitales, homeostasis y fisiología de organismos.",
+        "accionAula10": "Reforzar la vinculación de conceptos biológicos con la cotidianidad médica y ambiental."
+      },
+      {
+        "aprendizaje": "Modelar fenómenos de la naturaleza basado en el análisis de variables... - Procesos vivos",
+        "competencia": "Explicación de Fenómenos",
+        "ee_error": 13,
+        "col_error": 46,
+        "etc_error": 48,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Esquematizar redes tróficas, dinámica de poblaciones y transmisión genética de caracteres.",
+        "accionAula10": "Diagramas de flujo genético y modelos de equilibrio ecosistémico."
+      },
+      {
+        "aprendizaje": "Explicar cómo ocurren algunos fenómenos de la naturaleza basado en observaciones y patrones - Procesos vivos",
+        "competencia": "Explicación de Fenómenos",
+        "ee_error": 46,
+        "col_error": 62,
+        "etc_error": 62,
+        "color": "naranja",
+        "estado": "Oportunidad Prioritaria (Naranja)",
+        "tareaCognitiva": "Articular explicaciones causales detalladas sobre fotosíntesis, respiración celular y adaptaciones evolutivas.",
+        "accionAula10": "Laboratorios de indagación biológica: diseñar preguntas que exijan explicar el 'por qué' celular de un fenómeno y no solo recordar nombres."
+      },
+      {
+        "aprendizaje": "Derivar conclusiones para algunos fenómenos basándose en conocimientos científicos y evidencia - Procesos físicos",
+        "competencia": "Indagación",
+        "ee_error": 45,
+        "col_error": 50,
+        "etc_error": 52,
+        "color": "naranja",
+        "estado": "Oportunidad Prioritaria (Naranja)",
+        "tareaCognitiva": "Analizar gráficos cinemáticos, diagramas de fuerzas y trayectorias para concluir sobre leyes de conservación mecánica.",
+        "accionAula10": "Ejercicios intensivos de lectura e interpretación de gráficos posición-tiempo y fuerza-deformación."
+      },
+      {
+        "aprendizaje": "Identificar las características de algunos fenómenos basado en información científica - Procesos físicos",
+        "competencia": "Uso Comprensivo del Conocimiento",
+        "ee_error": 47,
+        "col_error": 65,
+        "etc_error": 64,
+        "color": "naranja",
+        "estado": "Oportunidad Prioritaria (Naranja)",
+        "tareaCognitiva": "Diferenciar con precisión propiedades físicas afines: trabajo vs potencia, masa vs peso, rapidez vs velocidad, calor vs temperatura.",
+        "accionAula10": "Contraste conceptual y dimensional riguroso antes de aplicar fórmulas numéricas."
+      }
+    ]
+  },
+  "ing": {
+    "nombre": "Inglés",
+    "icono": "🌍",
+    "color": "#7C3AED",
+    "promedio2026": 69,
+    "desv2026": 12,
+    "comparativo": {
+      "col": 53,
+      "etc": 53,
+      "gc": 56
+    },
+    "niveles": {
+      "a_minus": 4,
+      "a1": 9,
+      "a2": 26,
+      "b1": 48,
+      "b_plus": 13
+    },
+    "diagnosticoArea": "Prueba líder del colegio (69 puntos). Supera por +16 puntos el promedio nacional. El 61% de la promoción egresa en niveles independientes B1 y B+, cumpliendo los más altos estándares del Marco Común Europeo.",
+    "evidencias": [
+      {
+        "aprendizaje": "Parte 1: Reconocimiento de vocabulario temático mediante descripciones y definiciones.",
+        "competencia": "Competencia Léxica",
+        "ee_error": 12,
+        "col_error": 45,
+        "etc_error": 48,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Emparejar descripciones contextuales con el término léxico correspondiente descartando opciones distractoras.",
+        "accionAula10": "Consolidación de campos semánticos y vocabulario técnico en inglés."
+      },
+      {
+        "aprendizaje": "Parte 2: Identificación de ubicación y función comunicativa de avisos publicitarios y normativos.",
+        "competencia": "Competencia Pragmática",
+        "ee_error": 9,
+        "col_error": 38,
+        "etc_error": 40,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Deducir dónde se encontraría un aviso (sitios públicos, medios de transporte, oficinas) según su intención.",
+        "accionAula10": "Lectura rápida de avisos auténticos y señalética en entornos urbanos y escolares."
+      },
+      {
+        "aprendizaje": "Parte 3: Selección de la respuesta conversacional coherente en situaciones de habla cotidiana.",
+        "competencia": "Competencia Comunicativa",
+        "ee_error": 14,
+        "col_error": 42,
+        "etc_error": 45,
+        "color": "verde",
+        "estado": "Fortaleza Consolidada (Verde)",
+        "tareaCognitiva": "Elegir el turno conversacional adecuado respondiendo a preguntas de cortesía, acuerdos y desacuerdos.",
+        "accionAula10": "Micro-diálogos en parejas con situaciones reales de intercambio social."
+      },
+      {
+        "aprendizaje": "Partes 4 y 7: Completar textos con la estructura gramatical, tiempo verbal o preposición correcta.",
+        "competencia": "Competencia Gramatical",
+        "ee_error": 28,
+        "col_error": 52,
+        "etc_error": 54,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Identificar concordancias, verbos frasales, tiempos compuestos y conectores discursivos en lecturas continuas.",
+        "accionAula10": "Prácticas de cloze test enfocadas en preposiciones dependientes y tiempos perfectos."
+      },
+      {
+        "aprendizaje": "Partes 5 y 6: Comprensión literal e inferencial de textos narrativos, informativos y de opinión.",
+        "competencia": "Comprensión Lectora Avanzada (B1/B+)",
+        "ee_error": 25,
+        "col_error": 49,
+        "etc_error": 51,
+        "color": "amarillo",
+        "estado": "Nivel Satisfactorio (Amarillo)",
+        "tareaCognitiva": "Inferir la postura del autor, tono y conclusiones no explícitas en lecturas extensas.",
+        "accionAula10": "Lectura guiada de artículos de prensa internacional identificando tesis y argumentos implícitos para subir de B1 a B+."
+      }
+    ]
+  }
+};
+
+    let currentDceArea = 'mat';
+
+    function renderDCE(areaKey) {
+      currentDceArea = areaKey;
+      const data = DCE_SAGRADA[areaKey] || DCE_SAGRADA['mat'];
+
+      // Botones activos
+      document.querySelectorAll('.dce-area-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.dce === areaKey);
+      });
+
+      // Actualizar Ficha Resumen
+      const titleEl = document.getElementById('dceSummaryTitle');
+      const diagEl = document.getElementById('dceSummaryDiag');
+      const scoreEl = document.getElementById('dceStatScore');
+      const sigmaEl = document.getElementById('dceStatSigma');
+      const colEl = document.getElementById('dceStatCol');
+      const solEl = document.getElementById('dceStatSol');
+
+      if (titleEl) titleEl.innerHTML = `${data.icono} ${data.nombre} (${data.promedio2026} pts)`;
+      if (diagEl) diagEl.textContent = data.diagnosticoArea;
+      if (scoreEl) {
+        scoreEl.textContent = `${data.promedio2026} pts`;
+        scoreEl.style.color = data.color;
+      }
+      if (sigmaEl) sigmaEl.innerHTML = `&sigma; = ${data.desv2026} pts`;
+      if (colEl) {
+        const diffCol = data.promedio2026 - data.comparativo.col;
+        colEl.textContent = (diffCol >= 0 ? '+' : '') + diffCol + ' pts';
+      }
+      if (solEl) {
+        const diffSol = data.promedio2026 - data.comparativo.etc;
+        solEl.textContent = (diffSol >= 0 ? '+' : '') + diffSol + ' pts';
+      }
+
+      // Renderizar Evidencias y Tareas
+      const grid = document.getElementById('dceCardsGrid');
+      if (!grid) return;
+
+      grid.innerHTML = data.evidencias.map((ev, idx) => {
+        const semClass = ev.color; // verde, amarillo, naranja
+        const semLabel = semClass === 'verde' ? '🟢 Fortaleza' : (semClass === 'amarillo' ? '🟡 En Consolidación' : '🟠 Alerta Prioritaria');
+        
+        return `
+          <div class="dce-item-card ${semClass}">
+            <div class="dce-card-head">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="dce-badge-pill ${semClass}">${semLabel}</span>
+                <span style="font-size:0.78rem; font-weight:800; color:var(--muted);">Evidencia #${idx + 1}</span>
+                <span style="font-size:0.78rem; background:#F1F5F9; color:var(--navy); padding:2px 8px; border-radius:6px; font-weight:700;">${escHTML(ev.competencia)}</span>
+              </div>
+              <div class="dce-err-tags">
+                <span class="dce-err-tag ee" title="% de respuestas incorrectas en Sagrada Sabiduría">
+                  Error Colegio: <b>${ev.ee_error}%</b>
+                </span>
+                <span class="dce-err-tag comp" title="% de error en Soledad">
+                  Soledad: ${ev.etc_error}%
+                </span>
+                <span class="dce-err-tag comp" title="% de error en Colombia">
+                  Colombia: ${ev.col_error}%
+                </span>
+              </div>
+            </div>
+
+            <div class="dce-afirmacion-row">
+              <b>Afirmación / Aprendizaje evaluado:</b> ${escHTML(ev.aprendizaje)}
+            </div>
+
+            <div class="dce-evidencia-row">
+              <b>Operación mental evaluada:</b> ${escHTML(ev.tareaCognitiva)}
+            </div>
+
+            <div class="dce-task-box">
+              <b>Acción Pedagógica en Grado 10° (Meta 2027):</b> ${escHTML(ev.accionAula10)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escHTML(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Navegar y seleccionar área DCE desde cualquier botón
+    function selectDceArea(areaKey) {
+      goToSlide(5);
+      renderDCE(areaKey);
+    }
+
+    // ===== RENDERIZADO DE GRÁFICOS CHART.JS =====
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Chart.defaults.color = '#64748B';
+      Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
+
+      // 1. Gráfico de Evolución del Puntaje Global (2024-2026)
+      let chartGlobal = null;
+      const ctxGlobal = document.getElementById('chartEvolucionGlobal');
+      if (ctxGlobal) {
+        chartGlobal = new Chart(ctxGlobal, {
+          type: 'line',
+          data: {
+            labels: ['2024', '2025', '2026 (Récord)'],
+            datasets: [
+              {
+                label: 'Colegio Sagrada Sabiduría',
+                data: [307, 303, 309],
+                borderColor: '#0284C7',
+                backgroundColor: 'rgba(2, 132, 199, 0.08)',
+                borderWidth: 3.5,
+                fill: true,
+                tension: 0.25,
+                pointBackgroundColor: '#FFFFFF',
+                pointBorderColor: '#0284C7',
+                pointBorderWidth: 3,
+                pointRadius: 6,
+                pointHoverRadius: 8
+              },
+              {
+                label: 'Grupo Comparación (GC-3)',
+                data: [279, 280, 279],
+                borderColor: '#F59E0B',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                tension: 0.1,
+                pointRadius: 4,
+                pointBackgroundColor: '#F59E0B'
+              },
+              {
+                label: 'Promedio Colombia',
+                data: [260, 261, 258],
+                borderColor: '#64748B',
+                borderWidth: 2,
+                tension: 0.1,
+                pointRadius: 4,
+                pointBackgroundColor: '#64748B'
+              },
+              {
+                label: 'ETC Soledad',
+                data: [257, 257, 254],
+                borderColor: '#FF3B69',
+                borderWidth: 2,
+                borderDash: [3, 3],
+                tension: 0.1,
+                pointRadius: 4,
+                pointBackgroundColor: '#FF3B69'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { boxWidth: 12, font: { weight: '700' } } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} pts`
+                }
+              }
+            },
+            scales: {
+              y: {
+                min: 240,
+                max: 325,
+                grid: { color: '#E2E8F0' },
+                ticks: { stepSize: 15 }
+              },
+              x: {
+                grid: { color: '#E2E8F0' }
+              }
+            }
+          }
+        });
+      }
+
+      // Filtros rápidos de líneas en el gráfico de Slide 2
+      const btnAll = document.getElementById('btnFilterAllLines');
+      const btnSol = document.getElementById('btnFilterSagradaSoledad');
+      const btnCol = document.getElementById('btnFilterSagradaColombia');
+
+      if (btnAll && btnSol && btnCol && chartGlobal) {
+        btnAll.onclick = () => {
+          [btnAll, btnSol, btnCol].forEach(b => b.classList.remove('active'));
+          btnAll.classList.add('active');
+          chartGlobal.data.datasets.forEach(ds => ds.hidden = false);
+          chartGlobal.update();
+        };
+        btnSol.onclick = () => {
+          [btnAll, btnSol, btnCol].forEach(b => b.classList.remove('active'));
+          btnSol.classList.add('active');
+          chartGlobal.data.datasets[0].hidden = false; // Sagrada
+          chartGlobal.data.datasets[1].hidden = true;  // GC-3
+          chartGlobal.data.datasets[2].hidden = true;  // Colombia
+          chartGlobal.data.datasets[3].hidden = false; // Soledad
+          chartGlobal.update();
+        };
+        btnCol.onclick = () => {
+          [btnAll, btnSol, btnCol].forEach(b => b.classList.remove('active'));
+          btnCol.classList.add('active');
+          chartGlobal.data.datasets[0].hidden = false; // Sagrada
+          chartGlobal.data.datasets[1].hidden = true;  // GC-3
+          chartGlobal.data.datasets[2].hidden = false; // Colombia
+          chartGlobal.data.datasets[3].hidden = true;  // Soledad
+          chartGlobal.update();
+        };
+      }
+
+      // Interactividad con las tarjetas de año en Slide 2
+      document.querySelectorAll('.year-story-card').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.year-story-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        });
+      });
+
+      // 2. Gráfico de Evolución de las 5 Áreas (Slide 3)
+      let chartAreas = null;
+      const ctxAreas = document.getElementById('chartAreasTrienal');
+      if (ctxAreas) {
+        chartAreas = new Chart(ctxAreas, {
+          type: 'bar',
+          data: {
+            labels: AREA_DATA.all.labels,
+            datasets: AREA_DATA.all.datasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { boxWidth: 12, font: { weight: '700' } } }
+            },
+            scales: {
+              y: {
+                min: 45,
+                max: 75,
+                grid: { color: '#E2E8F0' }
+              },
+              x: {
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      // 3. Radar de Áreas 2026: Sagrada vs Colombia (Slide 3)
+      let chartRadar = null;
+      const ctxRadar = document.getElementById('chartRadarAreas');
+      if (ctxRadar) {
+        chartRadar = new Chart(ctxRadar, {
+          type: 'radar',
+          data: {
+            labels: ['Matemáticas', 'Lectura Crítica', 'Ciencias Naturales', 'Sociales y Ciudadanas', 'Inglés'],
+            datasets: [
+              {
+                label: 'Sagrada Sabiduría (2026)',
+                data: [59, 64, 62, 60, 69],
+                borderColor: '#0284C7',
+                backgroundColor: 'rgba(2, 132, 199, 0.18)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#FFFFFF',
+                pointBorderColor: '#0284C7',
+                pointRadius: 4
+              },
+              {
+                label: 'Promedio Nacional Colombia',
+                data: [52, 54, 50, 49, 52],
+                borderColor: '#64748B',
+                backgroundColor: 'rgba(100, 116, 139, 0.08)',
+                borderWidth: 2,
+                borderDash: [4, 4],
+                pointBackgroundColor: '#64748B',
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { boxWidth: 12, font: { weight: '700' } } }
+            },
+            scales: {
+              r: {
+                min: 40,
+                max: 75,
+                ticks: { display: false, stepSize: 10 },
+                grid: { color: '#E2E8F0' },
+                angleLines: { color: '#E2E8F0' },
+                pointLabels: {
+                  color: '#182334',
+                  font: { size: 11, weight: '700' }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // ===== FUNCIÓN DE FILTRADO INTERACTIVO DE ÁREA (SLIDE 3) =====
+      function applyAreaFilter(code) {
+        // Actualizar estado activo en botones superiores
+        document.querySelectorAll('.area-pill-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.areaCode === code);
+        });
+
+        // Actualizar estado activo en las tarjetas inferiores
+        document.querySelectorAll('.area-mini-card').forEach(c => {
+          c.classList.toggle('active', code !== 'all' && c.dataset.areaCode === code);
+        });
+
+        const titleEl = document.getElementById('areaChartTitle');
+        const subEl = document.getElementById('areaChartSubtitle');
+        const btnReset = document.getElementById('btnResetAreaFilter');
+        const radarBox = document.getElementById('radarBox');
+        const detailBox = document.getElementById('areaDetailBox');
+        const radarTitle = document.getElementById('radarTitle');
+        const radarSub = document.getElementById('radarSubtitle');
+
+        if (code === 'all') {
+          // Restaurar vista general de todas las áreas
+          if (titleEl) titleEl.textContent = AREA_DATA.all.title;
+          if (subEl) subEl.textContent = AREA_DATA.all.subtitle;
+          if (btnReset) btnReset.style.display = 'none';
+
+          if (radarBox) radarBox.style.display = 'block';
+          if (detailBox) detailBox.style.display = 'none';
+          if (radarTitle) radarTitle.textContent = 'Radar de Simetría Curricular (2026)';
+          if (radarSub) radarSub.textContent = 'Equilibrio formativo de Sagrada Sabiduría frente a la media nacional';
+
+          if (chartAreas) {
+            chartAreas.data.labels = AREA_DATA.all.labels;
+            chartAreas.data.datasets = AREA_DATA.all.datasets;
+            chartAreas.options.scales.y.min = 45;
+            chartAreas.options.scales.y.max = 75;
+            chartAreas.update();
+          }
+        } else {
+          // Filtrar a la radiografía específica del área seleccionada
+          const d = AREA_DATA[code];
+          if (!d) return;
+
+          if (titleEl) titleEl.textContent = `Radiografía de ${d.name}: Trayectoria Trienal y Entorno 2026`;
+          if (subEl) subEl.textContent = `Evolución histórica institucional frente a Colombia, Soledad y Grupo de Comparación`;
+          if (btnReset) btnReset.style.display = 'inline-block';
+
+          // Mostrar Ficha de Diagnóstico y Ocultar Radar
+          if (radarBox) radarBox.style.display = 'none';
+          if (detailBox) {
+            detailBox.style.display = 'block';
+            document.getElementById('detailAreaName').textContent = `${d.icon} ${d.name} (${d.score2026} pts)`;
+            document.getElementById('detailAreaBadge').textContent = d.diffCol;
+            document.getElementById('detailAreaDiag').textContent = d.diag;
+            document.getElementById('detailAreaLevels').textContent = d.levels;
+
+            const btnGoDCE = document.getElementById('btnGoDCEArea');
+            if (btnGoDCE) {
+              btnGoDCE.onclick = () => selectDceArea(code);
+            }
+          }
+
+          if (radarTitle) radarTitle.textContent = `Ficha Estratégica: ${d.name}`;
+          if (radarSub) radarSub.textContent = `Diagnóstico institucional y foco pedagógico para la Meta 2027`;
+
+          // Actualizar gráfico de barras con la comparativa del área
+          if (chartAreas) {
+            chartAreas.data.labels = d.labels;
+            chartAreas.data.datasets = [
+              {
+                label: `Puntaje ${d.name}`,
+                data: d.data,
+                backgroundColor: d.colors,
+                borderRadius: 6
+              }
+            ];
+            chartAreas.options.scales.y.min = 35;
+            chartAreas.options.scales.y.max = 75;
+            chartAreas.update();
+          }
+        }
+      }
+
+      // Event listeners para los botones de píldora
+      document.querySelectorAll('.area-pill-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyAreaFilter(btn.dataset.areaCode));
+      });
+
+      // Event listeners para las tarjetas inferiores
+      document.querySelectorAll('.area-mini-card').forEach(card => {
+        card.addEventListener('click', () => applyAreaFilter(card.dataset.areaCode));
+      });
+
+      // Botón para resetear filtro de área
+      const btnResetArea = document.getElementById('btnResetAreaFilter');
+      if (btnResetArea) {
+        btnResetArea.addEventListener('click', () => applyAreaFilter('all'));
+      }
+
+      // 4. Comparativa de Rezago (% en Nivel 1)
+      
+      // Inicializar DCE en Slide 5
+      renderDCE('mat');
+      document.querySelectorAll('.dce-area-btn').forEach(btn => {
+        btn.addEventListener('click', () => renderDCE(btn.dataset.dce));
+      });
+
+      const ctxRezago = document.getElementById('chartComparativaRezago');
+      if (ctxRezago) {
+        new Chart(ctxRezago, {
+          type: 'bar',
+          data: {
+            labels: ['Lectura Crítica', 'C. Naturales', 'Matemáticas', 'Sociales'],
+            datasets: [
+              {
+                label: 'Sagrada Sabiduría (2026)',
+                data: [0, 0, 0, 0],
+                backgroundColor: '#10B981',
+                borderRadius: 5
+              },
+              {
+                label: 'Promedio Colombia (% en Nivel 1)',
+                data: [9, 18, 13, 19],
+                backgroundColor: '#FF3B69',
+                borderRadius: 5
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { boxWidth: 12, font: { weight: '700' } } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${ctx.raw}% de estudiantes en Nivel 1`
+                }
+              }
+            },
+            scales: {
+              y: {
+                min: 0,
+                max: 25,
+                grid: { color: '#E2E8F0' },
+                ticks: {
+                  callback: (v) => v + '%'
+                }
+              },
+              x: {
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      // 5. Simulador Interactivo de Crecimiento en Slide 6
+      const slider = document.getElementById('simSlider');
+      const labelAlumnos = document.getElementById('simAlumnosLabel');
+      const valMat = document.getElementById('simMatVal');
+      const valGlobal = document.getElementById('simGlobalVal');
+
+      if (slider && labelAlumnos && valMat && valGlobal) {
+        slider.addEventListener('input', () => {
+          const migrados = parseInt(slider.value, 10);
+          labelAlumnos.textContent = migrados;
+          const newMat = 59 + Math.round(migrados * 1.5);
+          valMat.textContent = `${newMat} pts`;
+          const newGlobal = 309 + Math.round(migrados * 2.16);
+          valGlobal.textContent = `${newGlobal} pts`;
+        });
+      }
+
+      // Interactividad con las 4 fases de metodología
+      document.querySelectorAll('.phase-tab-card').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.phase-tab-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
