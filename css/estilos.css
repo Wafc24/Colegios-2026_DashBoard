@@ -456,16 +456,16 @@ main { padding: 14px 22px 22px; flex: 1; }
 /* Tabla matriz de años (2024 - 2026) */
 .matrix-card { margin-bottom: 18px; overflow: hidden; }
 .matrix-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; margin-top: 10px; background: #fff; scrollbar-width: thin; }
-.matrix-table { width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 680px; }
+.matrix-table { width: 100%; border-collapse: collapse; font-size: .86rem; min-width: 760px; }
 .matrix-table th { background: #182334; color: #fff; padding: 10px 6px; text-align: center; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; border-right: 1px solid rgba(255,255,255,0.08); }
 .matrix-table th.col-yr { border-left: 1px solid rgba(255,255,255,0.2); border-right: 1px solid rgba(255,255,255,0.2); font-size: .88rem; font-weight: 800; background: #141c2b; }
 .matrix-table th.col-yr-2026 { background: linear-gradient(135deg, #0f172a, #0369a1); border-left: 2px solid #38BDF8; border-right: 2px solid #38BDF8; }
-.matrix-table th.col-area { text-align: left; min-width: 175px; padding-left: 14px; }
-.matrix-table th.col-sub { font-size: .68rem; padding: 6px 4px; background: #202d42; color: #94A3B8; }
+.matrix-table th.col-area { text-align: left; min-width: 185px; padding-left: 14px; }
+.matrix-table th.col-sub { font-size: .68rem; padding: 6px 4px; background: #202d42; color: #94A3B8; min-width: 85px; }
 .matrix-table th.col-sub.col-sd { border-right: 1px solid rgba(255,255,255,0.2); color: #38BDF8; }
 .matrix-table td { padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: middle; text-align: center; }
-.matrix-table td.cell-inp { width: 72px; }
-.matrix-table td.cell-sd { border-right: 1px solid var(--line); background: #FAFBFD; }
+.matrix-table td.cell-inp { min-width: 85px; }
+.matrix-table td.cell-sd { border-right: 1px solid var(--line); background: #FAFBFD; min-width: 80px; }
 .matrix-table td.cell-2026 { background: #F0F9FF; }
 .matrix-table td.cell-2026.cell-sd { border-right: 2px solid #38BDF8; }
 .matrix-table tr:hover td { background-color: #F8FAFC; }
@@ -474,7 +474,7 @@ main { padding: 14px 22px 22px; flex: 1; }
 .matrix-table .area-cell { font-weight: 700; color: var(--navy); display: flex; align-items: center; gap: 8px; padding-left: 14px; white-space: nowrap; border-right: 1px solid var(--line); text-align: left; }
 .matrix-table .area-dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; flex: none; }
 .matrix-table input.inp-tray {
-  width: 100%; max-width: 68px; text-align: center; font-weight: 700; padding: 6px 2px; font-size: .88rem;
+  width: 100%; max-width: 72px; text-align: center; font-weight: 700; padding: 6px 2px; font-size: .88rem;
   border: 1px solid #CBD5E1; border-radius: 8px; outline: none; transition: all .15s;
 }
 .matrix-table input.inp-avg { color: var(--navy); background: #fff; }
@@ -485,11 +485,59 @@ main { padding: 14px 22px 22px; flex: 1; }
 .tag-input { display: inline-block; font-size: .62rem; background: rgba(56, 189, 248, 0.25); color: #38BDF8; padding: 1px 6px; border-radius: 4px; margin-left: 4px; font-weight: 800; text-transform: none; letter-spacing: 0; }
 .matrix-row-summary { background: #F8FAFC; font-weight: 800; border-top: 2px solid var(--line); }
 .matrix-row-summary td { padding: 10px 4px; text-align: center; }
-.matrix-row-summary td.cell-sd { border-right: 1px solid var(--line); }
+.matrix-row-summary td.cell-avg { min-width: 110px; }
+.matrix-row-summary td.cell-sd { border-right: 1px solid var(--line); min-width: 80px; }
 .matrix-row-summary .sum-v { display: block; font-size: .92rem; font-weight: 800; color: var(--navy); }
 .matrix-row-summary td.cell-sd .sum-v { color: #0284C7; }
 .matrix-row-summary small { display: block; font-size: .65rem; color: var(--muted); text-transform: uppercase; font-weight: 700; margin-top: 2px; }
 .matrix-row-summary td.cell-sd small { color: #0284C7; }
+
+/* ==========================================================================
+   MÓDULO: INFORME DE DESEMPEÑO SABER 11 (DCE & EVIDENCIAS)
+   ========================================================================== */
+.dce-container { margin-top: 16px; display: flex; flex-direction: column; gap: 18px; }
+.dce-hero { background: linear-gradient(135deg, #0F172A, #1E293B); border-radius: var(--radius); padding: 22px 26px; color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: var(--shadow); }
+.dce-hero-title h3 { font-size: 1.25rem; font-weight: 900; color: #fff; margin: 0 0 6px 0; letter-spacing: -0.3px; }
+.dce-hero-title p { font-size: 0.88rem; color: #94A3B8; margin: 0; line-height: 1.4; }
+.dce-hero-badge { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38BDF8; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.dce-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .dce-grid-3 { grid-template-columns: 1fr; } }
+
+.dce-kpi-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); position: relative; border-top: 4px solid var(--primary); }
+.dce-kpi-card.green { border-top-color: #10B981; }
+.dce-kpi-card.purple { border-top-color: #7C3AED; }
+.dce-kpi-card.rose { border-top-color: #FF3B69; }
+
+.dce-kpi-tag { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
+.dce-kpi-val { font-size: 2rem; font-weight: 900; color: var(--navy); line-height: 1; display: flex; align-items: baseline; gap: 6px; }
+.dce-kpi-sub { font-size: 0.82rem; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+
+.dce-section-title { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.dce-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.dce-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left; }
+.dce-table th { background: #182334; color: #fff; padding: 11px 14px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; }
+.dce-table td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; color: var(--text); }
+.dce-table tr:hover td { background-color: #F8FAFC; }
+
+.dce-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.dce-pill { background: #F1F5F9; border: 1px solid var(--line); padding: 8px 16px; border-radius: 9999px; font-size: 0.85rem; font-weight: 700; color: var(--navy); cursor: pointer; transition: all .15s ease; }
+.dce-pill:hover { background: #E2E8F0; }
+.dce-pill.active { background: var(--navy); color: #fff; border-color: var(--navy); box-shadow: 0 2px 8px rgba(24,35,52,0.25); }
+
+.sem-tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 9999px; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
+.sem-tag-verde { background: #D1FAE5; color: #047857; border: 1px solid #A7F3D0; }
+.sem-tag-amarillo { background: #FEF3C7; color: #B45309; border: 1px solid #FDE68A; }
+.sem-tag-naranja { background: #FFEDD5; color: #C2410C; border: 1px solid #FED7AA; }
+.sem-tag-rojo { background: #FEE2E2; color: #B91C1C; border: 1px solid #FECACA; }
+
+.dce-task-card { background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 5px solid #F97316; border-radius: 10px; padding: 16px 20px; margin-top: 14px; }
+.dce-task-card.blue { border-left-color: #0284C7; }
+.dce-task-card.emerald { border-left-color: #10B981; }
+.dce-task-title { font-size: 0.95rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.dce-task-desc { font-size: 0.85rem; color: #475569; line-height: 1.5; margin-bottom: 8px; }
+.dce-task-action { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 14px; font-size: 0.83rem; color: #1E293B; line-height: 1.45; }
+.dce-task-action b { color: #0369A1; }
 
 /* KPIs de Trayectoria */
 .tray-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
