@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Competencias Ciudadanas: De la Evaluación a la Acción | Colegio Sagrada Sabiduría</title>
+  <meta name="description" content="Presentación interactiva ejecutiva para el Rector y Comité Directivo del Colegio Sagrada Sabiduría. Estrategia de articulación curricular y plan de mejoramiento institucional (PMI 2026-2027).">
+  
+  <!-- Favicon Oficial -->
+  <link rel="icon" href="assets/logos/logo-plata.png">
+
+  <!-- Tipografía Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 (CDN Oficial) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS (CDN Oficial) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#182334',
+              'navy-dark': '#101826',
+              blue: '#0284C7',
+              sky: '#0EA5E9',
+              rose: '#FF3B69',
+              emerald: '#10B981',
+              amber: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js 4 (CDN Oficial con fallback local) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="js/vendor/chart.umd.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Estilos Oficiales de la Presentación (Paleta Dashboard Saber 11°) -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="deck-container">
+    
+    <!-- Barra de Progreso Superior -->
+    <div class="top-progress-bar-wrap" title="Progreso de la Presentación">
+      <div class="top-progress-bar" id="topProgressBar"></div>
+    </div>
+
+    <!-- Header Ejecutivo Superior (Limpio y sin Periodo innecesario) -->
+    <header class="deck-header">
+      <div class="deck-header-left">
+        <div class="brand-badge">
+          <img src="assets/logos/logo-blanco.png" alt="Logo Grupo Edúcate" class="brand-logo-img" onerror="this.src='assets/logos/logo-plata.png'">
+          <div class="brand-info-text">
+            <span class="brand-name">
+              Colegio Sagrada Sabiduría
+              <span class="hidden md:inline text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/20 text-sky-300 border border-blue-400/30">DANE 308758002793</span>
+            </span>
+            <span class="brand-tag">Grupo Edúcate Colombia • Resultados Oficiales ICFES</span>
+          </div>
+        </div>
+
+        <div class="slide-breadcrumbs hidden sm:flex">
+          <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
+          <span class="active-section" id="activeSectionBadge">Portada Ejecutiva</span>
+        </div>
+      </div>
+
+      <!-- Centro: Controles Integrados de Navegación en el Header (Para no estorbar abajo) -->
+      <div class="header-nav-cluster" title="Control de Diapositivas (Accesible siempre)">
+        <button class="header-nav-btn" id="headerBtnPrev" title="Diapositiva Anterior (Tecla [←])">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="header-slide-counter">
+          <span class="current-num" id="headerCurrentSlide">01</span> / <span id="headerTotalSlides">07</span>
+        </div>
+        <button class="header-nav-btn" id="headerBtnNext" title="Siguiente Diapositiva (Tecla [→] o Espacio)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="deck-header-right">
+        <!-- Botón Pantalla Completa (Tecla 'F') -->
+        <button class="header-action-btn" id="btnToggleFullscreen" title="Alternar Pantalla Completa (Tecla F)">
+          <i class="fa-solid fa-expand"></i>
+          <span class="hidden md:inline">Pantalla Completa</span>
+          <span class="keyboard-shortcut-hint">F</span>
+        </button>
+
+        <!-- Botón Imprimir / PDF -->
+        <button class="header-action-btn" id="btnPrintDeck" title="Imprimir presentación o exportar a PDF">
+          <i class="fa-solid fa-print"></i>
+          <span class="hidden sm:inline">PDF</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Viewport Principal de Diapositivas -->
+    <main class="slides-viewport" id="slidesViewport">
+
+      <!-- ====================================================================
+           SLIDE 1: PORTADA EJECUTIVA
+           ==================================================================== -->
+      <section class="slide active" id="slide-1" data-section-title="Portada Ejecutiva">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-blue">
+              <i class="fa-solid fa-shield-halved"></i> Reunión con Rector y Comité Directivo
+            </div>
+            <h1 class="slide-h1">Competencias Ciudadanas: De la Evaluación a la Acción</h1>
+            <p class="slide-subtitle">Estrategia de Articulación Curricular y Plan de Mejoramiento Institucional (PMI 2026-2027)</p>
+          </div>
+          <div class="hidden sm:flex flex-col items-end text-xs text-slate-500 font-medium">
+            <span class="font-bold text-slate-800">Colegio Sagrada Sabiduría</span>
+            <span>Soledad, Atlántico • DANE: 308758002793</span>
+            <span class="text-sky-700 font-bold mt-0.5">Noviembre 2026</span>
+          </div>
+        </div>
+
+        <!-- Bento Grid de Portada en Paleta Dashboard -->
+        <div class="bento-grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+          
+          <!-- Cuadrante 1: Hito y Logro Base -->
+          <div class="bento-card border-t-4 border-t-sky-500">
+            <div class="bento-card-header">
+              <span class="bento-card-title text-sky-800">
+                <i class="fa-solid fa-trophy text-sky-600"></i> 01. Punto de Partida Histórico
+              </span>
+              <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold border border-emerald-200">Récord 2026</span>
+            </div>
+            <div class="my-auto">
+              <div class="text-4xl font-black text-slate-900 tracking-tight mb-1">309 pts</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Puntaje Global oficial que ubica al colegio en <strong class="text-slate-900">Nivel Muy Superior</strong>, superando por <strong class="text-emerald-700">+51 pts a Colombia</strong> y con <strong class="text-emerald-700">0% de rezago crítico</strong> en áreas nucleares.
+              </p>
+            </div>
+            <div class="text-xs text-slate-400 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <span>Trayectoria 2024-2026</span>
+              <i class="fa-solid fa-arrow-trend-up text-emerald-600 font-bold"></i>
+            </div>
+          </div>
+
+          <!-- Cuadrante 2: El Foco Estratégico -->
+          <div class="bento-card border-t-4 border-t-amber-500">
+            <div class="bento-card-header">
+              <span class="bento-card-title text-amber-800">
+                <i class="fa-solid fa-crosshairs text-amber-600"></i> 02. La Gran Palanca 2027
+              </span>
+              <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold border border-amber-200">Oportunidad</span>
+            </div>
+            <div class="my-auto">
+              <div class="text-4xl font-black text-slate-900 tracking-tight mb-1">35%</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Estudiantes concentrados en el <strong class="text-slate-900">Nivel 2 de Sociales y Ciudadanas</strong>. Su movilización al Nivel 3 y 4 es el motor para alcanzar la meta de <strong class="text-amber-700">315+ puntos globales</strong>.
+              </p>
+            </div>
+            <div class="text-xs text-slate-400 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <span>Foco: Cartografía & Contexto</span>
+              <i class="fa-solid fa-arrow-right-arrow-left text-amber-600"></i>
+            </div>
+          </div>
+
+          <!-- Cuadrante 3: El Enfoque Metodológico Transversal -->
+          <div class="bento-card border-t-4 border-t-emerald-500">
+            <div class="bento-card-header">
+              <span class="bento-card-title text-emerald-800">
+                <i class="fa-solid fa-network-wired text-emerald-600"></i> 03. Método PMI de 1 Página
+              </span>
+              <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold border border-emerald-200">Cero Sobrecarga</span>
+            </div>
+            <div class="my-auto">
+              <div class="text-2xl font-black text-slate-900 tracking-tight mb-2">Transversalidad Real</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                No crear asignaturas adicionales: integrar preguntas de <strong class="text-slate-900">Multiperspectivismo y Pensamiento Reflexivo</strong> en Matemáticas, Ciencias y Lenguaje desde situaciones cotidianas.
+              </p>
+            </div>
+            <div class="text-xs text-slate-400 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <span>Herramienta Ágil Lista</span>
+              <i class="fa-solid fa-file-signature text-emerald-600"></i>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Callout inferior de Inicio Rápido -->
+        <div class="hero-callout">
+          <div class="hero-callout-icon">
+            <i class="fa-solid fa-play"></i>
+          </div>
+          <div class="hero-callout-content">
+            <div class="hero-callout-title">
+              <span>Propósito de la Sesión con Rectoría y Comité Directivo</span>
+              <span class="text-xs bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold border border-sky-200">Toma de Decisiones</span>
+            </div>
+            <p class="hero-callout-desc">
+              Analizar los resultados oficiales ICFES Saber 11° de Sociales y Ciudadanas, comprender su naturaleza transversal e incorporar una matriz ágil en el plan de mejoramiento para la cohorte 2027.
+            </p>
+          </div>
+          <button onclick="deckController.next()" class="hidden sm:inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm px-5 py-3 rounded-xl transition shadow-md shadow-sky-600/25">
+            <span>Comenzar</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 2: RECONOCIMIENTO INSTITUCIONAL (TRIANGULACIÓN 2024-2026)
+           ==================================================================== -->
+      <section class="slide" id="slide-2" data-section-title="Triangulación ICFES 2024-2026">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-emerald">
+              <i class="fa-solid fa-award"></i> Posicionamiento Oficial ICFES Saber 11°
+            </div>
+            <h1 class="slide-h1">Reconocimiento Institucional: Desempeño Trienal (2024-2026)</h1>
+            <p class="slide-subtitle">Triangulación de promedios, reducción de brechas y erradicación del rezago académico</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnViewEvolution" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-600 text-white transition shadow-sm">
+              <i class="fa-solid fa-chart-simple mr-1"></i> Evolución Trienal
+            </button>
+            <button id="btnViewCompareCol" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition border border-slate-300">
+              <i class="fa-solid fa-scale-balanced mr-1"></i> Brecha vs Colombia
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 KPIs Principales -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- KPI 1: 309 Puntos Global -->
+          <div class="kpi-card" style="--kpi-accent: #0284C7; --kpi-bg: #E0F2FE;">
+            <div class="kpi-header">
+              <span class="kpi-label">Puntaje Global 2026</span>
+              <div class="kpi-icon"><i class="fa-solid fa-crown"></i></div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-big-value">309</span>
+              <span class="kpi-unit">pts</span>
+            </div>
+            <p class="kpi-subtext">Nivel Muy Superior. Máximo récord histórico alcanzado por la institución.</p>
+            <div class="kpi-delta-pill delta-positive">
+              <i class="fa-solid fa-arrow-trend-up"></i> +6 pts vs 2025 • +51 pts vs Colombia
+            </div>
+          </div>
+
+          <!-- KPI 2: 0% Rezago Crítico -->
+          <div class="kpi-card" style="--kpi-accent: #10B981; --kpi-bg: #D1FAE5;">
+            <div class="kpi-header">
+              <span class="kpi-label">Erradicación de Rezago</span>
+              <div class="kpi-icon"><i class="fa-solid fa-shield-heart"></i></div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-big-value text-emerald-600">0%</span>
+              <span class="kpi-unit">en Nivel 1</span>
+            </div>
+            <p class="kpi-subtext">Cero estudiantes en el nivel más bajo en las 4 áreas académicas nucleares.</p>
+            <div class="kpi-delta-pill delta-positive">
+              <i class="fa-solid fa-check-double"></i> Éxito absoluto (vs 13% - 19% en Colombia)
+            </div>
+          </div>
+
+          <!-- KPI 3: 60 Pts en Sociales y Ciudadanas -->
+          <div class="kpi-card" style="--kpi-accent: #F59E0B; --kpi-bg: #FEF3C7;">
+            <div class="kpi-header">
+              <span class="kpi-label">Sociales y Ciudadanas</span>
+              <div class="kpi-icon"><i class="fa-solid fa-users"></i></div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-big-value">60</span>
+              <span class="kpi-unit">pts</span>
+            </div>
+            <p class="kpi-subtext">Trayectoria en constante ascenso: 57 (2024) → 59 (2025) → 60 (2026).</p>
+            <div class="kpi-delta-pill delta-blue">
+              <i class="fa-solid fa-arrow-up-right-dots"></i> +11 pts sobre promedio Colombia (49)
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Gráfico Interactivo de las 5 Áreas (Chart.js) -->
+        <div class="bento-card flex-1 min-h-[300px]">
+          <div class="bento-card-header">
+            <span class="bento-card-title text-slate-800">
+              <i class="fa-solid fa-chart-column text-sky-600"></i> Comportamiento de las 5 Áreas Evaluadas (2024 - 2026)
+            </span>
+            <span class="text-xs text-slate-500 font-semibold">Fuente: Reporte Oficial ICFES Saber 11°</span>
+          </div>
+          <div class="relative w-full h-[230px]">
+            <canvas id="chartHistoricoAreas"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 3: EL FOCO ESTRATÉGICO (OPORTUNIDAD DE CRECIMIENTO)
+           ==================================================================== -->
+      <section class="slide" id="slide-3" data-section-title="El Foco Estratégico">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-amber">
+              <i class="fa-solid fa-bullseye"></i> Diagnóstico Pedagógico de Precisión
+            </div>
+            <h1 class="slide-h1">El Foco Estratégico: Oportunidad de Crecimiento 2027</h1>
+            <p class="slide-subtitle">Distribución por niveles de desempeño y aprendizajes oficiales evaluados en Sociales y Ciudadanas</p>
+          </div>
+          <div class="text-xs bg-white text-slate-700 border border-slate-200 shadow-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-semibold">
+            <i class="fa-solid fa-graduation-cap text-amber-500"></i> Cohorte 2026: 23 Evaluados
+          </div>
+        </div>
+
+        <!-- Tarjeta Hero Resaltada: Mensaje Clave para el Comité -->
+        <div class="hero-callout border-amber-300 bg-amber-50/50">
+          <div class="hero-callout-icon bg-gradient-to-br from-amber-500 to-amber-600 shadow-amber-500/30">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div class="hero-callout-content">
+            <div class="hero-callout-title text-amber-950">
+              <span>El Reto Pedagógico Institucional para el PMI</span>
+              <span class="text-xs bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-extrabold border border-amber-300">Meta 2027</span>
+            </div>
+            <p class="hero-callout-desc text-slate-700">
+              <strong class="text-slate-900">Movilizar el 35% de estudiantes de Nivel 2 hacia los Niveles 3 y 4.</strong> Con cero rezago en Nivel 1, este tercio de la cohorte es la gran palanca institucional: pasar 4 de estos estudiantes al Nivel 3 catapulta el promedio del área a <strong class="text-emerald-700">63+ puntos</strong> y el Global por encima de <strong class="text-emerald-700">315 puntos</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bento Grid: Donut de Niveles + Filtro Interactivo de Aprendizajes Críticos -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 mb-8">
+          
+          <!-- Lado Izquierdo: Gráfico Donut de Niveles (4 columnas) -->
+          <div class="lg:col-span-4 bento-card flex flex-col justify-between">
+            <div class="bento-card-header">
+              <span class="bento-card-title text-slate-800">
+                <i class="fa-solid fa-chart-pie text-sky-600"></i> Niveles de Desempeño 2026
+              </span>
+              <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">Sociales</span>
+            </div>
+            <div class="relative w-full h-[170px] my-auto">
+              <canvas id="chartNivelesSociales"></canvas>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-center text-xs">
+              <div class="bg-rose-50 border border-rose-200 p-2 rounded-lg">
+                <span class="block text-slate-500 font-semibold">Nivel 1</span>
+                <span class="text-lg font-black text-rose-600">0%</span>
+              </div>
+              <div class="bg-amber-50 border border-amber-200 p-2 rounded-lg">
+                <span class="block text-slate-500 font-semibold">Nivel 2 (Foco)</span>
+                <span class="text-lg font-black text-amber-600">35%</span>
+              </div>
+              <div class="bg-sky-50 border border-sky-200 p-2 rounded-lg">
+                <span class="block text-slate-500 font-semibold">Nivel 3</span>
+                <span class="text-lg font-black text-sky-600">48%</span>
+              </div>
+              <div class="bg-emerald-50 border border-emerald-200 p-2 rounded-lg">
+                <span class="block text-slate-500 font-semibold">Nivel 4</span>
+                <span class="text-lg font-black text-emerald-600">17%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lado Derecho: Aprendizajes Críticos con Filtro Interactivo (8 columnas) -->
+          <div class="lg:col-span-8 bento-card flex flex-col justify-between">
+            <div class="bento-card-header">
+              <span class="bento-card-title text-slate-800">
+                <i class="fa-solid fa-list-check text-sky-600"></i> Aprendizajes Oficiales (Figura 5.4 ICFES Saber 11° - 2026)
+              </span>
+              <span class="text-xs text-slate-500 font-semibold">Tasa de Respuestas Incorrectas</span>
+            </div>
+
+            <!-- Chips de Filtro Interactivo con Semaforización Oficial (Colores Figura 5.4 ICFES) -->
+            <div class="flex flex-wrap gap-2.5 mb-3">
+              <!-- Color Naranja Oficial ICFES -->
+              <button class="crit-learning-chip chip-icfes-naranja active" data-crit-id="espacio-temporal" title="40% de error en el Colegio (Naranja Oficial ICFES)">
+                <span class="icfes-circle-pill">40%</span>
+                <span>Espacio/Temporal (Naranja)</span>
+              </button>
+
+              <!-- Color Amarillo Oficial ICFES -->
+              <button class="crit-learning-chip chip-icfes-amarillo" data-crit-id="evaluacion-fuentes" title="35% de error en el Colegio (Amarillo Oficial ICFES)">
+                <span class="icfes-circle-pill">35%</span>
+                <span>Evaluación de Fuentes (Amarillo)</span>
+              </button>
+
+              <button class="crit-learning-chip chip-icfes-amarillo" data-crit-id="modelos-conceptuales" title="33% de error en el Colegio (Amarillo Oficial ICFES)">
+                <span class="icfes-circle-pill">33%</span>
+                <span>Modelos Conceptuales (Amarillo)</span>
+              </button>
+
+              <button class="crit-learning-chip chip-icfes-amarillo" data-crit-id="usos-sociales" title="20% de error en el Colegio (Amarillo Oficial ICFES)">
+                <span class="icfes-circle-pill">20%</span>
+                <span>Usos Sociales (Amarillo)</span>
+              </button>
+
+              <!-- Color Verde Oficial ICFES -->
+              <button class="crit-learning-chip chip-icfes-verde" data-crit-id="multiperspectivismo" title="18% de error en el Colegio (Verde Oficial ICFES)">
+                <span class="icfes-circle-pill">18%</span>
+                <span>Multiperspectivismo (Verde)</span>
+              </button>
+
+              <button class="crit-learning-chip chip-icfes-verde" data-crit-id="multicausalidad" title="14% de error en el Colegio (Verde Oficial ICFES)">
+                <span class="icfes-circle-pill">14%</span>
+                <span>Relaciones Multidimensionales (Verde)</span>
+              </button>
+            </div>
+
+            <!-- Panel Detalle Dinámico: con espacio holgado y datos oficiales de Figura 5.4 -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2" id="critDetailTitle">
+                    Dimensión Espacial y Temporal
+                  </h3>
+                  <span id="critDetailBadge" class="text-xs px-2.5 py-1 rounded-md font-extrabold uppercase bg-amber-100 text-amber-900 border border-amber-300">
+                    Oportunidad Prioritaria (40% Error EE • Naranja)
+                  </span>
+                </div>
+                <div class="text-xs text-sky-800 font-bold mb-2" id="critDetailCompetencia">
+                  Competencia ICFES: Pensamiento Social y Geográfico • Aprendizaje Oficial: "Comprende dimensiones espaciales y temporales de eventos, problemáticas y prácticas sociales"
+                </div>
+
+                <!-- Comparativa Oficial Figura 5.4 (EE vs Colombia vs ETC) -->
+                <div id="critDetailStatsRow" class="flex flex-wrap items-center gap-3 text-xs bg-white px-3 py-2 rounded-lg border border-slate-200 mb-2.5 shadow-sm">
+                  <span class="inline-flex items-center gap-1.5 font-bold text-amber-700">
+                    <i class="fa-solid fa-school"></i> Colegio (EE): <strong>40% de error</strong>
+                  </span>
+                  <span class="text-slate-400">•</span>
+                  <span class="text-slate-600">Colombia: <strong>55%</strong></span>
+                  <span class="text-slate-400">•</span>
+                  <span class="text-slate-600">Soledad (ETC): <strong>57%</strong></span>
+                </div>
+
+                <div class="text-xs text-slate-700 mb-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                  <span class="font-bold text-slate-900 block mb-1">
+                    <i class="fa-solid fa-microscope text-amber-600 mr-1"></i> Diagnóstico Cognitivo en la Prueba:
+                  </span>
+                  <p id="critDetailDiagnostico" class="leading-relaxed">
+                    Es el único aprendizaje del colegio en rango NARANJA (≥40% de respuestas incorrectas). A los estudiantes les cuesta correlacionar mapas temáticos, dinámicas geopolíticas y secuencias temporales históricas.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Acción Concreta de Aula -->
+              <div class="text-xs text-emerald-900 bg-emerald-50/90 p-3 rounded-lg border border-emerald-300 shadow-sm">
+                <span class="font-bold text-emerald-950 block mb-1">
+                  <i class="fa-solid fa-chalkboard-user text-emerald-700 mr-1"></i> Acción Pedagógica Concreta en el Aula:
+                </span>
+                <p id="critDetailAccion" class="leading-relaxed text-slate-800 font-medium">
+                  Superposición de cartografía histórica interactiva, análisis de mapas de Soledad/Atlántico y líneas de tiempo con procesos sincrónicos y diacrónicos.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 4: DESMITIFICACIÓN DE LAS COMPETENCIAS CIUDADANAS
+           ==================================================================== -->
+      <section class="slide" id="slide-4" data-section-title="Desmitificación Transversal">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-blue">
+              <i class="fa-solid fa-lightbulb"></i> Giro Epistemológico Institucional
+            </div>
+            <h1 class="slide-h1">¿Es responsabilidad exclusiva del docente de Sociales?</h1>
+            <p class="slide-subtitle">Desmitificación: Las Competencias Ciudadanas son un constructo transversal evaluable desde todas las áreas</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-black uppercase px-3 py-1.5 rounded-lg bg-rose-100 text-rose-800 border border-rose-200">
+              <i class="fa-solid fa-circle-xmark mr-1"></i> NO es exclusivo
+            </span>
+            <span class="text-xs font-black uppercase px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200">
+              <i class="fa-solid fa-circle-check mr-1"></i> ES TRANSVERSAL
+            </span>
+          </div>
+        </div>
+
+        <!-- 3 Pestañas Interactivas (Tabs) -->
+        <div class="tabs-nav-wrapper mx-auto mb-2">
+          <button class="tab-btn desmit-tab-btn active" data-tab-target="social">
+            <i class="fa-solid fa-landmark"></i> 1. Pensamiento Social
+          </button>
+          <button class="tab-btn desmit-tab-btn" data-tab-target="multi">
+            <i class="fa-solid fa-people-arrows"></i> 2. Multiperspectivismo
+          </button>
+          <button class="tab-btn desmit-tab-btn" data-tab-target="reflexivo">
+            <i class="fa-solid fa-brain"></i> 3. Pensamiento Reflexivo
+          </button>
+        </div>
+
+        <!-- Tab 1: Pensamiento Social -->
+        <div class="tab-content-panel desmit-tab-panel active" id="tab-panel-social">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div class="bento-card border-t-4 border-t-sky-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-sky-800">
+                  <i class="fa-solid fa-book-bookmark text-sky-600"></i> ¿Qué evalúa el ICFES?
+                </span>
+                <span class="text-xs bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold border border-sky-200">Conceptos & Normas</span>
+              </div>
+              <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Identificar conceptos básicos de las ciencias sociales, principios del Estado Social de Derecho, normas constitucionales y la estructura del poder público.
+              </p>
+              <div class="text-xs text-slate-600 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                <strong class="text-sky-800">Evidencia clave:</strong> Estudiante reconoce cuándo una ley o acto vulnera derechos fundamentales consagrados en la Carta Política.
+              </div>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-emerald-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-emerald-800">
+                  <i class="fa-solid fa-diagram-project text-emerald-600"></i> ¿Cómo aporta cada área?
+                </span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold border border-emerald-200">Interdisciplinariedad</span>
+              </div>
+              <ul class="text-xs text-slate-700 space-y-2">
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-calculator text-sky-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Matemáticas:</strong> Cuantificar el presupuesto nacional, el IVA, el PIB y la distribución de regalías.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-feather text-amber-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Lenguaje:</strong> Comprensión inferencial de artículos de ley y textos normativos.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-dna text-emerald-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Ciencias:</strong> Políticas ambientales, bioética y protocolos de salud pública del Estado.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-purple-500 bg-purple-50/20">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-purple-800">
+                  <i class="fa-solid fa-circle-question text-purple-600"></i> Pregunta Tipo en el Aula
+                </span>
+                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-bold border border-purple-200">Saber 11°</span>
+              </div>
+              <div class="text-xs text-slate-800 italic mb-3 bg-purple-50 p-3 rounded-lg border border-purple-200 leading-relaxed font-medium">
+                "¿Qué principio constitucional fundamenta la priorización de los recursos de acueducto para el consumo humano por encima de las concesiones mineras?"
+              </div>
+              <div class="text-xs text-purple-900">
+                <strong class="text-slate-900">Foco docente:</strong> No memorizar artículos, sino relacionar el principio con la decisión.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tab 2: Multiperspectivismo -->
+        <div class="tab-content-panel desmit-tab-panel" id="tab-panel-multi">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div class="bento-card border-t-4 border-t-amber-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-amber-800">
+                  <i class="fa-solid fa-people-arrows text-amber-600"></i> ¿Qué evalúa el ICFES?
+                </span>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold border border-amber-200">Puntos de Vista</span>
+              </div>
+              <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Comprender y contrastar las posturas, intereses, emociones y valores de distintos actores o grupos involucrados en una situación de conflicto o decisión colectiva.
+              </p>
+              <div class="text-xs text-slate-600 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                <strong class="text-amber-800">Evidencia clave:</strong> Estudiante no toma partido apresurado; descompone qué gana y qué pierde cada actor.
+              </div>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-sky-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-sky-800">
+                  <i class="fa-solid fa-diagram-project text-sky-600"></i> ¿Cómo aporta cada área?
+                </span>
+                <span class="text-xs bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold border border-sky-200">Interdisciplinariedad</span>
+              </div>
+              <ul class="text-xs text-slate-700 space-y-2">
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-atom text-emerald-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Ciencias:</strong> El debate de la transición energética: la mirada ecológica vs. la rentabilidad productiva.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-book-open-reader text-purple-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Lenguaje:</strong> Polifonía discursiva y empatía cognitiva con personajes antagónicos en narrativas.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-person-running text-amber-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Ed. Física:</strong> Conciliación de normas de juego limpio y dilemas éticos competitivos.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-amber-500 bg-amber-50/20">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-amber-800">
+                  <i class="fa-solid fa-circle-question text-amber-600"></i> Pregunta Tipo en el Aula
+                </span>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold border border-amber-200">Saber 11°</span>
+              </div>
+              <div class="text-xs text-slate-800 italic mb-3 bg-amber-50 p-3 rounded-lg border border-amber-200 leading-relaxed font-medium">
+                "Frente al aumento en la tarifa de buses para modernizar la flota, ¿qué interés legítimo defienden los usuarios de bajos recursos y cuál la empresa transportadora?"
+              </div>
+              <div class="text-xs text-amber-900">
+                <strong class="text-slate-900">Foco docente:</strong> Identificar la tensión legítima entre ambas partes sin descalificaciones.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tab 3: Pensamiento Reflexivo -->
+        <div class="tab-content-panel desmit-tab-panel" id="tab-panel-reflexivo">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div class="bento-card border-t-4 border-t-emerald-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-emerald-800">
+                  <i class="fa-solid fa-brain text-emerald-600"></i> ¿Qué evalúa el ICFES?
+                </span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold border border-emerald-200">Validez & Sesgos</span>
+              </div>
+              <p class="text-sm text-slate-700 leading-relaxed mb-3">
+                Evaluar la solidez de argumentos, detectar sesgos ideológicos, distinguir hechos de juicios de valor y analizar los efectos colaterales no deseados de las políticas.
+              </p>
+              <div class="text-xs text-slate-600 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+                <strong class="text-emerald-800">Evidencia clave:</strong> Estudiante identifica falacias de causa falsa o generalizaciones sin sustento.
+              </div>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-purple-500">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-purple-800">
+                  <i class="fa-solid fa-diagram-project text-purple-600"></i> ¿Cómo aporta cada área?
+                </span>
+                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-bold border border-purple-200">Interdisciplinariedad</span>
+              </div>
+              <ul class="text-xs text-slate-700 space-y-2">
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-chart-line text-sky-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Matemáticas:</strong> Analizar cómo un gráfico sesgado con ejes truncados falsea la realidad ciudadana.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-newspaper text-emerald-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Lenguaje:</strong> Detectar falacias ad hominem o apelaciones al miedo en discursos públicos.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fa-solid fa-flask text-amber-600 mt-0.5"></i>
+                  <span><strong class="text-slate-900">Ciencias:</strong> El rigor del método empírico frente a los mitos pseudocientíficos en redes.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bento-card border-t-4 border-t-emerald-500 bg-emerald-50/20">
+              <div class="bento-card-header">
+                <span class="bento-card-title text-emerald-800">
+                  <i class="fa-solid fa-circle-question text-emerald-600"></i> Pregunta Tipo en el Aula
+                </span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold border border-emerald-200">Saber 11°</span>
+              </div>
+              <div class="text-xs text-slate-800 italic mb-3 bg-emerald-50 p-3 rounded-lg border border-emerald-200 leading-relaxed font-medium">
+                "Un gobernante afirma que la delincuencia bajó un 40% citando únicamente las denuncias recibidas, pero una encuesta revela que el 70% de víctimas no denuncia. ¿Qué sesgo tiene el argumento oficial?"
+              </div>
+              <div class="text-xs text-emerald-900">
+                <strong class="text-slate-900">Foco docente:</strong> Identificar la invalidez de la fuente sin rigor metodológico.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 5: DEMOSTRACIÓN PRÁCTICA TRANSVERSAL (CASO: EL AGUA)
+           ==================================================================== -->
+      <section class="slide" id="slide-5" data-section-title="Demostración Práctica Transversal">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-blue">
+              <i class="fa-solid fa-droplet"></i> Caso de Aplicación Interdisciplinar
+            </div>
+            <h1 class="slide-h1">Demostración Práctica: El Dilema del Agua en el Territorio</h1>
+            <p class="slide-subtitle">Una misma situación problema cotidiana abordada simultáneamente desde 3 miradas curriculares</p>
+          </div>
+          <div class="text-xs bg-sky-50 text-sky-800 border border-sky-200 shadow-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-semibold">
+            <i class="fa-solid fa-location-dot text-sky-600"></i> Contexto Soledad / Área Metropolitana
+          </div>
+        </div>
+
+        <!-- Situación Problema Breve -->
+        <div class="bento-card border-l-4 border-l-sky-500 py-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-lg flex-shrink-0">
+              <i class="fa-solid fa-faucet-drip"></i>
+            </div>
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-sky-800">Situación Problema Cotidiana:</span>
+              <p class="text-sm font-bold text-slate-900">
+                "Racionamiento sectorizado de agua potable en el barrio por baja presión en la red matriz y conflicto con el parque industrial vecino que demanda alto caudal".
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Columnas Interactivas Desplegables -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+          
+          <!-- Columna 1: Matemáticas -->
+          <div class="transversal-card active" style="--card-border-color: #0284C7;">
+            <div class="transversal-pill bg-sky-100 text-sky-800 border border-sky-200">
+              <i class="fa-solid fa-calculator mr-1"></i> Matemáticas
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Razonamiento Cuantitativo</h3>
+            <p class="text-xs text-sky-700 font-bold mb-3">Modelación numérica y justicia distributiva</p>
+            
+            <div class="space-y-3 text-xs flex-1">
+              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <span class="font-bold text-slate-900 block mb-1">
+                  <i class="fa-solid fa-list-check text-sky-600 mr-1"></i> Tarea de Aula:
+                </span>
+                <p class="text-slate-600 leading-relaxed">
+                  Calcular el consumo diario per cápita (L/habitante/día), proyectar el agotamiento del tanque comunal y evaluar el impacto tarifario según estratos.
+                </p>
+              </div>
+
+              <div class="bg-sky-50/70 p-2.5 rounded-lg border border-sky-200">
+                <span class="font-bold text-sky-900 block mb-1">
+                  <i class="fa-solid fa-compass text-sky-700 mr-1"></i> Pregunta Orientadora:
+                </span>
+                <p class="text-slate-700 italic leading-relaxed font-medium">
+                  "¿Cómo un modelo de tarifa escalonada redistribuye la carga económica de manera justa sin vulnerar el mínimo vital de familias vulnerables?"
+                </p>
+              </div>
+
+              <div class="text-xs text-slate-500 pt-2 border-t border-slate-100">
+                <strong class="text-slate-800">Evidencia Observable:</strong> Gráfico de proyección de consumo y balance financiero de subsidios.
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna 2: Ciencias Naturales -->
+          <div class="transversal-card" style="--card-border-color: #10B981;">
+            <div class="transversal-pill bg-emerald-100 text-emerald-800 border border-emerald-200">
+              <i class="fa-solid fa-flask-vial mr-1"></i> Ciencias Naturales
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Uso del Conocimiento Científico</h3>
+            <p class="text-xs text-emerald-700 font-bold mb-3">Ecosistemas, salud pública y bioseguridad</p>
+            
+            <div class="space-y-3 text-xs flex-1">
+              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <span class="font-bold text-slate-900 block mb-1">
+                  <i class="fa-solid fa-list-check text-emerald-600 mr-1"></i> Tarea de Aula:
+                </span>
+                <p class="text-slate-600 leading-relaxed">
+                  Evaluar parámetros de potabilidad (pH, turbidez, cloro residual) en tanques de reserva caseros y analizar la huella hídrica y alteración del ciclo hidrológico.
+                </p>
+              </div>
+
+              <div class="bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200">
+                <span class="font-bold text-emerald-900 block mb-1">
+                  <i class="fa-solid fa-compass text-emerald-700 mr-1"></i> Pregunta Orientadora:
+                </span>
+                <p class="text-slate-700 italic leading-relaxed font-medium">
+                  "¿Qué riesgos epidemiológicos (vectores de dengue, proliferación bacteriana) emergen por el almacenamiento inadecuado y cómo prevenirlos científicamente?"
+                </p>
+              </div>
+
+              <div class="text-xs text-slate-500 pt-2 border-t border-slate-100">
+                <strong class="text-slate-800">Evidencia Observable:</strong> Reporte experimental de calidad de agua y protocolo de tratamiento doméstico.
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna 3: Sociales y Ciudadanas -->
+          <div class="transversal-card" style="--card-border-color: #F59E0B;">
+            <div class="transversal-pill bg-amber-100 text-amber-800 border border-amber-200">
+              <i class="fa-solid fa-scale-balanced mr-1"></i> Competencias Ciudadanas
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Multiperspectivismo y Reflexión</h3>
+            <p class="text-xs text-amber-700 font-bold mb-3">Tensión de derechos, normas y acuerdos</p>
+            
+            <div class="space-y-3 text-xs flex-1">
+              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <span class="font-bold text-slate-900 block mb-1">
+                  <i class="fa-solid fa-list-check text-amber-600 mr-1"></i> Tarea de Aula:
+                </span>
+                <p class="text-slate-600 leading-relaxed">
+                  Analizar el conflicto entre el derecho fundamental de la comunidad al agua vs. la actividad productiva de la fábrica vecina que genera empleo local.
+                </p>
+              </div>
+
+              <div class="bg-amber-50/70 p-2.5 rounded-lg border border-amber-200">
+                <span class="font-bold text-amber-900 block mb-1">
+                  <i class="fa-solid fa-compass text-amber-700 mr-1"></i> Pregunta Orientadora:
+                </span>
+                <p class="text-slate-700 italic leading-relaxed font-medium">
+                  "¿Qué mecanismo constitucional (Tutela o Acción Popular) procede y qué propuesta de concertación protege el derecho sin destruir la fuente de trabajo?"
+                </p>
+              </div>
+
+              <div class="text-xs text-slate-500 pt-2 border-t border-slate-100">
+                <strong class="text-slate-800">Evidencia Observable:</strong> Simulación de audiencia pública de concertación con acuerdos constitucionales.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 6: TALLER ÁGIL - MATRIZ DE INTEGRACIÓN DE 1 PÁGINA
+           ==================================================================== -->
+      <section class="slide" id="slide-6" data-section-title="Taller Ágil: Matriz PMI">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-emerald">
+              <i class="fa-solid fa-pen-ruler"></i> Componente Interactivo de Transferencia
+            </div>
+            <h1 class="slide-h1">Taller Ágil: Matriz de Integración Transversal (1 Página)</h1>
+            <p class="slide-subtitle">Simulador editable en pantalla para incorporar en las mallas curriculares del PMI 2027 sin sobrecarga</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnCopyMatrix" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition shadow-sm">
+              <i class="fa-solid fa-copy mr-1"></i> Copiar al Portapapeles
+            </button>
+            <button id="btnDownloadMatrix" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
+              <i class="fa-solid fa-file-csv mr-1"></i> Descargar CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de selección de ejemplos rápidos precargados -->
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider">Cargar ejemplos por área:</span>
+            <button id="btnLoadExampleMath" class="text-xs font-bold px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-sky-800 transition border border-slate-300">
+              <i class="fa-solid fa-calculator mr-1"></i> Matemáticas
+            </button>
+            <button id="btnLoadExampleLang" class="text-xs font-bold px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-amber-800 transition border border-slate-300">
+              <i class="fa-solid fa-feather mr-1"></i> Lenguaje
+            </button>
+            <button id="btnLoadExampleNat" class="text-xs font-bold px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-emerald-800 transition border border-slate-300">
+              <i class="fa-solid fa-flask mr-1"></i> Ciencias
+            </button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnAddMatrixRow" class="text-xs font-bold px-3 py-1 rounded-md bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 transition shadow-sm">
+              <i class="fa-solid fa-plus mr-1"></i> Agregar Fila
+            </button>
+            <span class="text-xs text-slate-500 italic hidden md:inline">
+              <i class="fa-solid fa-i-cursor text-sky-600 mr-1"></i> Haz clic en las celdas para editar el texto en vivo
+            </span>
+          </div>
+        </div>
+
+        <!-- Tabla Editable en Pantalla -->
+        <div class="matrix-table-wrap flex-1 overflow-x-auto">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th class="w-1/5">Área Curricular</th>
+                <th class="w-2/5">Situación Problema Cotidiana</th>
+                <th class="w-2/5">Pregunta Orientadora (Saber 11°)</th>
+                <th class="w-1/4">Evidencia Observable</th>
+                <th class="w-10"></th>
+              </tr>
+            </thead>
+            <tbody id="matrixTableBody">
+              <!-- Renderizado dinámico vía presentation.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Banner de Cierre del Taller -->
+        <div class="text-xs text-slate-700 bg-sky-50 border border-sky-200 p-2.5 rounded-lg flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-emerald-600"></i>
+            <span><strong>Regla de Oro PMI:</strong> Cada docente solo planifica 1 situación problema contextualizada por periodo académico. Cero burocracia, 100% aplicabilidad.</span>
+          </div>
+          <span class="text-slate-500 text-xs hidden sm:inline font-semibold">Colegio Sagrada Sabiduría • PMI 2027</span>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           SLIDE 7: RUTA DE IMPLEMENTACIÓN EN 3 FASES (CIERRE)
+           ==================================================================== -->
+      <section class="slide" id="slide-7" data-section-title="Ruta de Implementación">
+        <div class="slide-title-area">
+          <div class="slide-title-left">
+            <div class="slide-pill-badge pill-emerald">
+              <i class="fa-solid fa-route"></i> Hoja de Ruta PMI 2026-2027
+            </div>
+            <h1 class="slide-h1">Ruta de Implementación en 3 Fases</h1>
+            <p class="slide-subtitle">Cronograma escalonado para articular la transversalidad ciudadana y consolidar el liderazgo institucional</p>
+          </div>
+          <div class="text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1.5 rounded-lg font-bold shadow-sm">
+            <i class="fa-solid fa-flag-checkered mr-1"></i> Meta Institucional: 315+ Puntos Globales
+          </div>
+        </div>
+
+        <!-- Línea de Tiempo en 3 Fases -->
+        <div class="timeline-track flex-1">
+          
+          <!-- Fase 1 -->
+          <div class="timeline-card" style="--phase-color: #0284C7;">
+            <div class="timeline-step-badge bg-sky-100 text-sky-800 border border-sky-200">
+              <i class="fa-solid fa-calendar-check text-sky-600"></i> Fase 1: Noviembre - Diciembre 2026
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Apropiación en el Cierre del PMI</h3>
+            <p class="text-xs text-sky-700 font-bold mb-3">Sin sobrecarga: alineación directiva y de área</p>
+            
+            <ul class="space-y-2 text-xs text-slate-600 flex-1">
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-sky-600 mt-0.5"></i>
+                <span>Socialización ejecutiva de la triangulación 2024-2026 con jefes de área académica.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-sky-600 mt-0.5"></i>
+                <span>Adopción institucional de la <strong class="text-slate-900">Matriz de 1 Página</strong> en las jornadas de cierre de año.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-sky-600 mt-0.5"></i>
+                <span>Inclusión de la meta cuantitativa en el PMI: Movilizar el 35% del Nivel 2 hacia los Niveles 3 y 4.</span>
+              </li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+              <span>Entregable:</span>
+              <span class="text-slate-900 font-bold">Matriz PMI 2027 Aprobada</span>
+            </div>
+          </div>
+
+          <!-- Fase 2 -->
+          <div class="timeline-card" style="--phase-color: #10B981;">
+            <div class="timeline-step-badge bg-emerald-100 text-emerald-800 border border-emerald-200">
+              <i class="fa-solid fa-calendar-days text-emerald-600"></i> Fase 2: Enero - Febrero 2027
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Alineación Microcurricular por Áreas</h3>
+            <p class="text-xs text-emerald-700 font-bold mb-3">Integración en las mallas existentes</p>
+            
+            <ul class="space-y-2 text-xs text-slate-600 flex-1">
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                <span>Cada área formaliza 1 o 2 situaciones cotidianas interdisciplinares por periodo académico.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                <span>Capacitación en diseño de ítems de <strong class="text-slate-900">Multicausalidad y Multiperspectivismo</strong>.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                <span>Articulación del proyecto pedagógico de democracia con las asignaturas de ciencias y matemáticas.</span>
+              </li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+              <span>Entregable:</span>
+              <span class="text-slate-900 font-bold">Planeaciones con Enfoque Saber</span>
+            </div>
+          </div>
+
+          <!-- Fase 3 -->
+          <div class="timeline-card" style="--phase-color: #8B5CF6;">
+            <div class="timeline-step-badge bg-purple-100 text-purple-800 border border-purple-200">
+              <i class="fa-solid fa-calendar-week text-purple-600"></i> Fase 3: Durante el Año 2027
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Monitoreo y Simulacros Formativos</h3>
+            <p class="text-xs text-purple-700 font-bold mb-3">Acompañamiento Grupo Edúcate Colombia</p>
+            
+            <ul class="space-y-2 text-xs text-slate-600 flex-1">
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-purple-600 mt-0.5"></i>
+                <span>Aplicación de simulacros Saber 11° con analítica detallada de tareas críticas.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-purple-600 mt-0.5"></i>
+                <span>Clínicas de error enfocadas en la reducción del 53% de fallo en multicausalidad.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-check text-purple-600 mt-0.5"></i>
+                <span>Evaluación de progreso bimestral en Comité Directivo con alertas tempranas.</span>
+              </li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center justify-between">
+              <span>Entregable:</span>
+              <span class="text-slate-900 font-bold">Cohorte 2027 con Liderazgo Consolidado</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Frase de Cierre Inspiradora y Compromiso Directivo -->
+        <div class="bento-card border-t-4 border-t-sky-600 text-center py-4">
+          <p class="text-lg md:text-xl font-black text-slate-900 italic mb-1">
+            "La pedagogía no se decreta, se construye en equipo."
+          </p>
+          <p class="text-xs text-slate-500 font-semibold">
+            Colegio Sagrada Sabiduría • Hacia la consolidación del Nivel Muy Superior en Saber 11°
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Controles Flotantes Inferiores Inteligentes (con auto-hide para no estorbar la lectura) -->
+    <footer class="deck-bottom-controls" id="deckBottomControls" title="Navegación rápida (se oculta automáticamente tras 2 segundos)">
+      <!-- Botón Anterior -->
+      <button class="nav-arrow-btn" id="btnPrevSlide" title="Diapositiva Anterior (Tecla [←])">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <!-- Dots de Navegación Rápida -->
+      <div class="nav-dots-wrapper" id="navDotsContainer">
+        <!-- Generados dinámicamente -->
+      </div>
+
+      <!-- Botón Siguiente -->
+      <button class="nav-arrow-btn" id="btnNextSlide" title="Siguiente Diapositiva (Tecla [→] o Espacio)">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- Script Principal de la Presentación -->
+  <script src="js/presentation.js"></script>
+</body>
+</html>
